@@ -1,10 +1,23 @@
 import type {
   BrandDisplayMode,
   BrandMarketEntry,
+  ClinicalProtocolBundle,
   DiabetesType,
   GenericMedication,
   OrganizationBrandPreference
 } from "@diabeto/contracts";
+
+export interface ProtocolGateResult {
+  enabled: boolean;
+  reason?: "missing_protocol" | "clinical_review_required";
+}
+
+/** Treatment output is impossible until an approved, clinician-reviewed bundle exists. */
+export function gateClinicalOutput(protocol?: ClinicalProtocolBundle): ProtocolGateResult {
+  if (!protocol) return { enabled: false, reason: "missing_protocol" };
+  if (protocol.status !== "approved" || protocol.clinicalReviewRequired) return { enabled: false, reason: "clinical_review_required" };
+  return { enabled: true };
+}
 
 export interface PathwaySelection {
   diabetesType: DiabetesType;

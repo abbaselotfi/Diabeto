@@ -31,6 +31,19 @@ h2 { margin-bottom: 14px; }
 .badge.active { color: var(--brand); background: var(--brand-soft); }
 button, .admin-link { border: 0; border-radius: 10px; background: var(--brand); color: white; cursor: pointer; padding: 11px 14px; text-decoration: none; }
 button:disabled { background: #acb7b3; cursor: not-allowed; }
+.secondary { background: var(--surface); border: 1px solid var(--line); color: var(--ink); }
+.workflow-switch { display: flex; gap: 10px; padding: 24px 0 4px; }
+.form-grid, .check-grid, .catalog-grid, .protocol-list { display: grid; gap: 14px; }
+.form-grid, .check-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.catalog-grid, .protocol-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+fieldset { border: 1px solid var(--line); border-radius: 10px; margin: 4px 0; padding: 14px; }
+legend { color: var(--muted); padding: 0 6px; }
+.checkbox { display: block; color: var(--ink); }
+.catalog-group, .protocol-card { border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: #fbfdfc; }
+.catalog-group h3, .protocol-card strong { display: block; margin: 0 0 8px; }
+.catalog-group p, .protocol-card small { color: var(--muted); line-height: 1.8; margin: 0; }
+.protocol-card .badge { margin: 8px 0; }
+.result-panel { border-color: #98cbb9; }
 .panel { margin-bottom: 20px; }
 .metric-grid span, .metric-grid small { color: var(--muted); display: block; }
 .metric-grid strong { display: block; font-size: 2rem; margin: 12px 0 4px; }
@@ -39,4 +52,4 @@ button:disabled { background: #acb7b3; cursor: not-allowed; }
 form { display: grid; gap: 10px; }
 input { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; direction: ltr; text-align: left; }
 ol { line-height: 2; padding-right: 22px; }
-@media (max-width: 760px) { .pathways, .admin-grid, .metric-grid { grid-template-columns: 1fr; } .topbar { flex-direction: column; } }
+@media (max-width: 760px) { .pathways, .admin-grid, .metric-grid, .form-grid, .check-grid, .catalog-grid, .protocol-list { grid-template-columns: 1fr; } .topbar { flex-direction: column; } }
