@@ -52,4 +52,7 @@ legend { color: var(--muted); padding: 0 6px; }
 form { display: grid; gap: 10px; }
 input { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; direction: ltr; text-align: left; }
 ol { line-height: 2; padding-right: 22px; }
+.guideline-summary { margin-top: 32px; }
+.guideline-summary a { color: var(--brand); font-weight: 700; }
+.access-denied { max-width: 680px; margin: 80px auto; }
 @media (max-width: 760px) { .pathways, .admin-grid, .metric-grid, .form-grid, .check-grid, .catalog-grid, .protocol-list { grid-template-columns: 1fr; } .topbar { flex-direction: column; } }

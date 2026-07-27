@@ -65,6 +65,8 @@ pnpm dev
 
 مسیر اولیهٔ Type 2 در `http://localhost:3000/type-2` و پنل مدیریت در `http://localhost:3000/admin` قرار دارد. هیچ پروتکل درمانی تا زمان بازبینی و تأیید پزشک خروجی بالینی تولید نمی‌کند. جزئیات در [پایهٔ پروتکل Type 2](docs/TYPE_2_PROTOCOL_FOUNDATION.md) آمده است.
 
+برای نمایش prototype پنل مدیریت در توسعهٔ محلی، پیش از `pnpm dev` متغیر `DIABETO_DEV_ADMIN_BYPASS=true` را در shell تنظیم کنید. در PowerShell: `$env:DIABETO_DEV_ADMIN_BYPASS = "true"`. در production پنل به‌صورت fail-closed باقی می‌ماند تا ورود پزشک و نقش `admin` پیاده‌سازی شود.
+
 ## تصمیم‌های V1
 
 - فقط دادهٔ ناشناس؛ ذخیرهٔ اطلاعات قابل‌شناسایی بیمار خارج از محدوده است.

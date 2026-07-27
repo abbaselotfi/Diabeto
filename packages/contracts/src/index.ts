@@ -65,6 +65,24 @@ export interface ClinicalProtocolBundle {
   clinicalReviewRequired: true;
 }
 
+export interface GuidelineSource {
+  id: string;
+  publisher: "ADA" | "EASD";
+  title: string;
+  sourceUrl: string;
+  activeVersion: string;
+  publishedAt: string;
+  monitored: boolean;
+  lastCheckedAt?: string;
+}
+
+export interface GuidelineUpdateCheckResult {
+  sourceId: string;
+  status: "queued_for_review" | "no_change_detected" | "blocked";
+  message: string;
+  checkedAt: string;
+}
+
 export interface BrandMarketEntry {
   id: string;
   genericMedicationId: string;

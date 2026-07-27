@@ -35,6 +35,16 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      <section className="panel guideline-summary" id="guidelines">
+        <p className="eyebrow">منابع علمی مورد استفاده</p>
+        <h2>راهنماها در Diabeto چگونه استفاده می‌شوند؟</h2>
+        <p>ساختار پروتکل‌های دیابت نوع ۲ بر اساس استانداردهای ADA 2026 و منابع اجماعی/راهنماهای EASD طراحی شده است. هر تغییر علمی ابتدا به پیش‌نویس تبدیل می‌شود و فقط پس از بازبینی و تأیید پزشک فعال خواهد شد.</p>
+        <ul>
+          <li><a href="https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment" rel="noreferrer" target="_blank">ADA 2026 — Pharmacologic Approaches to Glycemic Treatment</a></li>
+          <li><a href="https://www.easd.org/guidelines/statements-guidelines/" rel="noreferrer" target="_blank">EASD — Statements & Guidelines</a></li>
+        </ul>
+      </section>
     </main>
   );
 }
