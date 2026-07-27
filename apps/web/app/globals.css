@@ -1,0 +1,42 @@
+:root {
+  --bg: #f5f8f7;
+  --surface: #ffffff;
+  --ink: #13241f;
+  --muted: #5f6f69;
+  --line: #d7e1dc;
+  --brand: #066b54;
+  --brand-soft: #e3f4ed;
+  --warning: #854d0e;
+  font-family: Vazirmatn, "IRANSans", Tahoma, sans-serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); }
+button, input { font: inherit; }
+.shell { max-width: 1120px; margin: 0 auto; padding: 40px 24px 72px; }
+.topbar { display: flex; align-items: start; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); padding-bottom: 24px; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { font-size: clamp(1.75rem, 4vw, 2.6rem); margin-bottom: 0; }
+h2 { margin-bottom: 14px; }
+.eyebrow { color: var(--brand); font-weight: 700; font-size: .9rem; }
+.intro { padding-top: 44px; }
+.pathways, .admin-grid, .metric-grid { display: grid; gap: 18px; }
+.pathways { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.admin-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 20px 0; }
+.metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 30px 0; }
+.card, .panel, .metric-grid article { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; box-shadow: 0 4px 18px rgb(20 46 37 / .04); }
+.card { min-height: 255px; display: flex; flex-direction: column; align-items: flex-start; }
+.card p { color: var(--muted); flex: 1; line-height: 1.8; }
+.badge { display: inline-block; border-radius: 999px; color: var(--warning); background: #fff4e1; font-size: .78rem; font-weight: 700; padding: 6px 10px; margin-bottom: 18px; }
+.badge.active { color: var(--brand); background: var(--brand-soft); }
+button, .admin-link { border: 0; border-radius: 10px; background: var(--brand); color: white; cursor: pointer; padding: 11px 14px; text-decoration: none; }
+button:disabled { background: #acb7b3; cursor: not-allowed; }
+.panel { margin-bottom: 20px; }
+.metric-grid span, .metric-grid small { color: var(--muted); display: block; }
+.metric-grid strong { display: block; font-size: 2rem; margin: 12px 0 4px; }
+.radio { display: block; margin: 12px 0; }
+.muted { color: var(--muted); line-height: 1.8; }
+form { display: grid; gap: 10px; }
+input { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; direction: ltr; text-align: left; }
+ol { line-height: 2; padding-right: 22px; }
+@media (max-width: 760px) { .pathways, .admin-grid, .metric-grid { grid-template-columns: 1fr; } .topbar { flex-direction: column; } }

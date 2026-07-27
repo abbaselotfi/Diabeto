@@ -38,20 +38,39 @@ The platform turns authoritative ADA and EASD guidance into traceable, versioned
 | [مدل داده](docs/DATA_MODEL.md) | موجودیت‌ها، ارتباط‌ها، تاریخچه و قواعد تمامیت |
 | [راهبرد به‌روزرسانی راهنما](docs/GUIDELINE_UPDATE_STRATEGY.md) | دریافت، تطبیق، آزمون، انتشار و بازگشت نسخه‌های ADA/EASD |
 
-## ساختار پیشنهادی مخزن
+## ساختار مخزن
 
 ```text
 apps/
-  web/                 # رابط پزشک و پنل مدیریت دوزبانه
-  api/                 # API کاربردی و مدیریت
+  web/                 # رابط پزشک و پنل مدیریت Next.js
+  api/                 # API ماژولار NestJS/Fastify
 packages/
-  clinical-engine/     # موتور قطعی ارزیابی قوانین
-  shared/              # قراردادها و ابزارهای مشترک
-content/               # محتوای نسخه‌بندی‌پذیر و seedهای تأییدشده
-docs/                  # تصمیم‌های معماری و محصول
+  clinical-engine/     # موتور قطعی و مستقل از نمایش دارو
+  contracts/           # قراردادهای type-safe بین وب، API و موتور
+infra/
+  postgres/            # migration و جداسازی چندسازمانی
+docs/                  # تصمیم‌های معماری، محصول و حاکمیت
 ```
 
-انتخاب فناوری و ایجاد این پوشه‌ها به یک تصمیم معماری بعدی موکول شده است؛ ساختار بالا قرارداد مفهومی است، نه وضعیت فعلی مخزن.
+این پروژه یک monorepo TypeScript با `pnpm` و Turborepo است. برای اجرا پس از نصب وابستگی‌ها:
+
+```bash
+pnpm install
+pnpm build
+pnpm test
+pnpm dev
+```
+
+رابط وب در `http://localhost:3000` و API در `http://localhost:3001` اجرا می‌شوند. migration آغازین PostgreSQL در `infra/postgres/001_initial.sql` است.
+
+## تصمیم‌های V1
+
+- فقط دادهٔ ناشناس؛ ذخیرهٔ اطلاعات قابل‌شناسایی بیمار خارج از محدوده است.
+- چندسازمانی از ابتدا، با RLS در PostgreSQL.
+- انتخاب مسیر نوع ۱، نوع ۲ و بارداری در رابط وجود دارد؛ فقط مسیر نوع ۲ پس از تأیید محتوای بالینی قابل فعال‌شدن است.
+- نمایش نام ژنریک پیش‌فرض است. برندهای ایران فقط با منبع، بازبینی و اولویت ادمین قابل نمایش می‌شوند.
+
+جزئیات در [محدودهٔ V1](docs/PRODUCT_SCOPE.md) و [کاتالوگ دارویی ایران](docs/IRAN_MEDICATION_CATALOG.md) آمده‌اند.
 
 ## شروع مشارکت / Contributing
 
