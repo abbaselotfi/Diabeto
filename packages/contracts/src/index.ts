@@ -20,6 +20,49 @@ export interface GenericMedication {
   persianName: string;
   atcCode?: string;
   className?: string;
+  therapyGroup?: MedicationTherapyGroup;
+  administrationRoute?: MedicationAdministrationRoute;
+  catalogStatus?: "seeded_from_guideline" | "admin_added" | "retired";
+}
+
+export const medicationTherapyGroups = [
+  "oral_glucose_lowering",
+  "glp_1_receptor_agonist",
+  "dual_gip_glp_1_receptor_agonist",
+  "human_insulin",
+  "basal_insulin_analog",
+  "prandial_insulin_analog",
+  "premixed_insulin",
+  "fixed_ratio_combination"
+] as const;
+export type MedicationTherapyGroup = (typeof medicationTherapyGroups)[number];
+
+export const medicationAdministrationRoutes = ["oral", "subcutaneous"] as const;
+export type MedicationAdministrationRoute = (typeof medicationAdministrationRoutes)[number];
+
+export interface GenericMedicationInput {
+  canonicalName: string;
+  persianName: string;
+  className: string;
+  therapyGroup: MedicationTherapyGroup;
+  administrationRoute: MedicationAdministrationRoute;
+  sourceUrl: string;
+  sourceReference: string;
+}
+
+export const protocolStatuses = ["draft", "in_review", "approved", "retired"] as const;
+export type ProtocolStatus = (typeof protocolStatuses)[number];
+
+export interface ClinicalProtocolBundle {
+  id: string;
+  title: string;
+  diabetesType: DiabetesType;
+  scope: "treatment_initiation" | "treatment_intensification" | "insulin_pathway";
+  sourceUrl: string;
+  sourceReference: string;
+  publishedAt: string;
+  status: ProtocolStatus;
+  clinicalReviewRequired: true;
 }
 
 export interface BrandMarketEntry {

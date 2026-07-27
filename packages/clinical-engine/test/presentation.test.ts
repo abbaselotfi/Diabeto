@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resolveMedicationPresentation, selectDiabetesPathway } from "../src/index.js";
+import { gateClinicalOutput, resolveMedicationPresentation, selectDiabetesPathway } from "../src/index.js";
 
 const medication = {
   id: "empagliflozin",
@@ -14,6 +14,16 @@ describe("diabetes pathway selection", () => {
       contentStatus: "not_enabled",
       patientDataPolicy: "anonymous_only"
     });
+  });
+});
+
+describe("clinical protocol gate", () => {
+  it("blocks outputs while a protocol is awaiting clinical review", () => {
+    expect(gateClinicalOutput({
+      id: "draft", title: "draft", diabetesType: "type_2", scope: "treatment_initiation",
+      sourceUrl: "https://example.test", sourceReference: "test", publishedAt: "2026-01-01",
+      status: "draft", clinicalReviewRequired: true
+    })).toEqual({ enabled: false, reason: "clinical_review_required" });
   });
 });
 

@@ -63,6 +63,8 @@ pnpm dev
 
 رابط وب در `http://localhost:3000` و API در `http://localhost:3001` اجرا می‌شوند. migration آغازین PostgreSQL در `infra/postgres/001_initial.sql` است.
 
+مسیر اولیهٔ Type 2 در `http://localhost:3000/type-2` و پنل مدیریت در `http://localhost:3000/admin` قرار دارد. هیچ پروتکل درمانی تا زمان بازبینی و تأیید پزشک خروجی بالینی تولید نمی‌کند. جزئیات در [پایهٔ پروتکل Type 2](docs/TYPE_2_PROTOCOL_FOUNDATION.md) آمده است.
+
 ## تصمیم‌های V1
 
 - فقط دادهٔ ناشناس؛ ذخیرهٔ اطلاعات قابل‌شناسایی بیمار خارج از محدوده است.

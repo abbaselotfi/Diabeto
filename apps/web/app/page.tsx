@@ -26,9 +26,11 @@ export default function HomePage() {
               <span className={pathway.key === "type_2" ? "badge active" : "badge"}>{pathway.status}</span>
               <h3>{pathway.title}</h3>
               <p>{pathway.detail}</p>
-              <button type="button" disabled={pathway.key !== "type_2"}>
-                {pathway.key === "type_2" ? "ورود به ارزیابی ناشناس" : "فعلاً محتوای بالینی فعال نیست"}
-              </button>
+              {pathway.key === "type_2" ? (
+                <Link className="admin-link" href="/type-2">ورود به ارزیابی ناشناس</Link>
+              ) : (
+                <button type="button" disabled>فعلاً محتوای بالینی فعال نیست</button>
+              )}
             </article>
           ))}
         </div>
