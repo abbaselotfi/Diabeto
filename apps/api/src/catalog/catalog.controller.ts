@@ -12,6 +12,18 @@ export class CatalogController {
     return this.catalogService.listGenerics(therapyGroup);
   }
 
+  @Get("admin/catalog/reference-presentations")
+  @UseGuards(AdminAccessGuard)
+  referencePresentations() {
+    return this.catalogService.listGlobalReferencePresentations();
+  }
+
+  @Get("admin/catalog/reference-sources")
+  @UseGuards(AdminAccessGuard)
+  referenceSources() {
+    return this.catalogService.listGlobalReferenceSources();
+  }
+
   @Get("protocols/type-2")
   type2Protocols() {
     return this.catalogService.listType2Protocols();
