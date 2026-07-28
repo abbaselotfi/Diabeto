@@ -157,3 +157,41 @@ export interface ReferenceCatalogSource {
   accessedAt: string;
   sourceFile: string;
 }
+
+/** Admin-only display configuration. It never approves a medicine clinically. */
+export interface MedicationChecklistItem {
+  referencePresentationId: string;
+  genericName: string;
+  therapeuticClass: string;
+  administrationRoute: string;
+  dosageForm: string;
+  strengthPresentation: string;
+  sourceUrl: string;
+  reviewState: ReferenceMedicationPresentation["reviewState"];
+  showInApp: boolean;
+}
+
+export interface UpdateMedicationVisibilityInput {
+  showInApp: boolean;
+}
+
+export type Type2DecisionFactor = "ascvd" | "heart_failure" | "ckd" | "hypoglycemia_risk" | "weight_priority" | "insulin_pathway";
+
+export interface Type2MedicationConsideration {
+  genericMedicationId: string;
+  genericName: string;
+  persianName: string;
+  therapeuticClass: string;
+  therapyGroup: MedicationTherapyGroup;
+  sourceUrl: string;
+  sourceReference: string;
+  considerations: string[];
+  cautions: string[];
+  blockedBy?: string[];
+  outputStatus: "information_only" | "requires_approved_protocol";
+}
+
+export interface Type2ConsiderationRequest {
+  eGfr?: number;
+  factors: Type2DecisionFactor[];
+}

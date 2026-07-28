@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { gateClinicalOutput, resolveMedicationPresentation, selectDiabetesPathway } from "../src/index.js";
+import { buildType2MedicationConsiderations, gateClinicalOutput, resolveMedicationPresentation, selectDiabetesPathway } from "../src/index.js";
 
 const medication = {
   id: "empagliflozin",
@@ -52,5 +52,24 @@ describe("medication presentation", () => {
 
     expect(result.primaryName).toBe("امپاگلیفلوزین");
     expect(result.selectedBrand?.id).toBe("brand-a");
+  });
+});
+
+describe("type 2 consideration layer", () => {
+  it("returns a review block instead of a treatment order when eGFR is below the metformin threshold", () => {
+    const [result] = buildType2MedicationConsiderations([
+      { id: "metformin", canonicalName: "Metformin", persianName: "متفورمین", className: "Biguanide", therapyGroup: "oral_glucose_lowering", administrationRoute: "oral" }
+    ], { eGfr: 25, factors: [] });
+
+    expect(result.outputStatus).toBe("requires_approved_protocol");
+    expect(result.blockedBy?.[0]).toContain("eGFR کمتر از ۳۰");
+  });
+
+  it("flags TZD for physician review when heart failure is selected", () => {
+    const [result] = buildType2MedicationConsiderations([
+      { id: "pioglitazone", canonicalName: "Pioglitazone", persianName: "پیوگلیتازون", className: "Thiazolidinedione", therapyGroup: "oral_glucose_lowering", administrationRoute: "oral" }
+    ], { factors: ["heart_failure"] });
+
+    expect(result.blockedBy?.[0]).toContain("نارسایی قلبی");
   });
 });
