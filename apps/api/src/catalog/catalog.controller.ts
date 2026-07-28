@@ -46,6 +46,12 @@ export class CatalogController {
     return this.catalogService.listType2MedicationConsiderations(request);
   }
 
+  @Get("admin/preview/type-2-considerations")
+  @UseGuards(AdminAccessGuard)
+  type2PreviewConsiderations() {
+    return this.catalogService.listType2PreviewConsiderations();
+  }
+
   @Post("admin/catalog/generics")
   @UseGuards(AdminAccessGuard)
   addGeneric(@Body() input: GenericMedicationInput) {

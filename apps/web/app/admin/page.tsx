@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { ClinicalProtocolBundle, GenericMedication, GuidelineSource, MedicationChecklistItem, MedicationTherapyGroup, ReferenceCatalogSource } from "@diabeto/contracts";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 
@@ -132,7 +133,10 @@ export default function AdminPage() {
           <p className="eyebrow">پنل مدیریت / فقط پزشکان و ادمین‌های تأییدشده</p>
           <h1>کاتالوگ نوع ۲، پروتکل‌ها و نمایش دارو</h1>
         </div>
-        <button className="secondary" onClick={() => void refresh()} type="button">بازخوانی</button>
+        <div className="topbar-actions">
+          <Link className="admin-link" href="/preview">پیش‌نمایش کامل پروتکل‌ها</Link>
+          <button className="secondary" onClick={() => void refresh()} type="button">بازخوانی</button>
+        </div>
       </header>
 
       <section className="metric-grid" aria-label="شاخص‌های استفاده">

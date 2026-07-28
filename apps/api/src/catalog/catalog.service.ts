@@ -30,6 +30,10 @@ export class CatalogService {
     return buildType2MedicationConsiderations(this.genericMedications.filter((medication) => this.isGenericMedicationVisible(medication)), request);
   }
 
+  listType2PreviewConsiderations() {
+    return buildType2MedicationConsiderations(this.genericMedications, { factors: [] });
+  }
+
   private isGenericMedicationVisible(medication: GenericMedication): boolean {
     const medicationTerms = this.normalizedTerms(medication.canonicalName);
     const matchingReferences = globalReferenceCatalogue.filter((presentation) => {

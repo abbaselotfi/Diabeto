@@ -14,7 +14,6 @@ export default function HomePage() {
           <p className="eyebrow">Diabeto / نسخهٔ پایه</p>
           <h1>پشتیبان تصمیم، نه تجویز خودکار</h1>
         </div>
-        <Link className="admin-link" href="/admin">پنل مدیریت</Link>
       </header>
 
       <section className="intro" aria-labelledby="pathway-heading">
