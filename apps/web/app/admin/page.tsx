@@ -134,7 +134,7 @@ export default function AdminPage() {
           <h1>کاتالوگ نوع ۲، پروتکل‌ها و نمایش دارو</h1>
         </div>
         <div className="topbar-actions">
-          <Link className="admin-link" href="/preview">پیش‌نمایش کامل پروتکل‌ها</Link>
+          <Link className="admin-link" href="/type-2/preview">پیش‌نمایش کامل Type 2</Link>
           <button className="secondary" onClick={() => void refresh()} type="button">بازخوانی</button>
         </div>
       </header>

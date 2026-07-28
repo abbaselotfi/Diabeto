@@ -1,18 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 /**
- * Fail closed in production until the verified-doctor session service exists.
- * Local developers may explicitly enable the temporary bypass in .env.local.
+ * Pre-publication mode: every route remains available to the project owner.
+ * This hook is intentionally a no-op until production authentication and RBAC
+ * are enabled before publication.
  */
-export function proxy(request: NextRequest) {
-  const protectedRoute = request.nextUrl.pathname.startsWith("/admin") || request.nextUrl.pathname.startsWith("/preview");
-  if (!protectedRoute) return NextResponse.next();
-  const developmentBypass = process.env.NODE_ENV !== "production" && process.env.DIABETO_DEV_ADMIN_BYPASS === "true";
-  if (developmentBypass) return NextResponse.next();
-
-  const deniedUrl = request.nextUrl.clone();
-  deniedUrl.pathname = "/access-denied";
-  return NextResponse.rewrite(deniedUrl);
+export function proxy(_request: NextRequest) {
+  return NextResponse.next();
 }
-
-export const config = { matcher: ["/admin/:path*", "/preview/:path*"] };
