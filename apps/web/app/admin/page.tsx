@@ -1,6 +1,6 @@
 "use client";
 
-import type { ClinicalProtocolBundle, GenericMedication, MedicationTherapyGroup } from "@diabeto/contracts";
+import type { ClinicalProtocolBundle, GenericMedication, GuidelineSource, MedicationTherapyGroup, ReferenceCatalogSource, ReferenceMedicationPresentation } from "@diabeto/contracts";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
@@ -21,17 +21,27 @@ export default function AdminPage() {
   const [displayMode, setDisplayMode] = useState<"generic_first" | "brand_first">("generic_first");
   const [generics, setGenerics] = useState<GenericMedication[]>([]);
   const [protocols, setProtocols] = useState<ClinicalProtocolBundle[]>([]);
+  const [guidelines, setGuidelines] = useState<GuidelineSource[]>([]);
+  const [referencePresentations, setReferencePresentations] = useState<ReferenceMedicationPresentation[]>([]);
+  const [referenceSources, setReferenceSources] = useState<ReferenceCatalogSource[]>([]);
+  const [guidelineMessage, setGuidelineMessage] = useState("هنوز بررسی جدیدی درخواست نشده است.");
 
   async function refresh() {
     try {
-      const [genericResponse, protocolResponse] = await Promise.all([
+      const [genericResponse, protocolResponse, guidelineResponse, presentationResponse, sourceResponse] = await Promise.all([
         fetch(`${apiUrl}/v1/catalog/generics`),
-        fetch(`${apiUrl}/v1/protocols/type-2`)
+        fetch(`${apiUrl}/v1/protocols/type-2`),
+        fetch(`${apiUrl}/v1/admin/guidelines`),
+        fetch(`${apiUrl}/v1/admin/catalog/reference-presentations`),
+        fetch(`${apiUrl}/v1/admin/catalog/reference-sources`)
       ]);
-      if (!genericResponse.ok || !protocolResponse.ok) throw new Error("API unavailable");
+      if (!genericResponse.ok || !protocolResponse.ok || !guidelineResponse.ok || !presentationResponse.ok || !sourceResponse.ok) throw new Error("API unavailable");
       setGenerics(await genericResponse.json() as GenericMedication[]);
       setProtocols(await protocolResponse.json() as ClinicalProtocolBundle[]);
-      setMessage("کاتالوگ اولیه و وضعیت پروتکل‌ها بارگذاری شد.");
+      setGuidelines(await guidelineResponse.json() as GuidelineSource[]);
+      setReferencePresentations(await presentationResponse.json() as ReferenceMedicationPresentation[]);
+      setReferenceSources(await sourceResponse.json() as ReferenceCatalogSource[]);
+      setMessage("کاتالوگ اولیه، منبع جهانی و وضعیت پروتکل‌ها بارگذاری شد.");
     } catch {
       setMessage("API محلی در دسترس نیست. ابتدا pnpm dev را اجرا کنید؛ سپس این صفحه را refresh کنید.");
     }
@@ -84,6 +94,18 @@ export default function AdminPage() {
     setMessage(`ژنریک «${created.persianName}» در حالت بازبینی ادمین اضافه شد.`);
   }
 
+  async function checkGuideline(sourceId: string) {
+    try {
+      const response = await fetch(`${apiUrl}/v1/admin/guidelines/${sourceId}/check`, { method: "POST" });
+      const result = await response.json() as { message: string };
+      if (!response.ok) throw new Error(result.message);
+      setGuidelineMessage(result.message);
+      await refresh();
+    } catch {
+      setGuidelineMessage("بررسی guideline انجام نشد؛ دسترسی ادمین و اجرای API را کنترل کنید.");
+    }
+  }
+
   return (
     <main className="shell admin-shell">
       <header className="topbar">
@@ -96,8 +118,8 @@ export default function AdminPage() {
 
       <section className="metric-grid" aria-label="شاخص‌های استفاده">
         <article><span>ژنریک‌های آمادهٔ بازبینی</span><strong>{generics.length || "—"}</strong><small>seed راهنما + ورود دستی ادمین</small></article>
+        <article><span>ارائه‌های مرجع جهانی</span><strong>{referencePresentations.length || "—"}</strong><small>تا تأیید بازار ایران، فقط قابل مشاهده برای Admin</small></article>
         <article><span>پروتکل‌های Type 2</span><strong>{protocols.length || "—"}</strong><small>تا تأیید پزشک، خروجی درمانی ندارند</small></article>
-        <article><span>ارزیابی تکمیل‌شده</span><strong>—</strong><small>پس از فعال‌شدن احراز هویت و analytics تجمیعی</small></article>
       </section>
 
       <div className="admin-grid">
@@ -140,6 +162,28 @@ export default function AdminPage() {
       </section>
 
       <section className="panel">
+        <p className="eyebrow">کاتالوگ مرجع واردشده</p>
+        <h2>فرآورده‌ها و منابع جهانی — در انتظار اعتبارسنجی ایران</h2>
+        <p className="muted">این داده‌ها از فایل ارسالی شما وارد شده‌اند. نام برند، قدرت و وضعیت بازارِ این بخش هرگز به معنی ثبت، عرضه یا امکان نمایش در ایران نیستند. برای استفاده در برنامه، Admin باید برای هر مورد یک رکورد بازار ایران با منبع مجاز و وضعیت بازبینی ایجاد کند.</p>
+        <div className="reference-source-list">
+          {referenceSources.map((source) => <a href={source.sourceUrl} key={source.id} rel="noreferrer" target="_blank">{source.title}</a>)}
+        </div>
+        <div className="reference-table-wrap">
+          <table className="reference-table">
+            <thead><tr><th>ژنریک</th><th>کلاس</th><th>راه/شکل</th><th>قدرت یا عرضه</th><th>بازار منبع</th><th>وضعیت</th></tr></thead>
+            <tbody>{referencePresentations.map((presentation) => <tr key={presentation.id}>
+              <td><a href={presentation.sourceUrl} rel="noreferrer" target="_blank">{presentation.genericName}</a></td>
+              <td>{presentation.therapeuticClass}</td>
+              <td>{presentation.administrationRoute} / {presentation.dosageForm}</td>
+              <td>{presentation.strengthPresentation}</td>
+              <td>{presentation.marketStatus}</td>
+              <td>نیازمند اعتبارسنجی ایران</td>
+            </tr>)}</tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="panel">
         <p className="eyebrow">کاتالوگ راهنما</p>
         <h2>ژنریک‌های Type 2 و انسولین</h2>
         <div className="catalog-grid">
@@ -159,6 +203,23 @@ export default function AdminPage() {
           {protocols.map((protocol) => <article className="protocol-card" key={protocol.id}><strong>{protocol.title}</strong><span className="badge">{protocol.status === "draft" ? "در انتظار تأیید پزشک" : protocol.status}</span><small>{protocol.sourceReference}</small></article>)}
         </div>
         <p className="muted">{message}</p>
+      </section>
+
+      <section className="panel">
+        <p className="eyebrow">به‌روزرسانی guideline</p>
+        <h2>بررسی نسخهٔ جدید ADA و EASD</h2>
+        <p className="muted">این دکمه فقط بررسی و ایجاد صف بازبینی را انجام می‌دهد؛ هیچ قاعده یا توصیه‌ای خودکار تغییر نمی‌کند.</p>
+        <div className="protocol-list">
+          {guidelines.map((guideline) => (
+            <article className="protocol-card" key={guideline.id}>
+              <strong>{guideline.publisher} — {guideline.title}</strong>
+              <small>نسخهٔ فعال: {guideline.activeVersion}</small>
+              <a href={guideline.sourceUrl} rel="noreferrer" target="_blank">مشاهدهٔ منبع رسمی</a>
+              <button onClick={() => void checkGuideline(guideline.id)} type="button">بررسی به‌روزرسانی</button>
+            </article>
+          ))}
+        </div>
+        <p className="muted">{guidelineMessage}</p>
       </section>
     </main>
   );

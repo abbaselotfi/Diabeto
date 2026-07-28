@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import type { CatalogImportRequest, CatalogImportResult, GenericMedication, GenericMedicationInput } from "@diabeto/contracts";
 import { ada2026Type2GenericSeed, type2ProtocolSeed } from "./ada-2026-type2-seed.js";
+import { globalReferenceCatalogue, globalReferenceCatalogueSources } from "./global-reference-catalog.js";
 
 @Injectable()
 export class CatalogService {
@@ -12,6 +13,14 @@ export class CatalogService {
 
   listType2Protocols() {
     return type2ProtocolSeed;
+  }
+
+  listGlobalReferencePresentations() {
+    return globalReferenceCatalogue;
+  }
+
+  listGlobalReferenceSources() {
+    return globalReferenceCatalogueSources;
   }
 
   addGenericMedication(input: GenericMedicationInput): GenericMedication {

@@ -65,6 +65,24 @@ export interface ClinicalProtocolBundle {
   clinicalReviewRequired: true;
 }
 
+export interface GuidelineSource {
+  id: string;
+  publisher: "ADA" | "EASD";
+  title: string;
+  sourceUrl: string;
+  activeVersion: string;
+  publishedAt: string;
+  monitored: boolean;
+  lastCheckedAt?: string;
+}
+
+export interface GuidelineUpdateCheckResult {
+  sourceId: string;
+  status: "queued_for_review" | "no_change_detected" | "blocked";
+  message: string;
+  checkedAt: string;
+}
+
 export interface BrandMarketEntry {
   id: string;
   genericMedicationId: string;
@@ -104,4 +122,38 @@ export interface CatalogImportResult {
   importId: string;
   status: "queued" | "blocked";
   message: string;
+}
+
+/**
+ * A presentation captured from a global reference catalogue. This is a source
+ * snapshot for review, not a statement that the product is registered,
+ * available, or displayable in Iran. Iranian brand-market entries are managed
+ * separately and must pass the admin review workflow.
+ */
+export interface ReferenceMedicationPresentation {
+  id: string;
+  therapeuticClass: string;
+  mechanismOrSubclass: string;
+  genericName: string;
+  administrationRoute: string;
+  dosageForm: string;
+  strengthPresentation: string;
+  sampleLabelFrequency?: string;
+  sampleBrands?: string;
+  indicationScope?: string;
+  marketStatus?: string;
+  sourceUrl: string;
+  coverageNotes?: string;
+  sourceFile: string;
+  sourceObservedAt: string;
+  reviewState: "reference_only" | "needs_iran_validation" | "validated_for_iran" | "rejected";
+}
+
+export interface ReferenceCatalogSource {
+  id: string;
+  title: string;
+  sourceUrl: string;
+  purpose: string;
+  accessedAt: string;
+  sourceFile: string;
 }

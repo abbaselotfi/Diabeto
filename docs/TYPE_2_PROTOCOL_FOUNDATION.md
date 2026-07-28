@@ -16,6 +16,10 @@ Diabeto برای پزشکان تأییدشده یک دستیار پشتیبان 
 
 `draft` و `in_review` هرگز خروجی بالینی تولید نمی‌کنند. فقط bundle دارای وضعیت `approved`، بازبین پزشک و زمان تأیید می‌تواند در موتور تصمیم مصرف شود.
 
+## دسترسی ادمین
+
+در production پنل `/admin` و endpointهای `v1/admin/*` تا اتصال احراز هویت نقش‌محور fail-closed هستند. migration `003_role_based_access.sql` نقش‌های `pending`، `clinician` و `admin` را آماده می‌کند. در توسعهٔ محلی، فقط با تنظیم سروری `DIABETO_DEV_ADMIN_BYPASS=true` می‌توان پنل prototype را دید؛ این bypass نباید هرگز در production استفاده شود.
+
 ## منبع پایه
 
 - ADA Standards of Care in Diabetes—2026, Section 9: Pharmacologic Approaches to Glycemic Treatment
