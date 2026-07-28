@@ -20,6 +20,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@diabeto/clinical-engine':
+        specifier: workspace:*
+        version: link:../../packages/clinical-engine
       '@diabeto/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts

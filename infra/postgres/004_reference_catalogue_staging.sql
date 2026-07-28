@@ -47,6 +47,17 @@ CREATE TABLE reference_medication_presentation (
 CREATE INDEX reference_medication_presentation_review_lookup
   ON reference_medication_presentation (review_state, generic_name);
 
+-- Per-organization checklist state. In the current API prototype this is
+-- held in memory; production must persist it here and audit every change.
+CREATE TABLE organization_reference_medication_visibility (
+  organization_id uuid NOT NULL REFERENCES organization(id) ON DELETE CASCADE,
+  reference_medication_presentation_id uuid NOT NULL REFERENCES reference_medication_presentation(id) ON DELETE CASCADE,
+  show_in_app boolean NOT NULL DEFAULT false,
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  updated_by uuid REFERENCES user_account(id),
+  PRIMARY KEY (organization_id, reference_medication_presentation_id)
+);
+
 -- Promotion workflow:
 -- 1) Admin reviews a reference row against authorised Iranian evidence.
 -- 2) Admin creates generic_medication / manufacturer / brand and a separate

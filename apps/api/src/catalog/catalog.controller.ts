@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from "@nestjs/common";
-import type { CatalogImportRequest, GenericMedicationInput } from "@diabeto/contracts";
+import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
+import type { CatalogImportRequest, GenericMedicationInput, Type2ConsiderationRequest, UpdateMedicationVisibilityInput } from "@diabeto/contracts";
 import { AdminAccessGuard } from "../admin/admin-access.guard.js";
 import { CatalogService } from "./catalog.service.js";
 
@@ -24,9 +24,32 @@ export class CatalogController {
     return this.catalogService.listGlobalReferenceSources();
   }
 
+  @Get("admin/catalog/medication-checklist")
+  @UseGuards(AdminAccessGuard)
+  medicationChecklist() {
+    return this.catalogService.listMedicationChecklist();
+  }
+
+  @Patch("admin/catalog/medication-checklist/:referencePresentationId")
+  @UseGuards(AdminAccessGuard)
+  updateMedicationChecklist(@Param("referencePresentationId") referencePresentationId: string, @Body() input: UpdateMedicationVisibilityInput) {
+    return this.catalogService.updateMedicationVisibility(referencePresentationId, input);
+  }
+
   @Get("protocols/type-2")
   type2Protocols() {
     return this.catalogService.listType2Protocols();
+  }
+
+  @Post("catalog/type-2/considerations")
+  type2MedicationConsiderations(@Body() request: Type2ConsiderationRequest) {
+    return this.catalogService.listType2MedicationConsiderations(request);
+  }
+
+  @Get("admin/preview/type-2-considerations")
+  @UseGuards(AdminAccessGuard)
+  type2PreviewConsiderations() {
+    return this.catalogService.listType2PreviewConsiderations();
   }
 
   @Post("admin/catalog/generics")

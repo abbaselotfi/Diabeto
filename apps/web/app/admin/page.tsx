@@ -1,6 +1,7 @@
 "use client";
 
-import type { ClinicalProtocolBundle, GenericMedication, GuidelineSource, MedicationTherapyGroup, ReferenceCatalogSource, ReferenceMedicationPresentation } from "@diabeto/contracts";
+import Link from "next/link";
+import type { ClinicalProtocolBundle, GenericMedication, GuidelineSource, MedicationChecklistItem, MedicationTherapyGroup, ReferenceCatalogSource } from "@diabeto/contracts";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
@@ -22,24 +23,24 @@ export default function AdminPage() {
   const [generics, setGenerics] = useState<GenericMedication[]>([]);
   const [protocols, setProtocols] = useState<ClinicalProtocolBundle[]>([]);
   const [guidelines, setGuidelines] = useState<GuidelineSource[]>([]);
-  const [referencePresentations, setReferencePresentations] = useState<ReferenceMedicationPresentation[]>([]);
+  const [medicationChecklist, setMedicationChecklist] = useState<MedicationChecklistItem[]>([]);
   const [referenceSources, setReferenceSources] = useState<ReferenceCatalogSource[]>([]);
   const [guidelineMessage, setGuidelineMessage] = useState("هنوز بررسی جدیدی درخواست نشده است.");
 
   async function refresh() {
     try {
-      const [genericResponse, protocolResponse, guidelineResponse, presentationResponse, sourceResponse] = await Promise.all([
+      const [genericResponse, protocolResponse, guidelineResponse, checklistResponse, sourceResponse] = await Promise.all([
         fetch(`${apiUrl}/v1/catalog/generics`),
         fetch(`${apiUrl}/v1/protocols/type-2`),
         fetch(`${apiUrl}/v1/admin/guidelines`),
-        fetch(`${apiUrl}/v1/admin/catalog/reference-presentations`),
+        fetch(`${apiUrl}/v1/admin/catalog/medication-checklist`),
         fetch(`${apiUrl}/v1/admin/catalog/reference-sources`)
       ]);
-      if (!genericResponse.ok || !protocolResponse.ok || !guidelineResponse.ok || !presentationResponse.ok || !sourceResponse.ok) throw new Error("API unavailable");
+      if (!genericResponse.ok || !protocolResponse.ok || !guidelineResponse.ok || !checklistResponse.ok || !sourceResponse.ok) throw new Error("API unavailable");
       setGenerics(await genericResponse.json() as GenericMedication[]);
       setProtocols(await protocolResponse.json() as ClinicalProtocolBundle[]);
       setGuidelines(await guidelineResponse.json() as GuidelineSource[]);
-      setReferencePresentations(await presentationResponse.json() as ReferenceMedicationPresentation[]);
+      setMedicationChecklist(await checklistResponse.json() as MedicationChecklistItem[]);
       setReferenceSources(await sourceResponse.json() as ReferenceCatalogSource[]);
       setMessage("کاتالوگ اولیه، منبع جهانی و وضعیت پروتکل‌ها بارگذاری شد.");
     } catch {
@@ -106,6 +107,25 @@ export default function AdminPage() {
     }
   }
 
+  async function updateMedicationVisibility(item: MedicationChecklistItem, showInApp: boolean) {
+    const previous = medicationChecklist;
+    setMedicationChecklist((current) => current.map((entry) => entry.referencePresentationId === item.referencePresentationId ? { ...entry, showInApp } : entry));
+    try {
+      const response = await fetch(`${apiUrl}/v1/admin/catalog/medication-checklist/${item.referencePresentationId}`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ showInApp })
+      });
+      if (!response.ok) throw new Error("update failed");
+      const updated = await response.json() as MedicationChecklistItem;
+      setMedicationChecklist((current) => current.map((entry) => entry.referencePresentationId === updated.referencePresentationId ? updated : entry));
+      setMessage(`نمایش «${item.genericName}» ${showInApp ? "فعال" : "غیرفعال"} شد.`);
+    } catch {
+      setMedicationChecklist(previous);
+      setMessage("تغییر چک‌لیست ذخیره نشد؛ دسترسی Admin و API را بررسی کنید.");
+    }
+  }
+
   return (
     <main className="shell admin-shell">
       <header className="topbar">
@@ -113,12 +133,15 @@ export default function AdminPage() {
           <p className="eyebrow">پنل مدیریت / فقط پزشکان و ادمین‌های تأییدشده</p>
           <h1>کاتالوگ نوع ۲، پروتکل‌ها و نمایش دارو</h1>
         </div>
-        <button className="secondary" onClick={() => void refresh()} type="button">بازخوانی</button>
+        <div className="topbar-actions">
+          <Link className="admin-link" href="/preview">پیش‌نمایش کامل پروتکل‌ها</Link>
+          <button className="secondary" onClick={() => void refresh()} type="button">بازخوانی</button>
+        </div>
       </header>
 
       <section className="metric-grid" aria-label="شاخص‌های استفاده">
         <article><span>ژنریک‌های آمادهٔ بازبینی</span><strong>{generics.length || "—"}</strong><small>seed راهنما + ورود دستی ادمین</small></article>
-        <article><span>ارائه‌های مرجع جهانی</span><strong>{referencePresentations.length || "—"}</strong><small>تا تأیید بازار ایران، فقط قابل مشاهده برای Admin</small></article>
+        <article><span>فرآورده‌های فعال در چک‌لیست</span><strong>{medicationChecklist.filter((item) => item.showInApp).length || "—"}</strong><small>نمایش/عدم‌نمایش فقط با انتخاب Admin</small></article>
         <article><span>پروتکل‌های Type 2</span><strong>{protocols.length || "—"}</strong><small>تا تأیید پزشک، خروجی درمانی ندارند</small></article>
       </section>
 
@@ -162,22 +185,22 @@ export default function AdminPage() {
       </section>
 
       <section className="panel">
-        <p className="eyebrow">کاتالوگ مرجع واردشده</p>
-        <h2>فرآورده‌ها و منابع جهانی — در انتظار اعتبارسنجی ایران</h2>
-        <p className="muted">این داده‌ها از فایل ارسالی شما وارد شده‌اند. نام برند، قدرت و وضعیت بازارِ این بخش هرگز به معنی ثبت، عرضه یا امکان نمایش در ایران نیستند. برای استفاده در برنامه، Admin باید برای هر مورد یک رکورد بازار ایران با منبع مجاز و وضعیت بازبینی ایجاد کند.</p>
+        <p className="eyebrow">چک‌لیست داروها</p>
+        <h2>کنترل نمایش فرآورده‌ها در برنامه</h2>
+        <p className="muted">این داده‌ها از فایل ارسالی شما وارد شده‌اند. تیک‌زدن فقط نمایش کاتالوگ را کنترل می‌کند و به‌تنهایی ثبت، عرضه یا تأیید بالینی/بازاری ایران محسوب نمی‌شود. برای نمایش برند در خروجی پزشک، رکورد بازار ایران و بازبینی جداگانه لازم است.</p>
         <div className="reference-source-list">
           {referenceSources.map((source) => <a href={source.sourceUrl} key={source.id} rel="noreferrer" target="_blank">{source.title}</a>)}
         </div>
         <div className="reference-table-wrap">
           <table className="reference-table">
-            <thead><tr><th>ژنریک</th><th>کلاس</th><th>راه/شکل</th><th>قدرت یا عرضه</th><th>بازار منبع</th><th>وضعیت</th></tr></thead>
-            <tbody>{referencePresentations.map((presentation) => <tr key={presentation.id}>
-              <td><a href={presentation.sourceUrl} rel="noreferrer" target="_blank">{presentation.genericName}</a></td>
-              <td>{presentation.therapeuticClass}</td>
-              <td>{presentation.administrationRoute} / {presentation.dosageForm}</td>
-              <td>{presentation.strengthPresentation}</td>
-              <td>{presentation.marketStatus}</td>
-              <td>نیازمند اعتبارسنجی ایران</td>
+            <thead><tr><th>نمایش</th><th>ژنریک</th><th>کلاس</th><th>راه/شکل</th><th>قدرت یا عرضه</th><th>وضعیت بازبینی</th></tr></thead>
+            <tbody>{medicationChecklist.map((item) => <tr key={item.referencePresentationId}>
+              <td><input aria-label={`نمایش ${item.genericName}`} checked={item.showInApp} onChange={(event) => void updateMedicationVisibility(item, event.target.checked)} type="checkbox" /></td>
+              <td><a href={item.sourceUrl} rel="noreferrer" target="_blank">{item.genericName}</a></td>
+              <td>{item.therapeuticClass}</td>
+              <td>{item.administrationRoute} / {item.dosageForm}</td>
+              <td>{item.strengthPresentation}</td>
+              <td>{item.reviewState === "needs_iran_validation" ? "نیازمند اعتبارسنجی ایران" : item.reviewState}</td>
             </tr>)}</tbody>
           </table>
         </div>
