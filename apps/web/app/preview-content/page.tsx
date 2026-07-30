@@ -3,8 +3,7 @@
 import Link from "next/link";
 import type { ClinicalProtocolBundle, GuidelineSource, MedicationChecklistItem, ReferenceCatalogSource, Type2MedicationConsideration } from "@diabeto/contracts";
 import { useEffect, useState } from "react";
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+import { apiFetch } from "../../lib/api-client";
 
 export default function Type2PreviewPage() {
   const [protocols, setProtocols] = useState<ClinicalProtocolBundle[]>([]);
@@ -18,9 +17,9 @@ export default function Type2PreviewPage() {
     async function loadPreview() {
       try {
         const [protocolResponse, guidelineResponse, checklistResponse, sourceResponse, considerationResponse] = await Promise.all([
-          fetch(`${apiUrl}/v1/protocols/type-2`), fetch(`${apiUrl}/v1/admin/guidelines`),
-          fetch(`${apiUrl}/v1/admin/catalog/medication-checklist`), fetch(`${apiUrl}/v1/admin/catalog/reference-sources`),
-          fetch(`${apiUrl}/v1/admin/preview/type-2-considerations`)
+          apiFetch("/v1/protocols/type-2"), apiFetch("/v1/admin/guidelines"),
+          apiFetch("/v1/admin/catalog/medication-checklist"), apiFetch("/v1/admin/catalog/reference-sources"),
+          apiFetch("/v1/admin/preview/type-2-considerations")
         ]);
         if (![protocolResponse, guidelineResponse, checklistResponse, sourceResponse, considerationResponse].every((response) => response.ok)) throw new Error("API unavailable");
         setProtocols(await protocolResponse.json() as ClinicalProtocolBundle[]);
@@ -29,7 +28,7 @@ export default function Type2PreviewPage() {
         setSources(await sourceResponse.json() as ReferenceCatalogSource[]);
         setConsiderations(await considerationResponse.json() as Type2MedicationConsideration[]);
         setMessage("همهٔ موارد پیش‌نویس برای بازبینی کامل نمایش داده می‌شوند.");
-      } catch { setMessage("پیش‌نمایش نیازمند اجرای API محلی است."); }
+      } catch { setMessage("پیش‌نمایش بارگذاری نشد؛ صفحه را بازخوانی کنید."); }
     }
     void loadPreview();
   }, []);

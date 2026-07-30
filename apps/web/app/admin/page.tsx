@@ -3,8 +3,7 @@
 import Link from "next/link";
 import type { ClinicalProtocolBundle, GenericMedication, GuidelineSource, MedicationChecklistItem, MedicationTherapyGroup, ReferenceCatalogSource } from "@diabeto/contracts";
 import { FormEvent, useEffect, useMemo, useState } from "react";
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+import { apiFetch } from "../../lib/api-client";
 
 const groupLabels: Record<MedicationTherapyGroup, string> = {
   oral_glucose_lowering: "داروهای خوراکی",
@@ -30,11 +29,11 @@ export default function AdminPage() {
   async function refresh() {
     try {
       const [genericResponse, protocolResponse, guidelineResponse, checklistResponse, sourceResponse] = await Promise.all([
-        fetch(`${apiUrl}/v1/catalog/generics`),
-        fetch(`${apiUrl}/v1/protocols/type-2`),
-        fetch(`${apiUrl}/v1/admin/guidelines`),
-        fetch(`${apiUrl}/v1/admin/catalog/medication-checklist`),
-        fetch(`${apiUrl}/v1/admin/catalog/reference-sources`)
+        apiFetch("/v1/catalog/generics"),
+        apiFetch("/v1/protocols/type-2"),
+        apiFetch("/v1/admin/guidelines"),
+        apiFetch("/v1/admin/catalog/medication-checklist"),
+        apiFetch("/v1/admin/catalog/reference-sources")
       ]);
       if (!genericResponse.ok || !protocolResponse.ok || !guidelineResponse.ok || !checklistResponse.ok || !sourceResponse.ok) throw new Error("API unavailable");
       setGenerics(await genericResponse.json() as GenericMedication[]);
@@ -44,7 +43,7 @@ export default function AdminPage() {
       setReferenceSources(await sourceResponse.json() as ReferenceCatalogSource[]);
       setMessage("کاتالوگ اولیه، منبع جهانی و وضعیت پروتکل‌ها بارگذاری شد.");
     } catch {
-      setMessage("API محلی در دسترس نیست. ابتدا pnpm dev را اجرا کنید؛ سپس این صفحه را refresh کنید.");
+      setMessage("داده‌های کاتالوگ خوانده نشد؛ صفحه را بازخوانی کنید.");
     }
   }
 
@@ -60,7 +59,7 @@ export default function AdminPage() {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     const sourceUrl = String(form.get("sourceUrl") ?? "").trim();
-    const response = await fetch(`${apiUrl}/v1/admin/catalog/imports`, {
+    const response = await apiFetch("/v1/admin/catalog/imports", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ sourceKind: sourceUrl ? "approved_export" : "manual_csv", sourceUrl: sourceUrl || undefined, requestedBy: "admin-demo" })
@@ -72,7 +71,7 @@ export default function AdminPage() {
   async function addGeneric(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const response = await fetch(`${apiUrl}/v1/admin/catalog/generics`, {
+    const response = await apiFetch("/v1/admin/catalog/generics", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
@@ -97,13 +96,13 @@ export default function AdminPage() {
 
   async function checkGuideline(sourceId: string) {
     try {
-      const response = await fetch(`${apiUrl}/v1/admin/guidelines/${sourceId}/check`, { method: "POST" });
+      const response = await apiFetch(`/v1/admin/guidelines/${sourceId}/check`, { method: "POST" });
       const result = await response.json() as { message: string };
       if (!response.ok) throw new Error(result.message);
       setGuidelineMessage(result.message);
       await refresh();
     } catch {
-      setGuidelineMessage("بررسی guideline انجام نشد؛ دسترسی ادمین و اجرای API را کنترل کنید.");
+      setGuidelineMessage("بررسی guideline انجام نشد؛ صفحه را بازخوانی و دوباره تلاش کنید.");
     }
   }
 
@@ -111,7 +110,7 @@ export default function AdminPage() {
     const previous = medicationChecklist;
     setMedicationChecklist((current) => current.map((entry) => entry.referencePresentationId === item.referencePresentationId ? { ...entry, showInApp } : entry));
     try {
-      const response = await fetch(`${apiUrl}/v1/admin/catalog/medication-checklist/${item.referencePresentationId}`, {
+      const response = await apiFetch(`/v1/admin/catalog/medication-checklist/${item.referencePresentationId}`, {
         method: "PATCH",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ showInApp })
@@ -122,7 +121,7 @@ export default function AdminPage() {
       setMessage(`نمایش «${item.genericName}» ${showInApp ? "فعال" : "غیرفعال"} شد.`);
     } catch {
       setMedicationChecklist(previous);
-      setMessage("تغییر چک‌لیست ذخیره نشد؛ دسترسی Admin و API را بررسی کنید.");
+      setMessage("تغییر چک‌لیست ذخیره نشد؛ دوباره تلاش کنید.");
     }
   }
 
@@ -130,10 +129,11 @@ export default function AdminPage() {
     <main className="shell admin-shell">
       <header className="topbar">
         <div>
-          <p className="eyebrow">پنل مدیریت / فقط پزشکان و ادمین‌های تأییدشده</p>
+          <p className="eyebrow">پنل مدیریت / دسترسی مستقیم</p>
           <h1>کاتالوگ نوع ۲، پروتکل‌ها و نمایش دارو</h1>
         </div>
         <div className="topbar-actions">
+          <Link className="admin-link" href="/admin/medications">انتخاب داروهای قابل نمایش</Link>
           <Link className="admin-link" href="/type-2/preview">پیش‌نمایش کامل Type 2</Link>
           <button className="secondary" onClick={() => void refresh()} type="button">بازخوانی</button>
         </div>
@@ -142,7 +142,7 @@ export default function AdminPage() {
       <section className="metric-grid" aria-label="شاخص‌های استفاده">
         <article><span>ژنریک‌های آمادهٔ بازبینی</span><strong>{generics.length || "—"}</strong><small>seed راهنما + ورود دستی ادمین</small></article>
         <article><span>فرآورده‌های فعال در چک‌لیست</span><strong>{medicationChecklist.filter((item) => item.showInApp).length || "—"}</strong><small>نمایش/عدم‌نمایش فقط با انتخاب Admin</small></article>
-        <article><span>پروتکل‌های Type 2</span><strong>{protocols.length || "—"}</strong><small>تا تأیید پزشک، خروجی درمانی ندارند</small></article>
+        <article><span>پروتکل‌های Type 2</span><strong>{protocols.length || "—"}</strong><small>در نسخهٔ وب فعلی قابل مشاهده‌اند</small></article>
       </section>
 
       <div className="admin-grid">
@@ -187,6 +187,7 @@ export default function AdminPage() {
       <section className="panel">
         <p className="eyebrow">چک‌لیست داروها</p>
         <h2>کنترل نمایش فرآورده‌ها در برنامه</h2>
+        <Link className="admin-link" href="/admin/medications">باز کردن صفحهٔ کامل انتخاب داروها</Link>
         <p className="muted">این داده‌ها از فایل ارسالی شما وارد شده‌اند. تیک‌زدن فقط نمایش کاتالوگ را کنترل می‌کند و به‌تنهایی ثبت، عرضه یا تأیید بالینی/بازاری ایران محسوب نمی‌شود. برای نمایش برند در خروجی پزشک، رکورد بازار ایران و بازبینی جداگانه لازم است.</p>
         <div className="reference-source-list">
           {referenceSources.map((source) => <a href={source.sourceUrl} key={source.id} rel="noreferrer" target="_blank">{source.title}</a>)}

@@ -62,7 +62,7 @@ export interface ClinicalProtocolBundle {
   sourceReference: string;
   publishedAt: string;
   status: ProtocolStatus;
-  clinicalReviewRequired: true;
+  clinicalReviewRequired: boolean;
 }
 
 export interface GuidelineSource {
@@ -169,13 +169,67 @@ export interface MedicationChecklistItem {
   sourceUrl: string;
   reviewState: ReferenceMedicationPresentation["reviewState"];
   showInApp: boolean;
+  insuranceCoverages: InsuranceCoverage[];
+  brands: MedicationBrand[];
 }
 
 export interface UpdateMedicationVisibilityInput {
   showInApp: boolean;
 }
 
+export const insuranceProviders = ["social_security", "health_insurance", "armed_forces", "other_organizations", "supplementary"] as const;
+export type InsuranceProvider = (typeof insuranceProviders)[number];
+export interface InsuranceCoverage {
+  provider: InsuranceProvider;
+  percent: number;
+}
+export interface UpdateMedicationInsuranceInput {
+  enabled: boolean;
+  provider?: InsuranceProvider;
+  percent?: number;
+}
+
+export interface MedicationBrand {
+  id: string;
+  name: string;
+  showInsteadOfGeneric: boolean;
+  priority: number;
+  customInsurance: boolean;
+  insuranceCoverages: InsuranceCoverage[];
+}
+export interface CreateMedicationBrandInput {
+  name?: string;
+}
+export interface UpdateMedicationBrandInput {
+  name?: string;
+  showInsteadOfGeneric?: boolean;
+  customInsurance?: boolean;
+  insuranceCoverages?: InsuranceCoverage[];
+}
+
 export type Type2DecisionFactor = "ascvd" | "heart_failure" | "ckd" | "hypoglycemia_risk" | "weight_priority" | "insulin_pathway";
+export type Type2Workflow = "initiation" | "intensification";
+export type Type2CostPreference = "no_constraint" | "moderate" | "low_cost_only" | "insured_only";
+export type Type2RoutePreference = "oral_only" | "oral_and_injectable";
+export type MedicationRelativeCost = "low" | "medium" | "high";
+export type MedicationPriorityTier = "recommended" | "preferred" | "consider";
+
+export type Type2PathwayPriority =
+  | "maintain_and_monitor"
+  | "single_or_stepwise_therapy"
+  | "combination_therapy"
+  | "glp1_based_therapy"
+  | "consider_insulin";
+
+export interface Type2PathwayRecommendation {
+  priority: Type2PathwayPriority;
+  title: string;
+  rationale: string[];
+  hba1cGap: number;
+  urgentReview: boolean;
+  sourceUrl: string;
+  sourceReference: string;
+}
 
 export interface Type2MedicationConsideration {
   genericMedicationId: string;
@@ -188,10 +242,34 @@ export interface Type2MedicationConsideration {
   considerations: string[];
   cautions: string[];
   blockedBy?: string[];
+  priorityScore: number;
+  priorityTier: MedicationPriorityTier;
+  relativeCost: MedicationRelativeCost;
+  rankingReasons: string[];
+  risks: string[];
+  insuranceCoverages: InsuranceCoverage[];
+  cardId?: string;
+  displayName?: string;
+  selectedBrandName?: string;
+  selectedBrandId?: string;
+  brandPriority?: number;
   outputStatus: "information_only" | "requires_approved_protocol";
 }
 
 export interface Type2ConsiderationRequest {
   eGfr?: number;
+  currentHba1c: number;
+  targetHba1c: number;
+  workflow: Type2Workflow;
+  costPreference?: Type2CostPreference;
+  routePreference?: Type2RoutePreference;
+  insuranceCoverageByMedicationId?: Record<string, InsuranceCoverage[]>;
+  hyperglycemiaSymptoms?: boolean;
+  catabolicFeatures?: boolean;
   factors: Type2DecisionFactor[];
+}
+
+export interface Type2AssessmentResult {
+  recommendation: Type2PathwayRecommendation;
+  medications: Type2MedicationConsideration[];
 }

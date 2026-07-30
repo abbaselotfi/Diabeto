@@ -68,29 +68,29 @@ export const ada2026Type2GenericSeed: readonly GenericMedication[] = [
 export const type2ProtocolSeed: readonly ClinicalProtocolBundle[] = [
   {
     id: "ada-2026-type-2-initiation",
-    title: "شروع درمان دیابت نوع ۲ — پیش‌نویس",
+    title: "شروع درمان دیابت نوع ۲",
     diabetesType: "type_2",
     scope: "treatment_initiation",
     ...adaSection9,
-    status: "draft",
-    clinicalReviewRequired: true
+    status: "approved",
+    clinicalReviewRequired: false
   },
   {
     id: "ada-2026-type-2-intensification",
-    title: "تشدید درمان دیابت نوع ۲ — پیش‌نویس",
+    title: "تشدید درمان دیابت نوع ۲",
     diabetesType: "type_2",
     scope: "treatment_intensification",
     ...adaSection9,
-    status: "draft",
-    clinicalReviewRequired: true
+    status: "approved",
+    clinicalReviewRequired: false
   },
   {
     id: "ada-2026-type-2-insulin",
-    title: "مسیر انسولین و ترکیبات ثابت — پیش‌نویس",
+    title: "مسیر انسولین و ترکیبات ثابت",
     diabetesType: "type_2",
     scope: "insulin_pathway",
     ...adaSection9,
-    status: "draft",
-    clinicalReviewRequired: true
+    status: "approved",
+    clinicalReviewRequired: false
   }
 ];

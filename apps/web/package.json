@@ -4,15 +4,17 @@
   "private": true,
   "scripts": {
     "build": "node scripts/next.cjs build --webpack",
-    "dev": "node scripts/next.cjs dev --webpack --port 3000",
+    "dev": "node scripts/next.cjs dev --webpack",
     "start": "next start --port 3000",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@diabeto/clinical-engine": "workspace:*",
     "@diabeto/contracts": "workspace:*",
     "next": "16.2.12",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "read-excel-file": "9.3.5"
   },
   "devDependencies": {
     "@types/react": "19.2.17",

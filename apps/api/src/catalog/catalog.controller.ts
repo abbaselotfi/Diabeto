@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Param, Patch, Post, Query } from "@nestjs/common";
-import type { CatalogImportRequest, GenericMedicationInput, Type2ConsiderationRequest, UpdateMedicationVisibilityInput } from "@diabeto/contracts";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
+import type { CatalogImportRequest, CreateMedicationBrandInput, GenericMedicationInput, Type2ConsiderationRequest, UpdateMedicationBrandInput, UpdateMedicationInsuranceInput, UpdateMedicationVisibilityInput } from "@diabeto/contracts";
 import { CatalogService } from "./catalog.service.js";
 
 @Controller("v1")
@@ -29,6 +29,26 @@ export class CatalogController {
   @Patch("admin/catalog/medication-checklist/:referencePresentationId")
   updateMedicationChecklist(@Param("referencePresentationId") referencePresentationId: string, @Body() input: UpdateMedicationVisibilityInput) {
     return this.catalogService.updateMedicationVisibility(referencePresentationId, input);
+  }
+
+  @Patch("admin/catalog/medication-checklist/:referencePresentationId/insurance")
+  updateMedicationInsurance(@Param("referencePresentationId") referencePresentationId: string, @Body() input: UpdateMedicationInsuranceInput) {
+    return this.catalogService.updateMedicationInsurance(referencePresentationId, input);
+  }
+
+  @Post("admin/catalog/medication-checklist/:referencePresentationId/brands")
+  addMedicationBrand(@Param("referencePresentationId") referencePresentationId: string, @Body() input: CreateMedicationBrandInput) {
+    return this.catalogService.addMedicationBrand(referencePresentationId, input);
+  }
+
+  @Patch("admin/catalog/medication-checklist/:referencePresentationId/brands/:brandId")
+  updateMedicationBrand(@Param("referencePresentationId") referencePresentationId: string, @Param("brandId") brandId: string, @Body() input: UpdateMedicationBrandInput) {
+    return this.catalogService.updateMedicationBrand(referencePresentationId, brandId, input);
+  }
+
+  @Delete("admin/catalog/medication-checklist/:referencePresentationId/brands/:brandId")
+  removeMedicationBrand(@Param("referencePresentationId") referencePresentationId: string, @Param("brandId") brandId: string) {
+    return this.catalogService.removeMedicationBrand(referencePresentationId, brandId);
   }
 
   @Get("protocols/type-2")
