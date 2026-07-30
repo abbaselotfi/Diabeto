@@ -79,6 +79,15 @@ h1, h2, h3, p { margin-top: 0; }
 .install-button { font-size: 11px; }
 button:hover, .primary-button:hover, .admin-link:hover { background: var(--teal-dark); }
 button.secondary, .secondary { border: 1px solid var(--line); background: #fff; color: var(--ink); }
+.update-toast {
+  position: fixed; inset-inline-end: 20px; top: 88px; z-index: 80;
+  display: flex; align-items: center; gap: 14px; max-width: min(430px, calc(100vw - 32px)); padding: 14px;
+  border: 1px solid #89bfb7; border-radius: 13px; background: #fff; box-shadow: 0 18px 50px rgba(20, 61, 62, .2);
+}
+.update-toast span, .update-toast b, .update-toast small { display: block; }
+.update-toast b { font-size: 12px; }
+.update-toast small { margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.6; }
+.update-toast button { flex: 0 0 auto; padding: 9px 12px; font-size: 10px; }
 .mobile-menu { display: none; border: 0; background: transparent; color: var(--ink); padding: 8px; font-size: 22px; }
 .sidebar-overlay { display: none; }
 .page-content { max-width: 1220px; margin: 0 auto; padding: 48px 4.5vw 72px; }
@@ -219,6 +228,16 @@ input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; padding
 .static-checks span { padding: 14px; border: 1px solid var(--line); border-radius: 10px; background: #fbfdfd; }
 
 /* Admin remains available only through the direct /admin URL. */
+.admin-auth-page { display: grid; min-height: calc(100vh - 74px); place-items: center; padding: 28px; }
+.admin-auth-card { width: min(520px, 100%); padding: 30px; border: 1px solid var(--line); border-radius: 17px; background: #fff; box-shadow: var(--shadow); text-align: center; }
+.admin-auth-card h1 { margin: 10px 0; font-size: 24px; }
+.admin-auth-card p { color: var(--muted); line-height: 1.9; }
+.admin-auth-card code { direction: ltr; unicode-bidi: embed; }
+.admin-session-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px; margin: 18px 4.5vw 0; padding: 12px 14px;
+  border: 1px solid #b9d8d3; border-radius: 12px; background: #eef8f5; color: #315e5a; font-size: 11px;
+}
+.admin-session-bar button { padding: 8px 11px; font-size: 10px; }
 .topbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
 .topbar-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .admin-grid, .metric-grid, .catalog-grid, .protocol-list { display: grid; gap: 18px; }
@@ -315,6 +334,8 @@ button:disabled, select:disabled, input:disabled { cursor: not-allowed; opacity:
 
 @media (max-width: 760px) {
   .global-topbar { height: 64px; padding: 0 16px; }
+  .update-toast { inset-inline: 16px; top: 76px; }
+  .admin-session-bar { align-items: stretch; flex-direction: column; margin-inline: 16px; }
   .topbar-title { margin-inline-end: auto; margin-inline-start: 10px; }
   .topbar-title span { display: none; }
   .page-content { padding: 28px 16px 56px; }

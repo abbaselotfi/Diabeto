@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "diayar-admin-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-30",
+  "vars": {
+    "ADMIN_ORIGIN": "https://abbaselotfi.github.io",
+    "ADMIN_PATH_PREFIX": "/Diabeto/admin",
+    "ALLOWED_GITHUB_LOGIN": "abbaselotfi",
+    "GITHUB_REPOSITORY": "abbaselotfi/Diabeto",
+    "GITHUB_BRANCH": "agent/secure-admin-publishing",
+    "CATALOG_PATH": "apps/web/public/data/admin-catalog.json"
+  },
+  "secrets": {
+    "required": [
+      "GITHUB_CLIENT_ID",
+      "GITHUB_CLIENT_SECRET",
+      "SESSION_SECRET"
+    ]
+  }
+}
