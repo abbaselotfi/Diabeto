@@ -188,6 +188,17 @@ export class CatalogService {
     return this.listMedicationChecklist().find((item) => item.referencePresentationId === referencePresentationId)!;
   }
 
+  removeMedicationBrand(referencePresentationId: string, brandId: string): MedicationChecklistItem {
+    const current = this.referenceBrands.get(referencePresentationId) ?? [];
+    if (!current.some((brand) => brand.id === brandId)) throw new NotFoundException("برند پیدا نشد.");
+    const remaining = current
+      .filter((brand) => brand.id !== brandId)
+      .map((brand, index) => ({ ...brand, priority: index + 1 }));
+    if (remaining.length) this.referenceBrands.set(referencePresentationId, remaining);
+    else this.referenceBrands.delete(referencePresentationId);
+    return this.listMedicationChecklist().find((item) => item.referencePresentationId === referencePresentationId)!;
+  }
+
   updateMedicationVisibility(referencePresentationId: string, input: UpdateMedicationVisibilityInput): MedicationChecklistItem {
     const presentation = globalReferenceCatalogue.find((item) => item.id === referencePresentationId);
     if (!presentation) throw new NotFoundException("رکورد مرجع دارو پیدا نشد.");

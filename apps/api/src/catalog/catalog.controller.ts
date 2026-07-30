@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import type { CatalogImportRequest, CreateMedicationBrandInput, GenericMedicationInput, Type2ConsiderationRequest, UpdateMedicationBrandInput, UpdateMedicationInsuranceInput, UpdateMedicationVisibilityInput } from "@diabeto/contracts";
 import { CatalogService } from "./catalog.service.js";
 
@@ -44,6 +44,11 @@ export class CatalogController {
   @Patch("admin/catalog/medication-checklist/:referencePresentationId/brands/:brandId")
   updateMedicationBrand(@Param("referencePresentationId") referencePresentationId: string, @Param("brandId") brandId: string, @Body() input: UpdateMedicationBrandInput) {
     return this.catalogService.updateMedicationBrand(referencePresentationId, brandId, input);
+  }
+
+  @Delete("admin/catalog/medication-checklist/:referencePresentationId/brands/:brandId")
+  removeMedicationBrand(@Param("referencePresentationId") referencePresentationId: string, @Param("brandId") brandId: string) {
+    return this.catalogService.removeMedicationBrand(referencePresentationId, brandId);
   }
 
   @Get("protocols/type-2")
