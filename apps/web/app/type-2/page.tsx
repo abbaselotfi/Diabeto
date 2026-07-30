@@ -189,7 +189,8 @@ export default function Type2Page() {
             {sortedMedications.map((item, index) => (
               <article className={`consideration-card priority-${item.priorityTier}`} key={item.genericMedicationId}>
                 <div className="priority-row"><span className="priority-badge">#{index + 1} · {tierLabels[item.priorityTier]}</span><span className="cost-chip">{relativeCostLabels[item.relativeCost]}</span></div>
-                <h3>{item.persianName}</h3>
+                <h3>{item.displayName ?? item.persianName}</h3>
+                {item.selectedBrandName && <p className="generic-name-note">نام ژنریک: {item.persianName}</p>}
                 <p className="muted">{item.therapeuticClass}</p>
                 <p className="ranking-reason">{item.rankingReasons.join(" · ")}</p>
                 <div className={item.insuranceCoverages.length ? "insurance-summary covered" : "insurance-summary"}><strong>{item.insuranceCoverages.length ? "✓ دارای پوشش بیمه" : "بدون پوشش بیمه ثبت‌شده"}</strong>{item.insuranceCoverages.map((entry) => <span key={entry.provider}>{insuranceLabels[entry.provider]}: {entry.percent}٪</span>)}</div>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { InsuranceProvider, MedicationChecklistItem } from "@diabeto/contracts";
+import type { InsuranceProvider, MedicationBrand, MedicationChecklistItem } from "@diabeto/contracts";
 import { useEffect, useMemo, useState } from "react";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
@@ -17,6 +17,7 @@ interface Draft { enabled: boolean; provider: InsuranceProvider; percent: string
 export default function MedicationSelectionPage() {
   const [items, setItems] = useState<MedicationChecklistItem[]>([]);
   const [drafts, setDrafts] = useState<Record<string, Draft>>({});
+  const [brandInsuranceDrafts, setBrandInsuranceDrafts] = useState<Record<string, { provider: InsuranceProvider; percent: string }>>({});
   const [query, setQuery] = useState("");
   const [message, setMessage] = useState("در حال بارگذاری کاتالوگ…");
 
@@ -47,6 +48,12 @@ export default function MedicationSelectionPage() {
     const updated = await response.json() as MedicationChecklistItem;
     setItems((current) => current.map((item) => item.referencePresentationId === updated.referencePresentationId ? updated : item));
   }
+  async function post(path: string, body: object) {
+    const response = await fetch(`${apiUrl}${path}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+    if (!response.ok) throw new Error("failed");
+    const updated = await response.json() as MedicationChecklistItem;
+    setItems((current) => current.map((item) => item.referencePresentationId === updated.referencePresentationId ? updated : item));
+  }
   async function setVisibility(item: MedicationChecklistItem, showInApp: boolean) {
     try {
       await patch(`/v1/admin/catalog/medication-checklist/${item.referencePresentationId}`, { showInApp });
@@ -70,6 +77,25 @@ export default function MedicationSelectionPage() {
       setMessage(`پوشش ${providerLabels[draft.provider]} ثبت شد.`);
     } catch { setMessage("پوشش بیمه ثبت نشد."); }
   }
+  async function addBrand(item: MedicationChecklistItem) {
+    try { await post(`/v1/admin/catalog/medication-checklist/${item.referencePresentationId}/brands`, {}); setMessage("زیرشاخهٔ برند اضافه شد."); }
+    catch { setMessage("برند اضافه نشد."); }
+  }
+  async function updateBrand(item: MedicationChecklistItem, brand: MedicationBrand, body: object) {
+    try { await patch(`/v1/admin/catalog/medication-checklist/${item.referencePresentationId}/brands/${brand.id}`, body); }
+    catch { setMessage("تغییر برند ذخیره نشد."); }
+  }
+  function brandDraft(brandId: string) {
+    return brandInsuranceDrafts[brandId] ?? { provider: "social_security" as InsuranceProvider, percent: "" };
+  }
+  async function registerBrandInsurance(item: MedicationChecklistItem, brand: MedicationBrand) {
+    const draft = brandDraft(brand.id);
+    const percent = Number(draft.percent);
+    if (!Number.isFinite(percent) || percent < 0 || percent > 100) { setMessage("درصد بیمهٔ برند باید بین صفر تا صد باشد."); return; }
+    await updateBrand(item, brand, { insuranceCoverages: [...brand.insuranceCoverages.filter((entry) => entry.provider !== draft.provider), { provider: draft.provider, percent }] });
+    setBrandInsuranceDrafts((current) => ({ ...current, [brand.id]: { ...draft, percent: "" } }));
+    setMessage(`پوشش اختصاصی برند «${brand.name || "بدون نام"}» ثبت شد.`);
+  }
 
   return <main>
     <Link className="back-button" href="/admin">→ بازگشت به پنل مدیریت</Link>
@@ -86,6 +112,22 @@ export default function MedicationSelectionPage() {
         <label className="coverage-input"><input disabled={!draft.enabled} max="100" min="0" onChange={(event) => setDraft(item, { percent: event.target.value })} placeholder="مثلاً ۷۰" type="number" value={draft.percent} /><span>٪</span></label>
         <button disabled={!draft.enabled} onClick={() => void registerInsurance(item)} type="button">ثبت</button>
         {item.insuranceCoverages.length > 0 && <div className="registered-coverages">{item.insuranceCoverages.map((entry) => <span key={entry.provider}>{providerLabels[entry.provider]}: <b>{entry.percent}٪</b></span>)}</div>}
+        <div className="brand-manager">
+          <button className="add-brand-button secondary" onClick={() => void addBrand(item)} type="button">+ برند دارو</button>
+          {[...item.brands].sort((left, right) => left.priority - right.priority).map((brand) => {
+            const insuranceDraft = brandDraft(brand.id);
+            return <section className="brand-branch" key={brand.id}>
+              <div className="brand-branch-main">
+                <label className="brand-name-field"><span>نام برند</span><input onBlur={(event) => void updateBrand(item, brand, { name: event.target.value })} defaultValue={brand.name} placeholder="مثلاً گلوریپا" type="text" /></label>
+                <label className="compact-check"><input checked={brand.showInsteadOfGeneric} onChange={(event) => void updateBrand(item, brand, { showInsteadOfGeneric: event.target.checked })} type="checkbox" /><span>نمایش نام برند به جای ژنریک</span></label>
+                <label className="brand-priority"><span>اولویت نمایش</span><select onChange={(event) => void updateBrand(item, brand, { priority: Number(event.target.value) })} value={brand.priority}>{item.brands.map((_, index) => <option key={index + 1} value={index + 1}>اولویت {index + 1}</option>)}</select></label>
+                <label className="compact-check"><input checked={brand.customInsurance} onChange={(event) => void updateBrand(item, brand, { customInsurance: event.target.checked })} type="checkbox" /><span>شرایط بیمه متفاوت</span></label>
+              </div>
+              {!brand.customInsurance && <p className="inherited-insurance">شرایط بیمه از داروی ژنریک به ارث می‌رسد.</p>}
+              {brand.customInsurance && <div className="brand-insurance-editor"><select onChange={(event) => setBrandInsuranceDrafts((current) => ({ ...current, [brand.id]: { ...insuranceDraft, provider: event.target.value as InsuranceProvider } }))} value={insuranceDraft.provider}>{Object.entries(providerLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select><label className="coverage-input"><input max="100" min="0" onChange={(event) => setBrandInsuranceDrafts((current) => ({ ...current, [brand.id]: { ...insuranceDraft, percent: event.target.value } }))} placeholder="درصد پوشش" type="number" value={insuranceDraft.percent} /><span>٪</span></label><button onClick={() => void registerBrandInsurance(item, brand)} type="button">ثبت بیمه برند</button><div className="registered-coverages">{brand.insuranceCoverages.map((entry) => <span key={entry.provider}>{providerLabels[entry.provider]}: <b>{entry.percent}٪</b></span>)}</div></div>}
+            </section>;
+          })}
+        </div>
       </article>;
     })}</div></section>)}</div>
   </main>;

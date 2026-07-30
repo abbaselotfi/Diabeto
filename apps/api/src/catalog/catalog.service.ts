@@ -4,12 +4,15 @@ import { buildType2Assessment, buildType2MedicationConsiderations } from "@diabe
 import type {
   CatalogImportRequest,
   CatalogImportResult,
+  CreateMedicationBrandInput,
   GenericMedication,
   GenericMedicationInput,
   InsuranceCoverage,
   MedicationChecklistItem,
+  MedicationBrand,
   Type2ConsiderationRequest,
   UpdateMedicationInsuranceInput,
+  UpdateMedicationBrandInput,
   UpdateMedicationVisibilityInput
 } from "@diabeto/contracts";
 import { ada2026Type2GenericSeed, type2ProtocolSeed } from "./ada-2026-type2-seed.js";
@@ -20,6 +23,7 @@ export class CatalogService {
   private readonly genericMedications: GenericMedication[] = [...ada2026Type2GenericSeed];
   private readonly referenceVisibility = new Map(globalReferenceCatalogue.map((presentation) => [presentation.id, true]));
   private readonly referenceInsurance = new Map<string, InsuranceCoverage[]>();
+  private readonly referenceBrands = new Map<string, MedicationBrand[]>();
 
   listGenerics(therapyGroup?: string) {
     return therapyGroup ? this.genericMedications.filter((medication) => medication.therapyGroup === therapyGroup) : this.genericMedications;
@@ -31,11 +35,17 @@ export class CatalogService {
 
   listType2MedicationConsiderations(request: Type2ConsiderationRequest) {
     const visible = this.genericMedications.filter((medication) => this.isGenericMedicationVisible(medication));
-    const insuranceCoverageByMedicationId = Object.fromEntries(visible.map((medication) => [
-      medication.id,
-      this.matchingReferences(medication).flatMap((item) => this.referenceInsurance.get(item.id) ?? [])
-    ]));
-    return buildType2Assessment(visible, { ...request, insuranceCoverageByMedicationId });
+    const presentations = Object.fromEntries(visible.map((medication) => [medication.id, this.resolveMedicationDisplay(medication)]));
+    const insuranceCoverageByMedicationId = Object.fromEntries(visible.map((medication) => [medication.id, presentations[medication.id]!.insuranceCoverages]));
+    const assessment = buildType2Assessment(visible, { ...request, insuranceCoverageByMedicationId });
+    return {
+      ...assessment,
+      medications: assessment.medications.map((medication) => ({
+        ...medication,
+        displayName: presentations[medication.genericMedicationId]?.displayName ?? medication.persianName,
+        selectedBrandName: presentations[medication.genericMedicationId]?.selectedBrandName
+      }))
+    };
   }
 
   listType2PreviewConsiderations() {
@@ -59,6 +69,18 @@ export class CatalogService {
       const referenceTerms = this.normalizedTerms(presentation.genericName);
       return medicationTerms.some((term) => referenceTerms.includes(term));
     });
+  }
+
+  private resolveMedicationDisplay(medication: GenericMedication) {
+    const references = this.matchingReferences(medication);
+    const brands = references.flatMap((item) => this.referenceBrands.get(item.id) ?? []);
+    const selectedBrand = [...brands].filter((brand) => brand.showInsteadOfGeneric && brand.name.trim()).sort((left, right) => left.priority - right.priority)[0];
+    const genericCoverage = references.flatMap((item) => this.referenceInsurance.get(item.id) ?? []);
+    return {
+      displayName: selectedBrand?.name.trim() || medication.persianName,
+      selectedBrandName: selectedBrand?.name.trim(),
+      insuranceCoverages: selectedBrand?.customInsurance ? selectedBrand.insuranceCoverages : genericCoverage
+    };
   }
 
   private normalizedTerms(value: string): string[] {
@@ -85,7 +107,8 @@ export class CatalogService {
       reviewState: presentation.reviewState,
       showInApp: this.referenceVisibility.get(presentation.id) ?? false
       ,
-      insuranceCoverages: this.referenceInsurance.get(presentation.id) ?? []
+      insuranceCoverages: this.referenceInsurance.get(presentation.id) ?? [],
+      brands: this.referenceBrands.get(presentation.id) ?? []
     }));
   }
 
@@ -100,6 +123,36 @@ export class CatalogService {
       const current = this.referenceInsurance.get(referencePresentationId) ?? [];
       this.referenceInsurance.set(referencePresentationId, [...current.filter((item) => item.provider !== input.provider), { provider: input.provider, percent: input.percent }]);
     }
+    return this.listMedicationChecklist().find((item) => item.referencePresentationId === referencePresentationId)!;
+  }
+
+  addMedicationBrand(referencePresentationId: string, input: CreateMedicationBrandInput): MedicationChecklistItem {
+    const presentation = globalReferenceCatalogue.find((item) => item.id === referencePresentationId);
+    if (!presentation) throw new NotFoundException("رکورد مرجع دارو پیدا نشد.");
+    const current = this.referenceBrands.get(referencePresentationId) ?? [];
+    this.referenceBrands.set(referencePresentationId, [...current, {
+      id: crypto.randomUUID(),
+      name: input.name?.trim() ?? "",
+      showInsteadOfGeneric: false,
+      priority: current.length + 1,
+      customInsurance: false,
+      insuranceCoverages: []
+    }]);
+    return this.listMedicationChecklist().find((item) => item.referencePresentationId === referencePresentationId)!;
+  }
+
+  updateMedicationBrand(referencePresentationId: string, brandId: string, input: UpdateMedicationBrandInput): MedicationChecklistItem {
+    const current = this.referenceBrands.get(referencePresentationId) ?? [];
+    const target = current.find((brand) => brand.id === brandId);
+    if (!target) throw new NotFoundException("برند پیدا نشد.");
+    let updated = current.map((brand) => brand.id === brandId ? { ...brand, ...input } : brand);
+    if (input.priority !== undefined) {
+      const selected = updated.find((brand) => brand.id === brandId)!;
+      const without = updated.filter((brand) => brand.id !== brandId).sort((left, right) => left.priority - right.priority);
+      without.splice(Math.max(0, Math.min(input.priority - 1, without.length)), 0, selected);
+      updated = without.map((brand, index) => ({ ...brand, priority: index + 1 }));
+    }
+    this.referenceBrands.set(referencePresentationId, updated);
     return this.listMedicationChecklist().find((item) => item.referencePresentationId === referencePresentationId)!;
   }
 

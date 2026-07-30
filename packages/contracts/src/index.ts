@@ -170,6 +170,7 @@ export interface MedicationChecklistItem {
   reviewState: ReferenceMedicationPresentation["reviewState"];
   showInApp: boolean;
   insuranceCoverages: InsuranceCoverage[];
+  brands: MedicationBrand[];
 }
 
 export interface UpdateMedicationVisibilityInput {
@@ -186,6 +187,25 @@ export interface UpdateMedicationInsuranceInput {
   enabled: boolean;
   provider?: InsuranceProvider;
   percent?: number;
+}
+
+export interface MedicationBrand {
+  id: string;
+  name: string;
+  showInsteadOfGeneric: boolean;
+  priority: number;
+  customInsurance: boolean;
+  insuranceCoverages: InsuranceCoverage[];
+}
+export interface CreateMedicationBrandInput {
+  name?: string;
+}
+export interface UpdateMedicationBrandInput {
+  name?: string;
+  showInsteadOfGeneric?: boolean;
+  priority?: number;
+  customInsurance?: boolean;
+  insuranceCoverages?: InsuranceCoverage[];
 }
 
 export type Type2DecisionFactor = "ascvd" | "heart_failure" | "ckd" | "hypoglycemia_risk" | "weight_priority" | "insulin_pathway";
@@ -229,6 +249,8 @@ export interface Type2MedicationConsideration {
   rankingReasons: string[];
   risks: string[];
   insuranceCoverages: InsuranceCoverage[];
+  displayName?: string;
+  selectedBrandName?: string;
   outputStatus: "information_only" | "requires_approved_protocol";
 }
 
