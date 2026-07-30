@@ -116,4 +116,21 @@ describe("type 2 consideration layer", () => {
     expect(result[0]?.genericMedicationId).toBe("empagliflozin");
     expect(result[0]?.priorityTier).toBe("recommended");
   });
+
+  it("filters injectables for an oral-only patient preference", () => {
+    const result = buildType2MedicationConsiderations([
+      { id: "glargine", canonicalName: "Insulin glargine", persianName: "گلارژین", className: "Insulin", therapyGroup: "basal_insulin_analog", administrationRoute: "subcutaneous" },
+      { id: "metformin", canonicalName: "Metformin", persianName: "متفورمین", className: "Biguanide", therapyGroup: "oral_glucose_lowering", administrationRoute: "oral" }
+    ], { currentHba1c: 10.2, targetHba1c: 7, workflow: "intensification", routePreference: "oral_only", factors: [] });
+    expect(result.map((item) => item.genericMedicationId)).toEqual(["metformin"]);
+  });
+
+  it("keeps insured medicines and uses coverage in insured-only ranking", () => {
+    const result = buildType2MedicationConsiderations([
+      { id: "metformin", canonicalName: "Metformin", persianName: "متفورمین", className: "Biguanide", therapyGroup: "oral_glucose_lowering", administrationRoute: "oral" },
+      { id: "empagliflozin", canonicalName: "Empagliflozin", persianName: "امپاگلیفلوزین", className: "SGLT2 inhibitor", therapyGroup: "oral_glucose_lowering", administrationRoute: "oral" }
+    ], { currentHba1c: 8, targetHba1c: 7, workflow: "intensification", costPreference: "insured_only", insuranceCoverageByMedicationId: { empagliflozin: [{ provider: "health_insurance", percent: 80 }] }, factors: [] });
+    expect(result.map((item) => item.genericMedicationId)).toEqual(["empagliflozin"]);
+    expect(result[0]?.insuranceCoverages[0]?.percent).toBe(80);
+  });
 });

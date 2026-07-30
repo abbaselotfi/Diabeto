@@ -6,6 +6,7 @@ import type {
   Type2AssessmentResult,
   Type2CostPreference,
   Type2DecisionFactor,
+  Type2RoutePreference,
   Type2Workflow
 } from "@diabeto/contracts";
 
@@ -34,8 +35,16 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 const costLabels: Record<Type2CostPreference, string> = {
   no_constraint: "محدودیت هزینه ندارد",
   moderate: "هزینه مهم است",
-  low_cost_only: "فقط گزینه‌های کم‌هزینه‌تر"
+  low_cost_only: "فقط گزینه‌های کم‌هزینه‌تر",
+  insured_only: "فقط داروهای دارای پوشش بیمه"
 };
+const insuranceLabels = {
+  social_security: "بیمه تأمین اجتماعی",
+  health_insurance: "بیمه سلامت",
+  armed_forces: "بیمه نیروهای مسلح",
+  other_organizations: "سایر ارگان‌ها",
+  supplementary: "بیمه تکمیلی"
+} as const;
 const tierLabels = { recommended: "پیشنهاد قوی‌تر", preferred: "اولویت مناسب", consider: "قابل بررسی" } as const;
 const relativeCostLabels = { low: "هزینه نسبی پایین", medium: "هزینه نسبی متوسط", high: "هزینه نسبی بالا" } as const;
 
@@ -76,6 +85,7 @@ export default function Type2Page() {
           targetHba1c,
           workflow,
           costPreference: String(form.get("costPreference")) as Type2CostPreference,
+          routePreference: String(form.get("routePreference")) as Type2RoutePreference,
           eGfr: Number.isFinite(eGfr) ? eGfr : undefined,
           hyperglycemiaSymptoms: form.get("hyperglycemiaSymptoms") === "on",
           catabolicFeatures: form.get("catabolicFeatures") === "on",
@@ -128,11 +138,17 @@ export default function Type2Page() {
           <div className="form-section-title"><span>۲</span><div><strong>توان پرداخت هزینهٔ دارو</strong><small>برای حذف گزینه‌های گران و نمایش جایگزین‌های مناسب‌تر</small></div></div>
           <div className="cost-options">
             {(Object.entries(costLabels) as [Type2CostPreference, string][]).map(([value, label]) => (
-              <label className="cost-option" key={value}><input defaultChecked={value === "moderate"} name="costPreference" type="radio" value={value} /><span><strong>{label}</strong><small>{value === "low_cost_only" ? "GLP-1، GIP/GLP-1 و ترکیب‌های ثابت پرهزینه فیلتر می‌شوند." : value === "moderate" ? "هزینه در امتیازدهی اثر دارد، اما گزینه‌های مهم حذف نمی‌شوند." : "رتبه‌بندی عمدتاً بالینی و ایمنی است."}</small></span></label>
+              <label className="cost-option" key={value}><input defaultChecked={value === "moderate"} name="costPreference" type="radio" value={value} /><span><strong>{label}</strong><small>{value === "low_cost_only" ? "GLP-1، GIP/GLP-1 و ترکیب‌های ثابت پرهزینه فیلتر می‌شوند." : value === "insured_only" ? "داروهای بدون بیمه حذف و درصد پوشش در رتبه‌بندی لحاظ می‌شود." : value === "moderate" ? "هزینه در امتیازدهی اثر دارد، اما گزینه‌های مهم حذف نمی‌شوند." : "رتبه‌بندی عمدتاً بالینی و ایمنی است."}</small></span></label>
             ))}
           </div>
           <div className="form-divider" />
-          <div className="form-section-title"><span>۳</span><div><strong>عوامل تصمیم‌گیری</strong><small>هر موردی که برای بیمار صدق می‌کند انتخاب شود</small></div></div>
+          <div className="form-section-title"><span>۳</span><div><strong>ترجیح مسیر مصرف بیمار</strong><small>عدم تمایل به تزریق در فیلتر داروها لحاظ می‌شود</small></div></div>
+          <div className="route-options">
+            <label className="cost-option"><input name="routePreference" type="radio" value="oral_only" /><span><strong>فقط داروی خوراکی</strong><small>تمام فرآورده‌های تزریقی حذف می‌شوند.</small></span></label>
+            <label className="cost-option"><input defaultChecked name="routePreference" type="radio" value="oral_and_injectable" /><span><strong>خوراکی و تزریقی مجاز</strong><small>هر دو مسیر بر اساس اولویت بالینی نمایش داده می‌شوند.</small></span></label>
+          </div>
+          <div className="form-divider" />
+          <div className="form-section-title"><span>۴</span><div><strong>عوامل تصمیم‌گیری</strong><small>هر موردی که برای بیمار صدق می‌کند انتخاب شود</small></div></div>
           <div className="check-grid">
             {decisionFactors.map(([key, label]) => (
               <label className="checkbox-card" key={key}><input checked={selectedFactors.includes(key)} onChange={() => toggleFactor(key)} type="checkbox" /><span>{label}</span></label>
@@ -162,6 +178,7 @@ export default function Type2Page() {
         </aside>
       </div>
 
+      {result && result.recommendation.hba1cGap >= 1.5 && <section className="triple-therapy-panel"><span className="eyebrow">Triple therapy</span><h2>ترکیب درمانی سه‌دارویی را نیز بررسی کنید</h2><p>رژیم سه‌دارویی بر اساس کلاس‌های مناسب بیمار ساخته می‌شود؛ فرآورده یا برند سه‌جزئی بازار ایران باید جداگانه با TTAC تطبیق داده شود.</p><div className="triple-options"><span>متفورمین + SGLT2 + DPP-4</span><span>متفورمین + عامل قلبی‌ـ‌کلیوی + عامل مکمل</span><span>در صورت پذیرش تزریق: درمان خوراکی + GLP-1 یا انسولین پایه</span></div></section>}
       {result && (
         <section className="medication-results">
           <div className="section-heading">
@@ -175,7 +192,9 @@ export default function Type2Page() {
                 <h3>{item.persianName}</h3>
                 <p className="muted">{item.therapeuticClass}</p>
                 <p className="ranking-reason">{item.rankingReasons.join(" · ")}</p>
+                <div className={item.insuranceCoverages.length ? "insurance-summary covered" : "insurance-summary"}><strong>{item.insuranceCoverages.length ? "✓ دارای پوشش بیمه" : "بدون پوشش بیمه ثبت‌شده"}</strong>{item.insuranceCoverages.map((entry) => <span key={entry.provider}>{insuranceLabels[entry.provider]}: {entry.percent}٪</span>)}</div>
                 <ul>{item.considerations.map((note) => <li key={note}>{note}</li>)}</ul>
+                <div className="risk-box"><strong>ریسک‌ها و معایب</strong><ul>{item.risks.map((risk) => <li key={risk}>{risk}</li>)}</ul></div>
                 {item.cautions.length > 0 && <div className="caution"><strong>احتیاط‌ها</strong><ul>{item.cautions.map((note) => <li key={note}>{note}</li>)}</ul></div>}
                 {item.blockedBy && <div className="blocked"><strong>اولویت پایین‌تر</strong><ul>{item.blockedBy.map((note) => <li key={note}>{note}</li>)}</ul></div>}
                 <a href={item.sourceUrl} rel="noreferrer" target="_blank">مرجع دارو</a>

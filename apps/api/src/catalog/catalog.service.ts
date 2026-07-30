@@ -6,8 +6,10 @@ import type {
   CatalogImportResult,
   GenericMedication,
   GenericMedicationInput,
+  InsuranceCoverage,
   MedicationChecklistItem,
   Type2ConsiderationRequest,
+  UpdateMedicationInsuranceInput,
   UpdateMedicationVisibilityInput
 } from "@diabeto/contracts";
 import { ada2026Type2GenericSeed, type2ProtocolSeed } from "./ada-2026-type2-seed.js";
@@ -17,6 +19,7 @@ import { globalReferenceCatalogue, globalReferenceCatalogueSources } from "./glo
 export class CatalogService {
   private readonly genericMedications: GenericMedication[] = [...ada2026Type2GenericSeed];
   private readonly referenceVisibility = new Map(globalReferenceCatalogue.map((presentation) => [presentation.id, true]));
+  private readonly referenceInsurance = new Map<string, InsuranceCoverage[]>();
 
   listGenerics(therapyGroup?: string) {
     return therapyGroup ? this.genericMedications.filter((medication) => medication.therapyGroup === therapyGroup) : this.genericMedications;
@@ -27,7 +30,12 @@ export class CatalogService {
   }
 
   listType2MedicationConsiderations(request: Type2ConsiderationRequest) {
-    return buildType2Assessment(this.genericMedications.filter((medication) => this.isGenericMedicationVisible(medication)), request);
+    const visible = this.genericMedications.filter((medication) => this.isGenericMedicationVisible(medication));
+    const insuranceCoverageByMedicationId = Object.fromEntries(visible.map((medication) => [
+      medication.id,
+      this.matchingReferences(medication).flatMap((item) => this.referenceInsurance.get(item.id) ?? [])
+    ]));
+    return buildType2Assessment(visible, { ...request, insuranceCoverageByMedicationId });
   }
 
   listType2PreviewConsiderations() {
@@ -40,15 +48,17 @@ export class CatalogService {
   }
 
   private isGenericMedicationVisible(medication: GenericMedication): boolean {
+    // A guideline-seeded generic with no equivalent imported presentation is
+    // not exposed until it is explicitly added/reviewed through the catalogue.
+    return this.matchingReferences(medication).some((item) => this.referenceVisibility.get(item.id) === true);
+  }
+
+  private matchingReferences(medication: GenericMedication) {
     const medicationTerms = this.normalizedTerms(medication.canonicalName);
-    const matchingReferences = globalReferenceCatalogue.filter((presentation) => {
+    return globalReferenceCatalogue.filter((presentation) => {
       const referenceTerms = this.normalizedTerms(presentation.genericName);
       return medicationTerms.some((term) => referenceTerms.includes(term));
     });
-
-    // A guideline-seeded generic with no equivalent imported presentation is
-    // not exposed until it is explicitly added/reviewed through the catalogue.
-    return matchingReferences.some((item) => this.referenceVisibility.get(item.id) === true);
   }
 
   private normalizedTerms(value: string): string[] {
@@ -74,7 +84,23 @@ export class CatalogService {
       sourceUrl: presentation.sourceUrl,
       reviewState: presentation.reviewState,
       showInApp: this.referenceVisibility.get(presentation.id) ?? false
+      ,
+      insuranceCoverages: this.referenceInsurance.get(presentation.id) ?? []
     }));
+  }
+
+  updateMedicationInsurance(referencePresentationId: string, input: UpdateMedicationInsuranceInput): MedicationChecklistItem {
+    const presentation = globalReferenceCatalogue.find((item) => item.id === referencePresentationId);
+    if (!presentation) throw new NotFoundException("رکورد مرجع دارو پیدا نشد.");
+    if (!input.enabled) this.referenceInsurance.delete(referencePresentationId);
+    else {
+      if (!input.provider || input.percent === undefined || input.percent < 0 || input.percent > 100) {
+        throw new NotFoundException("ارگان بیمه و درصد معتبر بین صفر تا صد لازم است.");
+      }
+      const current = this.referenceInsurance.get(referencePresentationId) ?? [];
+      this.referenceInsurance.set(referencePresentationId, [...current.filter((item) => item.provider !== input.provider), { provider: input.provider, percent: input.percent }]);
+    }
+    return this.listMedicationChecklist().find((item) => item.referencePresentationId === referencePresentationId)!;
   }
 
   updateMedicationVisibility(referencePresentationId: string, input: UpdateMedicationVisibilityInput): MedicationChecklistItem {

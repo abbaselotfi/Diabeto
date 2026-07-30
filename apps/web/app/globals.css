@@ -165,7 +165,7 @@ button.secondary, .secondary { border: 1px solid var(--line); background: #fff; 
   border: 1px solid var(--line); border-radius: 10px; background: #fbfdfd; color: var(--ink); font-size: 11px; cursor: pointer;
 }
 .checkbox-card.urgent { border-color: #eed2af; background: #fffaf3; }
-.cost-options { display: grid; gap: 9px; }
+.cost-options, .route-options { display: grid; gap: 9px; }
 .cost-option { display: flex; align-items: flex-start; gap: 10px; padding: 13px; border: 1px solid var(--line); border-radius: 11px; background: #fbfdfd; cursor: pointer; }
 .cost-option:has(input:checked) { border-color: #8dc6bd; background: var(--teal-soft); }
 .cost-option strong, .cost-option small { display: block; }
@@ -198,6 +198,15 @@ input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; padding
 .priority-consider .priority-badge { background: #fff0c8; color: #8a6414; }
 .cost-chip { background: #eef3f2; color: #557174; }
 .ranking-reason { margin: 8px 0; color: #34635d; font-size: 10px; font-weight: 700; line-height: 1.7; }
+.insurance-summary { display: grid; gap: 5px; margin: 12px 0; padding: 11px; border: 1px dashed #c8d5d3; border-radius: 10px; background: #f7f9f9; color: var(--muted); font-size: 10px; }
+.insurance-summary.covered { border-style: solid; border-color: #9bd1b7; background: #edf9f2; color: #1f704d; }
+.risk-box { margin: 12px 0; padding: 11px; border: 1px solid #f0c3bf; border-radius: 10px; background: var(--danger-soft); color: var(--danger); font-size: 10px; }
+.risk-box ul { margin: 5px 0 0; padding-inline-start: 16px; }
+.triple-therapy-panel { margin-top: 26px; padding: 22px; border: 1px solid #bdcfe6; border-radius: 15px; background: linear-gradient(135deg, #eef4fc, #fff); }
+.triple-therapy-panel h2 { margin: 8px 0; font-size: 18px; }
+.triple-therapy-panel p { color: var(--muted); font-size: 11px; line-height: 1.8; }
+.triple-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.triple-options span { padding: 8px 10px; border-radius: 9px; background: #fff; color: #315f9a; font-size: 10px; font-weight: 800; }
 .consideration-card h3 { margin: 13px 0 4px; }
 .consideration-card ul { padding-inline-start: 20px; font-size: 11px; line-height: 1.8; }
 .consideration-card a { font-size: 10px; font-weight: 800; }
@@ -246,6 +255,16 @@ label { font-size: 12px; font-weight: 700; }
 .medication-copy strong, .medication-copy small { display: block; }
 .medication-copy strong { font-size: 12px; }
 .medication-copy small { margin-top: 4px; color: var(--muted); font-size: 10px; font-weight: 500; }
+.insurance-column-legend { display: grid; grid-template-columns: 90px 80px minmax(210px, 1fr) 120px 70px; gap: 9px; margin: 0 0 8px; padding: 0 12px; color: var(--muted); font-size: 9px; font-weight: 900; }
+.medication-admin-row { display: grid; grid-template-columns: 80px minmax(210px, 1.2fr) 70px minmax(210px, 1fr) 110px 65px; align-items: center; gap: 9px; padding: 12px; border: 1px solid var(--line); border-radius: 11px; background: #fbfdfd; }
+.medication-admin-row.selected { border-color: #a9d0ca; background: #f3faf8; }
+.compact-check { display: flex; align-items: center; gap: 6px; font-size: 10px; }
+.coverage-input { position: relative; }
+.coverage-input input { padding-inline-end: 28px; }
+.coverage-input > span { position: absolute; inset-inline-end: 10px; top: 14px; color: var(--muted); }
+.registered-coverages { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 7px; }
+.registered-coverages > span { display: inline-flex; align-items: center; gap: 5px; border-radius: 99px; padding: 5px 8px; background: #e6f4eb; color: #24694b; font-size: 9px; }
+button:disabled, select:disabled, input:disabled { cursor: not-allowed; opacity: .52; }
 
 @media (max-width: 980px) {
   .app-shell { grid-template-columns: 1fr; }
@@ -258,6 +277,9 @@ label { font-size: 12px; font-weight: 700; }
   .assessment-layout { grid-template-columns: 1fr; }
   .result-panel { min-height: 320px; }
   .empty-result { min-height: 318px; }
+  .medication-admin-row { grid-template-columns: 75px minmax(180px, 1fr) 65px; }
+  .registered-coverages { grid-column: 1 / -1; }
+  .insurance-column-legend { display: none; }
 }
 
 @media (max-width: 760px) {
@@ -281,4 +303,7 @@ label { font-size: 12px; font-weight: 700; }
   .route-chip { grid-column: 2; justify-self: start; }
   .group-actions button { flex: 1; }
   .group-actions { width: 100%; }
+  .medication-admin-row { grid-template-columns: 1fr 1fr; }
+  .medication-admin-row .medication-copy { grid-column: 1 / -1; grid-row: 1; }
+  .medication-admin-row select, .medication-admin-row .coverage-input { grid-column: 1 / -1; }
 }

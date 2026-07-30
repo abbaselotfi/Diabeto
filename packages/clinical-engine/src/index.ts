@@ -115,9 +115,12 @@ function scoreMedication(
   const isMetformin = name === "metformin";
   const isHypoglycemiaProne = isInsulin || className.includes("sulfonylurea") || className.includes("meglitinide");
   const isTzd = className.includes("thiazolidinedione");
+  const isGlargine = name.includes("glargine");
+  const coverage = request.insuranceCoverageByMedicationId?.[medication.id] ?? [];
   let score = 50;
 
   if (pathway.priority === "consider_insulin" && isInsulin) { score += 30; reasons.push("هماهنگ با مسیر انسولین در هایپرگلیسمی شدید"); }
+  if (pathway.priority === "consider_insulin" && isGlargine) { score += 16; reasons.push("اولویت انسولین پایه گلارژین"); }
   if (pathway.priority === "glp1_based_therapy" && isGlp) { score += 30; reasons.push("هماهنگ با اولویت درمان مبتنی بر GLP-1 در این مسیر"); }
   if (request.factors.includes("heart_failure") || request.factors.includes("ckd")) {
     if (isSglt2) { score += 28; reasons.push("اولویت قلبی‌ـ‌کلیوی برای HF/CKD"); }
@@ -143,9 +146,28 @@ function scoreMedication(
   } else if (costPreference === "moderate") {
     if (relativeCost === "low") { score += 10; reasons.push("تناسب بهتر با محدودیت هزینه"); }
     if (relativeCost === "high") score -= 18;
+  } else if (costPreference === "insured_only") {
+    const bestCoverage = coverage.reduce((best, item) => Math.max(best, item.percent), 0);
+    score += Math.round(bestCoverage / 5);
+    reasons.push(`پوشش بیمه تا ${bestCoverage}٪`);
   }
 
   return { score: Math.max(0, Math.min(100, score)), reasons };
+}
+
+function medicationRisks(medication: GenericMedication) {
+  const className = medication.className?.toLocaleLowerCase() ?? "";
+  const name = medication.canonicalName.toLocaleLowerCase();
+  const group = medication.therapyGroup;
+  const risks: string[] = [];
+  if (className.includes("sulfonylurea") || className.includes("meglitinide") || group?.includes("insulin")) risks.push("ریسک هیپوگلیسمی و احتمال افزایش وزن");
+  if (className.includes("thiazolidinedione")) risks.push("احتباس مایع، افزایش وزن و افزایش ریسک شکستگی؛ در نارسایی قلبی نامناسب");
+  if (className.includes("sglt2")) risks.push("عفونت تناسلی‌ـ‌ادراری، کاهش حجم و خطر کتواسیدوز یوگلایسمیک در شرایط مستعد");
+  if (group === "glp_1_receptor_agonist" || group === "dual_gip_glp_1_receptor_agonist") risks.push("عوارض گوارشی؛ بررسی سابقه پانکراتیت و هشدارهای اختصاصی فرآورده");
+  if (className.includes("dpp-4")) risks.push("بررسی تنظیم دوز کلیوی؛ هشدار نارسایی قلبی برای برخی اعضای کلاس");
+  if (name === "metformin") risks.push("عدم تحمل گوارشی و کمبود B12؛ منع مصرف در eGFR کمتر از ۳۰");
+  if (!risks.length) risks.push("عوارض و منع مصرف اختصاصی برچسب فرآورده باید بررسی شود");
+  return risks;
 }
 
 /**
@@ -231,7 +253,10 @@ export function buildType2MedicationConsiderations(
   return medications.flatMap((medication) => {
     const relativeCost = relativeCostFor(medication);
     const costPreference = request.costPreference ?? "no_constraint";
+    const coverage = request.insuranceCoverageByMedicationId?.[medication.id] ?? [];
+    if (request.routePreference === "oral_only" && medication.administrationRoute !== "oral") return [];
     if (costPreference === "low_cost_only" && relativeCost === "high") return [];
+    if (costPreference === "insured_only" && coverage.length === 0) return [];
     const considerations: string[] = [];
     const cautions: string[] = [];
     const blockedBy: string[] = [];
@@ -308,6 +333,8 @@ export function buildType2MedicationConsiderations(
       priorityTier,
       relativeCost,
       rankingReasons: ranking.reasons.length ? ranking.reasons : ["قابل بررسی پس از تطبیق با شرایط و ترجیحات بیمار"],
+      risks: medicationRisks(medication),
+      insuranceCoverages: coverage,
       outputStatus: "information_only" as const
     }];
   }).sort((left, right) => right.priorityScore - left.priorityScore || left.persianName.localeCompare(right.persianName, "fa"));

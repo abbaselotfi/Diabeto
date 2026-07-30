@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PathwayMedicationCards from "../components/pathway-medication-cards";
 
 export default function PregnancyPage() {
   return (
@@ -19,6 +20,7 @@ export default function PregnancyPage() {
           <span>✓ داروهای فعلی و منع مصرف</span><span>✓ برنامهٔ پایش مادر و جنین</span>
         </div>
       </section>
+      <PathwayMedicationCards pathway="pregnancy" />
     </main>
   );
 }
