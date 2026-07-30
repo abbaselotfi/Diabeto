@@ -269,8 +269,9 @@ label { font-size: 12px; font-weight: 700; }
 .add-brand-button { justify-self: start; padding: 8px 12px; font-size: 10px; }
 .brand-branch { position: relative; margin-inline-start: 30px; padding: 12px; border: 1px solid #cbdedb; border-radius: 11px; background: #fff; }
 .brand-branch::before { content: ""; position: absolute; inset-inline-start: -22px; top: 22px; width: 17px; border-top: 2px solid #9dbfba; }
-.brand-branch-main { display: grid; grid-template-columns: minmax(170px, 1fr) minmax(170px, 1fr) 120px minmax(150px, 1fr); align-items: end; gap: 9px; }
-.brand-name-field > span, .brand-priority > span { display: block; margin-bottom: 6px; color: var(--muted); font-size: 9px; }
+.brand-branch-main { display: grid; grid-template-columns: 34px minmax(170px, 1fr) minmax(170px, 1fr) minmax(150px, 1fr); align-items: end; gap: 9px; }
+.brand-order-badge { align-self: center; color: var(--teal); font-size: 15px; font-weight: 900; text-align: center; }
+.brand-name-field > span { display: block; margin-bottom: 6px; color: var(--muted); font-size: 9px; }
 .inherited-insurance { margin: 9px 0 0; color: var(--muted); font-size: 9px; }
 .brand-insurance-editor { display: grid; grid-template-columns: minmax(210px, 1fr) 120px auto; align-items: center; gap: 8px; margin-top: 10px; padding: 10px; border-radius: 9px; background: #f4f8f7; }
 .brand-insurance-editor .registered-coverages { grid-column: 1 / -1; }
@@ -290,7 +291,9 @@ button:disabled, select:disabled, input:disabled { cursor: not-allowed; opacity:
   .medication-admin-row { grid-template-columns: 75px minmax(180px, 1fr) 65px; }
   .registered-coverages { grid-column: 1 / -1; }
   .insurance-column-legend { display: none; }
-  .brand-branch-main { grid-template-columns: 1fr 1fr; }
+  .brand-branch-main { grid-template-columns: 34px 1fr; }
+  .brand-branch-main .brand-name-field { grid-column: 2; }
+  .brand-branch-main .compact-check { grid-column: 2; }
   .brand-insurance-editor { grid-template-columns: 1fr 120px auto; }
 }
 

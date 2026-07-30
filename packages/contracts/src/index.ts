@@ -203,7 +203,6 @@ export interface CreateMedicationBrandInput {
 export interface UpdateMedicationBrandInput {
   name?: string;
   showInsteadOfGeneric?: boolean;
-  priority?: number;
   customInsurance?: boolean;
   insuranceCoverages?: InsuranceCoverage[];
 }
@@ -249,8 +248,11 @@ export interface Type2MedicationConsideration {
   rankingReasons: string[];
   risks: string[];
   insuranceCoverages: InsuranceCoverage[];
+  cardId?: string;
   displayName?: string;
   selectedBrandName?: string;
+  selectedBrandId?: string;
+  brandPriority?: number;
   outputStatus: "information_only" | "requires_approved_protocol";
 }
 

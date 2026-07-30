@@ -35,16 +35,27 @@ export class CatalogService {
 
   listType2MedicationConsiderations(request: Type2ConsiderationRequest) {
     const visible = this.genericMedications.filter((medication) => this.isGenericMedicationVisible(medication));
-    const presentations = Object.fromEntries(visible.map((medication) => [medication.id, this.resolveMedicationDisplay(medication)]));
-    const insuranceCoverageByMedicationId = Object.fromEntries(visible.map((medication) => [medication.id, presentations[medication.id]!.insuranceCoverages]));
+    const presentations = Object.fromEntries(visible.map((medication) => [medication.id, this.resolveMedicationDisplays(medication)]));
+    const insuranceCoverageByMedicationId = Object.fromEntries(visible.map((medication) => [
+      medication.id,
+      this.mergeInsuranceCoverages(presentations[medication.id]!.flatMap((presentation) => presentation.insuranceCoverages))
+    ]));
     const assessment = buildType2Assessment(visible, { ...request, insuranceCoverageByMedicationId });
     return {
       ...assessment,
-      medications: assessment.medications.map((medication) => ({
-        ...medication,
-        displayName: presentations[medication.genericMedicationId]?.displayName ?? medication.persianName,
-        selectedBrandName: presentations[medication.genericMedicationId]?.selectedBrandName
-      }))
+      medications: assessment.medications.flatMap((medication) =>
+        (presentations[medication.genericMedicationId] ?? [{
+          cardId: `${medication.genericMedicationId}:generic`,
+          displayName: medication.persianName,
+          insuranceCoverages: [],
+          brandPriority: 0
+        }])
+          .filter((presentation) => request.costPreference !== "insured_only" || presentation.insuranceCoverages.length > 0)
+          .map((presentation) => ({
+            ...medication,
+            ...presentation
+          }))
+      )
     };
   }
 
@@ -71,16 +82,43 @@ export class CatalogService {
     });
   }
 
-  private resolveMedicationDisplay(medication: GenericMedication) {
+  private resolveMedicationDisplays(medication: GenericMedication) {
     const references = this.matchingReferences(medication);
-    const brands = references.flatMap((item) => this.referenceBrands.get(item.id) ?? []);
-    const selectedBrand = [...brands].filter((brand) => brand.showInsteadOfGeneric && brand.name.trim()).sort((left, right) => left.priority - right.priority)[0];
     const genericCoverage = references.flatMap((item) => this.referenceInsurance.get(item.id) ?? []);
-    return {
-      displayName: selectedBrand?.name.trim() || medication.persianName,
-      selectedBrandName: selectedBrand?.name.trim(),
-      insuranceCoverages: selectedBrand?.customInsurance ? selectedBrand.insuranceCoverages : genericCoverage
-    };
+    const brands = references.flatMap((reference, referenceIndex) =>
+      (this.referenceBrands.get(reference.id) ?? []).map((brand) => ({
+        brand,
+        referenceIndex,
+        inheritedCoverage: this.referenceInsurance.get(reference.id) ?? []
+      }))
+    )
+      .filter(({ brand }) => brand.showInsteadOfGeneric && brand.name.trim())
+      .sort((left, right) => left.referenceIndex - right.referenceIndex || left.brand.priority - right.brand.priority);
+    if (brands.length === 0) {
+      return [{
+        cardId: `${medication.id}:generic`,
+        displayName: medication.persianName,
+        selectedBrandName: undefined,
+        selectedBrandId: undefined,
+        brandPriority: 0,
+        insuranceCoverages: this.mergeInsuranceCoverages(genericCoverage)
+      }];
+    }
+    return brands.map(({ brand, inheritedCoverage }, index) => ({
+      cardId: `${medication.id}:${brand.id}`,
+      displayName: brand.name.trim(),
+      selectedBrandName: brand.name.trim(),
+      selectedBrandId: brand.id,
+      brandPriority: index + 1,
+      insuranceCoverages: this.mergeInsuranceCoverages(brand.customInsurance ? brand.insuranceCoverages : inheritedCoverage)
+    }));
+  }
+
+  private mergeInsuranceCoverages(coverages: InsuranceCoverage[]): InsuranceCoverage[] {
+    return Object.values(coverages.reduce<Partial<Record<InsuranceCoverage["provider"], InsuranceCoverage>>>((result, coverage) => {
+      if (!result[coverage.provider] || result[coverage.provider]!.percent < coverage.percent) result[coverage.provider] = coverage;
+      return result;
+    }, {}));
   }
 
   private normalizedTerms(value: string): string[] {
@@ -145,13 +183,7 @@ export class CatalogService {
     const current = this.referenceBrands.get(referencePresentationId) ?? [];
     const target = current.find((brand) => brand.id === brandId);
     if (!target) throw new NotFoundException("برند پیدا نشد.");
-    let updated = current.map((brand) => brand.id === brandId ? { ...brand, ...input } : brand);
-    if (input.priority !== undefined) {
-      const selected = updated.find((brand) => brand.id === brandId)!;
-      const without = updated.filter((brand) => brand.id !== brandId).sort((left, right) => left.priority - right.priority);
-      without.splice(Math.max(0, Math.min(input.priority - 1, without.length)), 0, selected);
-      updated = without.map((brand, index) => ({ ...brand, priority: index + 1 }));
-    }
+    const updated = current.map((brand) => brand.id === brandId ? { ...brand, ...input } : brand);
     this.referenceBrands.set(referencePresentationId, updated);
     return this.listMedicationChecklist().find((item) => item.referencePresentationId === referencePresentationId)!;
   }

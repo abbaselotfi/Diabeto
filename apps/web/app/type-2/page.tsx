@@ -187,7 +187,7 @@ export default function Type2Page() {
           </div>
           {sortedMedications.length > 0 ? <div className="consideration-grid">
             {sortedMedications.map((item, index) => (
-              <article className={`consideration-card priority-${item.priorityTier}`} key={item.genericMedicationId}>
+              <article className={`consideration-card priority-${item.priorityTier}`} key={item.cardId ?? item.genericMedicationId}>
                 <div className="priority-row"><span className="priority-badge">#{index + 1} · {tierLabels[item.priorityTier]}</span><span className="cost-chip">{relativeCostLabels[item.relativeCost]}</span></div>
                 <h3>{item.displayName ?? item.persianName}</h3>
                 {item.selectedBrandName && <p className="generic-name-note">نام ژنریک: {item.persianName}</p>}

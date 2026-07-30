@@ -114,13 +114,13 @@ export default function MedicationSelectionPage() {
         {item.insuranceCoverages.length > 0 && <div className="registered-coverages">{item.insuranceCoverages.map((entry) => <span key={entry.provider}>{providerLabels[entry.provider]}: <b>{entry.percent}٪</b></span>)}</div>}
         <div className="brand-manager">
           <button className="add-brand-button secondary" onClick={() => void addBrand(item)} type="button">+ برند دارو</button>
-          {[...item.brands].sort((left, right) => left.priority - right.priority).map((brand) => {
+          {[...item.brands].sort((left, right) => left.priority - right.priority).map((brand, index) => {
             const insuranceDraft = brandDraft(brand.id);
             return <section className="brand-branch" key={brand.id}>
               <div className="brand-branch-main">
-                <label className="brand-name-field"><span>نام برند</span><input onBlur={(event) => void updateBrand(item, brand, { name: event.target.value })} defaultValue={brand.name} placeholder="مثلاً گلوریپا" type="text" /></label>
+                <span className="brand-order-badge" aria-label={`برند شماره ${index + 1}`}>{index + 1}-</span>
+                <label className="brand-name-field"><span>نام برند</span><input onBlur={(event) => void updateBrand(item, brand, { name: event.target.value })} defaultValue={brand.name} placeholder="برند" type="text" /></label>
                 <label className="compact-check"><input checked={brand.showInsteadOfGeneric} onChange={(event) => void updateBrand(item, brand, { showInsteadOfGeneric: event.target.checked })} type="checkbox" /><span>نمایش نام برند به جای ژنریک</span></label>
-                <label className="brand-priority"><span>اولویت نمایش</span><select onChange={(event) => void updateBrand(item, brand, { priority: Number(event.target.value) })} value={brand.priority}>{item.brands.map((_, index) => <option key={index + 1} value={index + 1}>اولویت {index + 1}</option>)}</select></label>
                 <label className="compact-check"><input checked={brand.customInsurance} onChange={(event) => void updateBrand(item, brand, { customInsurance: event.target.checked })} type="checkbox" /><span>شرایط بیمه متفاوت</span></label>
               </div>
               {!brand.customInsurance && <p className="inherited-insurance">شرایط بیمه از داروی ژنریک به ارث می‌رسد.</p>}
