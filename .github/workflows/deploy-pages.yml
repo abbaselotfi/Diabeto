@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - agent/pwa-clinical-dashboard
+      - agent/secure-admin-publishing
   workflow_dispatch:
 
 permissions:
@@ -41,9 +42,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Validate application and admin Worker
+        run: pnpm typecheck && pnpm test
+
+      - name: Prepare versioned PWA
+        run: node -e 'const fs=require("fs"); const version=process.env.GITHUB_SHA; fs.writeFileSync("apps/web/public/version.json", JSON.stringify({version,builtAt:new Date().toISOString()},null,2)+"\n"); const path="apps/web/public/sw.js"; fs.writeFileSync(path,fs.readFileSync(path,"utf8").replaceAll("__DIAYAR_BUILD_VERSION__",version));'
+
       - name: Build static application
         env:
           GITHUB_PAGES: "true"
+          NEXT_PUBLIC_ADMIN_API_URL: ${{ vars.NEXT_PUBLIC_ADMIN_API_URL }}
         run: pnpm --filter @diabeto/web... build
 
       - name: Disable Jekyll processing
@@ -55,6 +63,7 @@ jobs:
           path: apps/web/out
 
   deploy:
+    if: ${{ vars.NEXT_PUBLIC_ADMIN_API_URL != '' }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

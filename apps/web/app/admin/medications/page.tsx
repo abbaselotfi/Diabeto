@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { InsuranceProvider, MedicationBrand, MedicationChecklistItem } from "@diabeto/contracts";
 import { useEffect, useMemo, useState } from "react";
 import { readSheet } from "read-excel-file/browser";
-import { apiFetch } from "../../../lib/api-client";
+import { apiFetch, beginCatalogPublishBatch, endCatalogPublishBatch } from "../../../lib/api-client";
 import { withBasePath } from "../../../lib/base-path";
 const providerLabels: Record<InsuranceProvider, string> = {
   social_security: "بیمه تأمین اجتماعی",
@@ -218,6 +218,7 @@ export default function MedicationSelectionPage() {
     if (!importPreview || importPreview.errors.length || !importPreview.matchedPresentationIds.length) return;
     const matchedIdSet = new Set(importPreview.matchedPresentationIds);
     setMessage("در حال ثبت Import…");
+    beginCatalogPublishBatch();
     try {
       for (const item of items) {
         const rows = importPreview.rows.filter((row) => matchesGeneric(row.genericName, item.genericName));
@@ -276,6 +277,8 @@ export default function MedicationSelectionPage() {
       setMessage(`Import انجام شد: ${importPreview.matchedGenericNames.length} ژنریک و ${importPreview.brandCount} برند ثبت شدند.`);
     } catch {
       setMessage("Import کامل نشد؛ اتصال API را بررسی و دوباره تلاش کنید.");
+    } finally {
+      endCatalogPublishBatch();
     }
   }
 

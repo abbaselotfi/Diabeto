@@ -13,16 +13,32 @@ import type {
 import { ada2026Type2GenericSeed, type2ProtocolSeed } from "../../api/src/catalog/ada-2026-type2-seed";
 import { globalReferenceCatalogue, globalReferenceCatalogueSources } from "../../api/src/catalog/global-reference-catalog";
 import { guidelineSources } from "../../api/src/guidelines/guideline-sources";
+import { getAdminSession, isAdminApiConfigured, publishAdminCatalog } from "./admin-auth";
+import { withBasePath } from "./base-path";
 
 const remoteApiUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
-const storageKey = "diayar-browser-catalog-v1";
+const storageKey = "diayar-browser-catalog-v2";
 
-interface BrowserCatalogState {
+export interface BrowserCatalogState {
   visibility: Record<string, boolean>;
   insurance: Record<string, InsuranceCoverage[]>;
   brands: Record<string, MedicationBrand[]>;
   customGenerics: GenericMedication[];
 }
+
+interface PublishedCatalogState extends BrowserCatalogState {
+  schemaVersion: 1;
+  revision: string;
+  updatedAt: string;
+  updatedBy: string;
+}
+
+let stateCache = emptyState();
+let stateLoaded = false;
+let statePromise: Promise<void> | null = null;
+let publishTimer: ReturnType<typeof setTimeout> | null = null;
+let publishBatchDepth = 0;
+let pendingPublishState: BrowserCatalogState | null = null;
 
 function emptyState(): BrowserCatalogState {
   return {
@@ -33,19 +49,83 @@ function emptyState(): BrowserCatalogState {
   };
 }
 
-function readState(): BrowserCatalogState {
-  if (typeof window === "undefined") return emptyState();
+function parseStoredState(value: string | null): BrowserCatalogState | null {
+  if (!value) return null;
   try {
-    const saved = window.localStorage.getItem(storageKey);
-    return saved ? { ...emptyState(), ...JSON.parse(saved) as BrowserCatalogState } : emptyState();
+    return { ...emptyState(), ...JSON.parse(value) as BrowserCatalogState };
   } catch {
-    return emptyState();
+    return null;
   }
 }
 
+async function ensureState() {
+  if (stateLoaded || typeof window === "undefined") return;
+  if (statePromise) return statePromise;
+  statePromise = (async () => {
+    const localDraft = parseStoredState(window.localStorage.getItem(storageKey));
+    try {
+      const response = await fetch(`${withBasePath("/data/admin-catalog.json")}?t=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) throw new Error("published_catalog_unavailable");
+      const published = await response.json() as PublishedCatalogState;
+      stateCache = localDraft ?? {
+        visibility: published.visibility ?? {},
+        insurance: published.insurance ?? {},
+        brands: published.brands ?? {},
+        customGenerics: published.customGenerics ?? []
+      };
+    } catch {
+      stateCache = localDraft ?? emptyState();
+    }
+    stateLoaded = true;
+  })();
+  return statePromise;
+}
+
+function readState(): BrowserCatalogState {
+  return stateCache;
+}
+
+function notifyPublish(status: "pending" | "publishing" | "success" | "error", message: string) {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent("diayar-publish-status", { detail: { status, message } }));
+}
+
+function schedulePublish(state: BrowserCatalogState) {
+  if (!isAdminApiConfigured() || !getAdminSession()) return;
+  pendingPublishState = structuredClone(state);
+  notifyPublish("pending", "تغییر ذخیره شد؛ در انتظار انتشار مرکزی…");
+  if (publishBatchDepth > 0) return;
+  if (publishTimer) clearTimeout(publishTimer);
+  publishTimer = setTimeout(() => {
+    publishTimer = null;
+    const catalog = pendingPublishState;
+    pendingPublishState = null;
+    if (!catalog) return;
+    notifyPublish("publishing", "در حال ثبت در GitHub و انتشار نسخهٔ جدید…");
+    void publishAdminCatalog(catalog)
+      .then((result) => notifyPublish("success", `انتشار ثبت شد؛ نسخهٔ ${result.commitSha.slice(0, 7)} در حال آماده‌سازی است.`))
+      .catch(() => notifyPublish("error", "انتشار مرکزی ناموفق بود؛ دوباره وارد مدیریت شوید و تغییر را تکرار کنید."));
+  }, 700);
+}
+
 function saveState(state: BrowserCatalogState) {
+  stateCache = state;
   window.localStorage.setItem(storageKey, JSON.stringify(state));
   window.dispatchEvent(new CustomEvent("diayar-catalog-change"));
+  schedulePublish(state);
+}
+
+export function beginCatalogPublishBatch() {
+  if (publishBatchDepth === 0 && publishTimer) {
+    clearTimeout(publishTimer);
+    publishTimer = null;
+  }
+  publishBatchDepth += 1;
+}
+
+export function endCatalogPublishBatch() {
+  publishBatchDepth = Math.max(0, publishBatchDepth - 1);
+  if (publishBatchDepth === 0 && pendingPublishState) schedulePublish(pendingPublishState);
 }
 
 function listGenerics() {
@@ -198,7 +278,6 @@ function addBrand(referencePresentationId: string, body: Record<string, unknown>
   const state = readState();
   const current = state.brands[referencePresentationId] ?? [];
   const name = String(body.name ?? "").trim();
-  if (!name) return undefined;
   const brand: MedicationBrand = {
     id: crypto.randomUUID(),
     name,
@@ -251,6 +330,7 @@ function addGeneric(body: GenericMedicationInput) {
 }
 
 async function browserApiFetch(path: string, init?: RequestInit): Promise<Response> {
+  await ensureState();
   const method = (init?.method ?? "GET").toUpperCase();
   const pathname = path.split("?")[0]!;
   const body = requestBody(init);
