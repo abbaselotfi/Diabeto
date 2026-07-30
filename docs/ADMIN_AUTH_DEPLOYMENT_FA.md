@@ -11,7 +11,7 @@ App** بروید و این مقادیر را ثبت کنید:
 - Application name: `DiaYar Admin`
 - Homepage URL: `https://abbaselotfi.github.io/Diabeto/`
 - Authorization callback URL:
-  `https://diayar-admin-api.<workers-subdomain>.workers.dev/auth/callback`
+  `https://shiny-block-9d4a.abbaselotfi.workers.dev/auth/callback`
 
 مقادیر Client ID و Client Secret را فقط برای ثبت Secretهای Worker استفاده
 کنید و آن‌ها را داخل مخزن، فایل `.env` یا چت قرار ندهید.
@@ -43,7 +43,7 @@ $rng.GetBytes($bytes)
 نشانی نهایی Worker را به‌صورت Repository Variable ثبت کنید:
 
 ```powershell
-gh variable set NEXT_PUBLIC_ADMIN_API_URL --repo abbaselotfi/Diabeto --body "https://diayar-admin-api.<workers-subdomain>.workers.dev"
+gh variable set NEXT_PUBLIC_ADMIN_API_URL --repo abbaselotfi/Diabeto --body "https://shiny-block-9d4a.abbaselotfi.workers.dev"
 gh workflow run "Deploy DiaYar to GitHub Pages" --repo abbaselotfi/Diabeto --ref agent/secure-admin-publishing
 ```
 
