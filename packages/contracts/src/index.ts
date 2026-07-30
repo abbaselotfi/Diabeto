@@ -177,6 +177,9 @@ export interface UpdateMedicationVisibilityInput {
 
 export type Type2DecisionFactor = "ascvd" | "heart_failure" | "ckd" | "hypoglycemia_risk" | "weight_priority" | "insulin_pathway";
 export type Type2Workflow = "initiation" | "intensification";
+export type Type2CostPreference = "no_constraint" | "moderate" | "low_cost_only";
+export type MedicationRelativeCost = "low" | "medium" | "high";
+export type MedicationPriorityTier = "recommended" | "preferred" | "consider";
 
 export type Type2PathwayPriority =
   | "maintain_and_monitor"
@@ -206,6 +209,10 @@ export interface Type2MedicationConsideration {
   considerations: string[];
   cautions: string[];
   blockedBy?: string[];
+  priorityScore: number;
+  priorityTier: MedicationPriorityTier;
+  relativeCost: MedicationRelativeCost;
+  rankingReasons: string[];
   outputStatus: "information_only" | "requires_approved_protocol";
 }
 
@@ -214,6 +221,7 @@ export interface Type2ConsiderationRequest {
   currentHba1c: number;
   targetHba1c: number;
   workflow: Type2Workflow;
+  costPreference?: Type2CostPreference;
   hyperglycemiaSymptoms?: boolean;
   catabolicFeatures?: boolean;
   factors: Type2DecisionFactor[];

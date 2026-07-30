@@ -4,8 +4,8 @@ import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
 import type {
   Type2AssessmentResult,
+  Type2CostPreference,
   Type2DecisionFactor,
-  Type2MedicationConsideration,
   Type2Workflow
 } from "@diabeto/contracts";
 
@@ -31,16 +31,13 @@ const decisionFactors = [
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 
-function medicationPriority(item: Type2MedicationConsideration, result: Type2AssessmentResult) {
-  const group = item.therapyGroup;
-  if (result.recommendation.priority === "consider_insulin") {
-    return ["human_insulin", "basal_insulin_analog", "prandial_insulin_analog", "premixed_insulin", "fixed_ratio_combination"].includes(group) ? 0 : 1;
-  }
-  if (result.recommendation.priority === "glp1_based_therapy") {
-    return ["glp_1_receptor_agonist", "dual_gip_glp_1_receptor_agonist", "fixed_ratio_combination"].includes(group) ? 0 : 1;
-  }
-  return 0;
-}
+const costLabels: Record<Type2CostPreference, string> = {
+  no_constraint: "محدودیت هزینه ندارد",
+  moderate: "هزینه مهم است",
+  low_cost_only: "فقط گزینه‌های کم‌هزینه‌تر"
+};
+const tierLabels = { recommended: "پیشنهاد قوی‌تر", preferred: "اولویت مناسب", consider: "قابل بررسی" } as const;
+const relativeCostLabels = { low: "هزینه نسبی پایین", medium: "هزینه نسبی متوسط", high: "هزینه نسبی بالا" } as const;
 
 export default function Type2Page() {
   const [workflow, setWorkflow] = useState<Type2Workflow>("initiation");
@@ -51,10 +48,7 @@ export default function Type2Page() {
     () => decisionFactors.filter(([key]) => selectedFactors.includes(key)).map(([, label]) => label),
     [selectedFactors]
   );
-  const sortedMedications = useMemo(
-    () => result ? [...result.medications].sort((left, right) => medicationPriority(left, result) - medicationPriority(right, result)) : [],
-    [result]
-  );
+  const sortedMedications = result?.medications ?? [];
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -81,6 +75,7 @@ export default function Type2Page() {
           currentHba1c,
           targetHba1c,
           workflow,
+          costPreference: String(form.get("costPreference")) as Type2CostPreference,
           eGfr: Number.isFinite(eGfr) ? eGfr : undefined,
           hyperglycemiaSymptoms: form.get("hyperglycemiaSymptoms") === "on",
           catabolicFeatures: form.get("catabolicFeatures") === "on",
@@ -130,7 +125,14 @@ export default function Type2Page() {
           </div>
 
           <div className="form-divider" />
-          <div className="form-section-title"><span>۲</span><div><strong>عوامل تصمیم‌گیری</strong><small>هر موردی که برای بیمار صدق می‌کند انتخاب شود</small></div></div>
+          <div className="form-section-title"><span>۲</span><div><strong>توان پرداخت هزینهٔ دارو</strong><small>برای حذف گزینه‌های گران و نمایش جایگزین‌های مناسب‌تر</small></div></div>
+          <div className="cost-options">
+            {(Object.entries(costLabels) as [Type2CostPreference, string][]).map(([value, label]) => (
+              <label className="cost-option" key={value}><input defaultChecked={value === "moderate"} name="costPreference" type="radio" value={value} /><span><strong>{label}</strong><small>{value === "low_cost_only" ? "GLP-1، GIP/GLP-1 و ترکیب‌های ثابت پرهزینه فیلتر می‌شوند." : value === "moderate" ? "هزینه در امتیازدهی اثر دارد، اما گزینه‌های مهم حذف نمی‌شوند." : "رتبه‌بندی عمدتاً بالینی و ایمنی است."}</small></span></label>
+            ))}
+          </div>
+          <div className="form-divider" />
+          <div className="form-section-title"><span>۳</span><div><strong>عوامل تصمیم‌گیری</strong><small>هر موردی که برای بیمار صدق می‌کند انتخاب شود</small></div></div>
           <div className="check-grid">
             {decisionFactors.map(([key, label]) => (
               <label className="checkbox-card" key={key}><input checked={selectedFactors.includes(key)} onChange={() => toggleFactor(key)} type="checkbox" /><span>{label}</span></label>
@@ -163,15 +165,16 @@ export default function Type2Page() {
       {result && (
         <section className="medication-results">
           <div className="section-heading">
-            <div><h2>داروهای فعال متناسب با انتخاب‌ها</h2><p>موارد اول فهرست با اولویت مسیر فعلی هماهنگ‌ترند؛ انتخاب نهایی و بررسی منع مصرف با پزشک است.</p></div>
+            <div><h2>داروها به ترتیب تطابق، ایمنی و هزینه</h2><p>سبز پررنگ یعنی تطابق بیشتر با داده‌های واردشده؛ زرد یعنی نیاز بیشتر به موازنهٔ مزایا، خطرها و هزینه.</p></div>
             <span className="version-badge">{sortedMedications.length} دارو</span>
           </div>
           {sortedMedications.length > 0 ? <div className="consideration-grid">
-            {sortedMedications.map((item) => (
-              <article className="consideration-card" key={item.genericMedicationId}>
-                <span className="group-chip">{item.therapyGroup.replaceAll("_", " ")}</span>
+            {sortedMedications.map((item, index) => (
+              <article className={`consideration-card priority-${item.priorityTier}`} key={item.genericMedicationId}>
+                <div className="priority-row"><span className="priority-badge">#{index + 1} · {tierLabels[item.priorityTier]}</span><span className="cost-chip">{relativeCostLabels[item.relativeCost]}</span></div>
                 <h3>{item.persianName}</h3>
                 <p className="muted">{item.therapeuticClass}</p>
+                <p className="ranking-reason">{item.rankingReasons.join(" · ")}</p>
                 <ul>{item.considerations.map((note) => <li key={note}>{note}</li>)}</ul>
                 {item.cautions.length > 0 && <div className="caution"><strong>احتیاط‌ها</strong><ul>{item.cautions.map((note) => <li key={note}>{note}</li>)}</ul></div>}
                 {item.blockedBy && <div className="blocked"><strong>اولویت پایین‌تر</strong><ul>{item.blockedBy.map((note) => <li key={note}>{note}</li>)}</ul></div>}

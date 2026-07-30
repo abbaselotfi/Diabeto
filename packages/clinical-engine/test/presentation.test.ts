@@ -96,4 +96,24 @@ describe("type 2 consideration layer", () => {
     expect(result.priority).toBe("glp1_based_therapy");
     expect(result.hba1cGap).toBe(1.6);
   });
+
+  it("filters high-cost GLP-1 options when low-cost-only is selected", () => {
+    const result = buildType2MedicationConsiderations([
+      { id: "semaglutide", canonicalName: "Semaglutide", persianName: "سماگلوتاید", className: "GLP-1 receptor agonist", therapyGroup: "glp_1_receptor_agonist", administrationRoute: "subcutaneous" },
+      { id: "metformin", canonicalName: "Metformin", persianName: "متفورمین", className: "Biguanide", therapyGroup: "oral_glucose_lowering", administrationRoute: "oral" }
+    ], { currentHba1c: 8.8, targetHba1c: 7, workflow: "initiation", costPreference: "low_cost_only", factors: ["weight_priority"] });
+
+    expect(result.map((item) => item.genericMedicationId)).toEqual(["metformin"]);
+    expect(result[0]?.relativeCost).toBe("low");
+  });
+
+  it("ranks SGLT2 first when HF/CKD is selected", () => {
+    const result = buildType2MedicationConsiderations([
+      { id: "metformin", canonicalName: "Metformin", persianName: "متفورمین", className: "Biguanide", therapyGroup: "oral_glucose_lowering", administrationRoute: "oral" },
+      { id: "empagliflozin", canonicalName: "Empagliflozin", persianName: "امپاگلیفلوزین", className: "SGLT2 inhibitor", therapyGroup: "oral_glucose_lowering", administrationRoute: "oral" }
+    ], { currentHba1c: 8, targetHba1c: 7, workflow: "intensification", costPreference: "moderate", factors: ["heart_failure", "ckd"] });
+
+    expect(result[0]?.genericMedicationId).toBe("empagliflozin");
+    expect(result[0]?.priorityTier).toBe("recommended");
+  });
 });

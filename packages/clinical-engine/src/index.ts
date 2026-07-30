@@ -90,6 +90,64 @@ function roundGap(value: number) {
   return Math.round(value * 10) / 10;
 }
 
+function relativeCostFor(medication: GenericMedication): Type2MedicationConsideration["relativeCost"] {
+  const group = medication.therapyGroup;
+  const className = medication.className?.toLocaleLowerCase() ?? "";
+  if (group === "glp_1_receptor_agonist" || group === "dual_gip_glp_1_receptor_agonist" || group === "fixed_ratio_combination") return "high";
+  if (group === "basal_insulin_analog" || group === "prandial_insulin_analog" || group === "premixed_insulin" || className.includes("sglt2") || className.includes("dpp-4")) return "medium";
+  return "low";
+}
+
+function scoreMedication(
+  medication: GenericMedication,
+  request: Type2ConsiderationRequest,
+  pathway: Type2AssessmentResult["recommendation"],
+  relativeCost: Type2MedicationConsideration["relativeCost"]
+) {
+  const reasons: string[] = [];
+  const group = medication.therapyGroup ?? "oral_glucose_lowering";
+  const className = medication.className?.toLocaleLowerCase() ?? "";
+  const name = medication.canonicalName.toLocaleLowerCase();
+  const isInsulin = ["human_insulin", "basal_insulin_analog", "prandial_insulin_analog", "premixed_insulin"].includes(group);
+  const isGlp = ["glp_1_receptor_agonist", "dual_gip_glp_1_receptor_agonist", "fixed_ratio_combination"].includes(group);
+  const isSglt2 = className.includes("sglt2");
+  const isDpp4 = className.includes("dpp-4");
+  const isMetformin = name === "metformin";
+  const isHypoglycemiaProne = isInsulin || className.includes("sulfonylurea") || className.includes("meglitinide");
+  const isTzd = className.includes("thiazolidinedione");
+  let score = 50;
+
+  if (pathway.priority === "consider_insulin" && isInsulin) { score += 30; reasons.push("هماهنگ با مسیر انسولین در هایپرگلیسمی شدید"); }
+  if (pathway.priority === "glp1_based_therapy" && isGlp) { score += 30; reasons.push("هماهنگ با اولویت درمان مبتنی بر GLP-1 در این مسیر"); }
+  if (request.factors.includes("heart_failure") || request.factors.includes("ckd")) {
+    if (isSglt2) { score += 28; reasons.push("اولویت قلبی‌ـ‌کلیوی برای HF/CKD"); }
+    if (isGlp && request.factors.includes("ckd")) { score += 10; reasons.push("قابل بررسی با توجه به منفعت قلبی‌ـ‌کلیوی"); }
+  }
+  if (request.factors.includes("ascvd") && isGlp) { score += 20; reasons.push("اولویت فرآورده‌های دارای شواهد پیامد قلبی‌عروقی"); }
+  if (request.factors.includes("weight_priority")) {
+    if (isGlp) { score += 22; reasons.push("اثر مطلوب‌تر بر وزن"); }
+    else if (isSglt2) { score += 10; reasons.push("اثر وزن‌خنثی تا کاهنده"); }
+    else if (isInsulin || isTzd || className.includes("sulfonylurea")) score -= 12;
+  }
+  if (request.factors.includes("hypoglycemia_risk")) {
+    if (isMetformin || isSglt2 || isDpp4 || isGlp) { score += 14; reasons.push("ریسک ذاتی پایین‌تر هیپوگلیسمی"); }
+    if (isHypoglycemiaProne) score -= 28;
+  }
+  if (request.factors.includes("heart_failure") && isTzd) score -= 45;
+  if (request.eGfr !== undefined && request.eGfr < 30 && isMetformin) score -= 60;
+
+  const costPreference = request.costPreference ?? "no_constraint";
+  if (costPreference === "low_cost_only") {
+    if (relativeCost === "low") { score += 22; reasons.push("در گروه کم‌هزینه‌تر گایدلاین"); }
+    if (relativeCost === "medium") score -= 5;
+  } else if (costPreference === "moderate") {
+    if (relativeCost === "low") { score += 10; reasons.push("تناسب بهتر با محدودیت هزینه"); }
+    if (relativeCost === "high") score -= 18;
+  }
+
+  return { score: Math.max(0, Math.min(100, score)), reasons };
+}
+
 /**
  * Produces a traceable pathway priority, not a prescription or dose.
  * Thresholds follow ADA Standards of Care in Diabetes—2026, Section 9.
@@ -169,7 +227,11 @@ export function buildType2MedicationConsiderations(
   medications: readonly GenericMedication[],
   request: Type2ConsiderationRequest
 ): Type2MedicationConsideration[] {
-  return medications.map((medication) => {
+  const pathway = buildType2PathwayRecommendation(request);
+  return medications.flatMap((medication) => {
+    const relativeCost = relativeCostFor(medication);
+    const costPreference = request.costPreference ?? "no_constraint";
+    if (costPreference === "low_cost_only" && relativeCost === "high") return [];
     const considerations: string[] = [];
     const cautions: string[] = [];
     const blockedBy: string[] = [];
@@ -225,7 +287,14 @@ export function buildType2MedicationConsiderations(
 
     if (considerations.length === 0) considerations.push("انتخاب این کلاس نیازمند تطبیق با هدف درمان، هم‌ابتلایی، برچسب و ترجیحات بیمار است.");
 
-    return {
+    if (costPreference !== "no_constraint") {
+      considerations.push(relativeCost === "low"
+        ? "در گروه گزینه‌های کم‌هزینه‌تر معرفی‌شده در گایدلاین قرار می‌گیرد."
+        : "هزینه و پوشش بیمه‌ای این فرآورده باید پیش از انتخاب بررسی شود.");
+    }
+    const ranking = scoreMedication(medication, request, pathway, relativeCost);
+    const priorityTier: Type2MedicationConsideration["priorityTier"] = ranking.score >= 75 ? "recommended" : ranking.score >= 58 ? "preferred" : "consider";
+    return [{
       genericMedicationId: medication.id,
       genericName: medication.canonicalName,
       persianName: medication.persianName,
@@ -235,7 +304,11 @@ export function buildType2MedicationConsiderations(
       considerations,
       cautions,
       blockedBy: blockedBy.length ? blockedBy : undefined,
-      outputStatus: "information_only"
-    };
-  });
+      priorityScore: ranking.score,
+      priorityTier,
+      relativeCost,
+      rankingReasons: ranking.reasons.length ? ranking.reasons : ["قابل بررسی پس از تطبیق با شرایط و ترجیحات بیمار"],
+      outputStatus: "information_only" as const
+    }];
+  }).sort((left, right) => right.priorityScore - left.priorityScore || left.persianName.localeCompare(right.persianName, "fa"));
 }

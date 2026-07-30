@@ -165,6 +165,11 @@ button.secondary, .secondary { border: 1px solid var(--line); background: #fff; 
   border: 1px solid var(--line); border-radius: 10px; background: #fbfdfd; color: var(--ink); font-size: 11px; cursor: pointer;
 }
 .checkbox-card.urgent { border-color: #eed2af; background: #fffaf3; }
+.cost-options { display: grid; gap: 9px; }
+.cost-option { display: flex; align-items: flex-start; gap: 10px; padding: 13px; border: 1px solid var(--line); border-radius: 11px; background: #fbfdfd; cursor: pointer; }
+.cost-option:has(input:checked) { border-color: #8dc6bd; background: var(--teal-soft); }
+.cost-option strong, .cost-option small { display: block; }
+.cost-option small { margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.6; }
 input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; padding: 0; accent-color: var(--teal); cursor: pointer; }
 .form-message { min-height: 20px; margin: 15px 0 4px; color: var(--muted); font-size: 11px; }
 .calculate-button { width: 100%; margin-top: 8px; }
@@ -182,7 +187,17 @@ input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; padding
 .source-link { font-size: 10px; font-weight: 800; }
 .medication-results { margin-top: 40px; }
 .consideration-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-.consideration-card { border: 1px solid var(--line); border-radius: 13px; padding: 20px; background: #fff; }
+.consideration-card { position: relative; overflow: hidden; border: 1px solid var(--line); border-inline-start-width: 7px; border-radius: 13px; padding: 20px; background: #fff; }
+.consideration-card.priority-recommended { border-inline-start-color: #229567; background: linear-gradient(135deg, #f0fbf5 0, #fff 45%); }
+.consideration-card.priority-preferred { border-inline-start-color: #8ebc55; background: linear-gradient(135deg, #f7fbe9 0, #fff 45%); }
+.consideration-card.priority-consider { border-inline-start-color: #ddb54b; background: linear-gradient(135deg, #fff9e9 0, #fff 45%); }
+.priority-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.priority-badge, .cost-chip { border-radius: 99px; padding: 6px 9px; font-size: 9px; font-weight: 900; }
+.priority-badge { background: #e4f4e8; color: #176b49; }
+.priority-preferred .priority-badge { background: #eef5d9; color: #5d771e; }
+.priority-consider .priority-badge { background: #fff0c8; color: #8a6414; }
+.cost-chip { background: #eef3f2; color: #557174; }
+.ranking-reason { margin: 8px 0; color: #34635d; font-size: 10px; font-weight: 700; line-height: 1.7; }
 .consideration-card h3 { margin: 13px 0 4px; }
 .consideration-card ul { padding-inline-start: 20px; font-size: 11px; line-height: 1.8; }
 .consideration-card a { font-size: 10px; font-weight: 800; }
