@@ -4,8 +4,8 @@ import Link from "next/link";
 import type { InsuranceProvider, MedicationBrand, MedicationChecklistItem } from "@diabeto/contracts";
 import { useEffect, useMemo, useState } from "react";
 import { readSheet } from "read-excel-file/browser";
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+import { apiFetch } from "../../../lib/api-client";
+import { withBasePath } from "../../../lib/base-path";
 const providerLabels: Record<InsuranceProvider, string> = {
   social_security: "بیمه تأمین اجتماعی",
   health_insurance: "بیمه سلامت",
@@ -80,7 +80,7 @@ export default function MedicationSelectionPage() {
   const [message, setMessage] = useState("در حال بارگذاری کاتالوگ…");
 
   async function refresh() {
-    const response = await fetch(`${apiUrl}/v1/admin/catalog/medication-checklist`);
+    const response = await apiFetch("/v1/admin/catalog/medication-checklist");
     if (!response.ok) throw new Error("unavailable");
     const data = await response.json() as MedicationChecklistItem[];
     setItems(data);
@@ -101,20 +101,20 @@ export default function MedicationSelectionPage() {
     setDrafts((current) => ({ ...current, [item.referencePresentationId]: { ...draftFor(item), ...patch } }));
   }
   async function patch(path: string, body: object) {
-    const response = await fetch(`${apiUrl}${path}`, { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+    const response = await apiFetch(path, { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
     if (!response.ok) throw new Error("failed");
     const updated = await response.json() as MedicationChecklistItem;
     setItems((current) => current.map((item) => item.referencePresentationId === updated.referencePresentationId ? updated : item));
   }
   async function post(path: string, body: object) {
-    const response = await fetch(`${apiUrl}${path}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+    const response = await apiFetch(path, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
     if (!response.ok) throw new Error("failed");
     const updated = await response.json() as MedicationChecklistItem;
     setItems((current) => current.map((item) => item.referencePresentationId === updated.referencePresentationId ? updated : item));
     return updated;
   }
   async function remove(path: string) {
-    const response = await fetch(`${apiUrl}${path}`, { method: "DELETE" });
+    const response = await apiFetch(path, { method: "DELETE" });
     if (!response.ok) throw new Error("failed");
     const updated = await response.json() as MedicationChecklistItem;
     setItems((current) => current.map((item) => item.referencePresentationId === updated.referencePresentationId ? updated : item));
@@ -283,7 +283,7 @@ export default function MedicationSelectionPage() {
     <Link className="back-button" href="/admin">→ بازگشت به پنل مدیریت</Link>
     <header className="page-heading"><div><span className="eyebrow">Medication visibility & insurance</span><h1>انتخاب دارو و پوشش بیمه</h1><p>برای هر دارو چند سازمان بیمه و درصد متفاوت قابل ثبت است.</p></div><span className="version-badge">{items.filter((item) => item.showInApp).length} فعال از {items.length || 104}</span></header>
     <section className="import-card">
-      <div className="import-heading"><div><span className="eyebrow">Excel Import</span><h2>ورود اطلاعات دارویی از فایل استاندارد</h2><p>فایل ابتدا بررسی می‌شود و تا زدن دکمهٔ ثبت، تغییری انجام نمی‌گیرد. ستون بیمهٔ خالی، اطلاعات بیمهٔ قبلی را دست‌نخورده نگه می‌دارد.</p></div><a className="secondary import-template-link" download href="/diabeto-medication-import-template.xlsx">دانلود قالب خالی</a></div>
+      <div className="import-heading"><div><span className="eyebrow">Excel Import</span><h2>ورود اطلاعات دارویی از فایل استاندارد</h2><p>فایل ابتدا بررسی می‌شود و تا زدن دکمهٔ ثبت، تغییری انجام نمی‌گیرد. ستون بیمهٔ خالی، اطلاعات بیمهٔ قبلی را دست‌نخورده نگه می‌دارد.</p></div><a className="secondary import-template-link" download href={withBasePath("/diayar-medication-import-template.xlsx")}>دانلود قالب خالی</a></div>
       <div className="import-controls">
         <label className="file-picker"><span>انتخاب فایل Excel</span><input accept=".xlsx" onChange={(event) => { const file = event.target.files?.[0]; if (file) void prepareImport(file); }} type="file" /></label>
         <label className="compact-check"><input checked={syncVisibility} onChange={(event) => setSyncVisibility(event.target.checked)} type="checkbox" /><span>فقط ژنریک‌های موجود در فایل نمایش داده شوند</span></label>

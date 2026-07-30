@@ -21,7 +21,7 @@ export default function AppShell({ children }: Readonly<{ children: React.ReactN
       <aside className={menuOpen ? "sidebar open" : "sidebar"} aria-label="ناوبری اصلی">
         <Link className="brand" href="/" onClick={() => setMenuOpen(false)}>
           <span className="brand-mark" aria-hidden="true">D</span>
-          <span><strong>Diabeto</strong><small>فضای کار بالینی</small></span>
+          <span><strong>DiaYar</strong><small>فضای کار بالینی</small></span>
         </Link>
         <nav className="main-nav">
           {navigation.map((item) => {

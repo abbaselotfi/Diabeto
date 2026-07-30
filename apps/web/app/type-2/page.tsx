@@ -9,6 +9,7 @@ import type {
   Type2RoutePreference,
   Type2Workflow
 } from "@diabeto/contracts";
+import { apiFetch } from "../../lib/api-client";
 
 const workflowText: Record<Type2Workflow, { title: string; description: string }> = {
   initiation: {
@@ -29,8 +30,6 @@ const decisionFactors = [
   ["weight", "کاهش وزن در اولویت است", "weight_priority"],
   ["insulin", "بررسی مسیر انسولین یا FRC", "insulin_pathway"]
 ] as const;
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 
 const costLabels: Record<Type2CostPreference, string> = {
   no_constraint: "محدودیت هزینه ندارد",
@@ -77,7 +76,7 @@ export default function Type2Page() {
       .map(([, , clinicalKey]) => clinicalKey) as Type2DecisionFactor[];
     setRequestMessage("در حال اولویت‌بندی مسیر و داروهای فعال…");
     try {
-      const response = await fetch(`${apiUrl}/v1/catalog/type-2/considerations`, {
+      const response = await apiFetch("/v1/catalog/type-2/considerations", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
@@ -97,7 +96,7 @@ export default function Type2Page() {
       setRequestMessage("نتیجه بر اساس داده‌های همین نشست و داروهای فعال کاتالوگ آماده شد.");
     } catch {
       setResult(null);
-      setRequestMessage("سرویس بالینی در دسترس نیست. API را اجرا و دوباره تلاش کنید.");
+      setRequestMessage("محاسبهٔ بالینی انجام نشد؛ صفحه را بازخوانی و دوباره تلاش کنید.");
     }
   }
 

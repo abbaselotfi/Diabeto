@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { withBasePath } from "../../lib/base-path";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
@@ -12,7 +13,7 @@ export default function PwaInstall() {
   const [installed, setInstalled] = useState(false);
 
   useEffect(() => {
-    if ("serviceWorker" in navigator) void navigator.serviceWorker.register("/sw.js");
+    if ("serviceWorker" in navigator) void navigator.serviceWorker.register(withBasePath("/sw.js"), { scope: withBasePath("/") });
     const standalone = window.matchMedia("(display-mode: standalone)").matches;
     setInstalled(standalone);
     const handler = (event: Event) => {

@@ -9,6 +9,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@diabeto/clinical-engine": "workspace:*",
     "@diabeto/contracts": "workspace:*",
     "next": "16.2.12",
     "react": "19.2.8",

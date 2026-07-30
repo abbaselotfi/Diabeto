@@ -2,8 +2,8 @@
 
 import type { InsuranceProvider, MedicationChecklistItem } from "@diabeto/contracts";
 import { useEffect, useMemo, useState } from "react";
+import { apiFetch } from "../../lib/api-client";
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 const insuranceLabels: Record<InsuranceProvider, string> = {
   social_security: "بیمه تأمین اجتماعی", health_insurance: "بیمه سلامت", armed_forces: "بیمه نیروهای مسلح",
   other_organizations: "سایر ارگان‌ها", supplementary: "بیمه تکمیلی"
@@ -35,7 +35,7 @@ function displays(item: MedicationChecklistItem) {
 
 export default function PathwayMedicationCards({ pathway }: { pathway: "type1" | "pregnancy" }) {
   const [items, setItems] = useState<MedicationChecklistItem[]>([]);
-  useEffect(() => { fetch(`${apiUrl}/v1/admin/catalog/medication-checklist`).then((response) => response.json() as Promise<MedicationChecklistItem[]>).then(setItems).catch(() => setItems([])); }, []);
+  useEffect(() => { apiFetch("/v1/admin/catalog/medication-checklist").then((response) => response.json() as Promise<MedicationChecklistItem[]>).then(setItems).catch(() => setItems([])); }, []);
   const medications = useMemo(() => items
     .filter((item) => item.showInApp && /insulin|انسولین/i.test(`${item.genericName} ${item.therapeuticClass}`))
     .sort((left, right) => Number(isGlargine(right)) - Number(isGlargine(left)))
