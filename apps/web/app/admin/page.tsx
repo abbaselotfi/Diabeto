@@ -130,10 +130,11 @@ export default function AdminPage() {
     <main className="shell admin-shell">
       <header className="topbar">
         <div>
-          <p className="eyebrow">پنل مدیریت / فقط پزشکان و ادمین‌های تأییدشده</p>
+          <p className="eyebrow">پنل مدیریت / دسترسی مستقیم</p>
           <h1>کاتالوگ نوع ۲، پروتکل‌ها و نمایش دارو</h1>
         </div>
         <div className="topbar-actions">
+          <Link className="admin-link" href="/admin/medications">انتخاب داروهای قابل نمایش</Link>
           <Link className="admin-link" href="/type-2/preview">پیش‌نمایش کامل Type 2</Link>
           <button className="secondary" onClick={() => void refresh()} type="button">بازخوانی</button>
         </div>
@@ -142,7 +143,7 @@ export default function AdminPage() {
       <section className="metric-grid" aria-label="شاخص‌های استفاده">
         <article><span>ژنریک‌های آمادهٔ بازبینی</span><strong>{generics.length || "—"}</strong><small>seed راهنما + ورود دستی ادمین</small></article>
         <article><span>فرآورده‌های فعال در چک‌لیست</span><strong>{medicationChecklist.filter((item) => item.showInApp).length || "—"}</strong><small>نمایش/عدم‌نمایش فقط با انتخاب Admin</small></article>
-        <article><span>پروتکل‌های Type 2</span><strong>{protocols.length || "—"}</strong><small>تا تأیید پزشک، خروجی درمانی ندارند</small></article>
+        <article><span>پروتکل‌های Type 2</span><strong>{protocols.length || "—"}</strong><small>در نسخهٔ وب فعلی قابل مشاهده‌اند</small></article>
       </section>
 
       <div className="admin-grid">
@@ -187,6 +188,7 @@ export default function AdminPage() {
       <section className="panel">
         <p className="eyebrow">چک‌لیست داروها</p>
         <h2>کنترل نمایش فرآورده‌ها در برنامه</h2>
+        <Link className="admin-link" href="/admin/medications">باز کردن صفحهٔ کامل انتخاب داروها</Link>
         <p className="muted">این داده‌ها از فایل ارسالی شما وارد شده‌اند. تیک‌زدن فقط نمایش کاتالوگ را کنترل می‌کند و به‌تنهایی ثبت، عرضه یا تأیید بالینی/بازاری ایران محسوب نمی‌شود. برای نمایش برند در خروجی پزشک، رکورد بازار ایران و بازبینی جداگانه لازم است.</p>
         <div className="reference-source-list">
           {referenceSources.map((source) => <a href={source.sourceUrl} key={source.id} rel="noreferrer" target="_blank">{source.title}</a>)}

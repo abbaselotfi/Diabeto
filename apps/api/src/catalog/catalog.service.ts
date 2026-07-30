@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { NotFoundException } from "@nestjs/common";
-import { buildType2MedicationConsiderations } from "@diabeto/clinical-engine";
+import { buildType2Assessment, buildType2MedicationConsiderations } from "@diabeto/clinical-engine";
 import type {
   CatalogImportRequest,
   CatalogImportResult,
@@ -16,7 +16,7 @@ import { globalReferenceCatalogue, globalReferenceCatalogueSources } from "./glo
 @Injectable()
 export class CatalogService {
   private readonly genericMedications: GenericMedication[] = [...ada2026Type2GenericSeed];
-  private readonly referenceVisibility = new Map(globalReferenceCatalogue.map((presentation) => [presentation.id, false]));
+  private readonly referenceVisibility = new Map(globalReferenceCatalogue.map((presentation) => [presentation.id, true]));
 
   listGenerics(therapyGroup?: string) {
     return therapyGroup ? this.genericMedications.filter((medication) => medication.therapyGroup === therapyGroup) : this.genericMedications;
@@ -27,11 +27,16 @@ export class CatalogService {
   }
 
   listType2MedicationConsiderations(request: Type2ConsiderationRequest) {
-    return buildType2MedicationConsiderations(this.genericMedications.filter((medication) => this.isGenericMedicationVisible(medication)), request);
+    return buildType2Assessment(this.genericMedications.filter((medication) => this.isGenericMedicationVisible(medication)), request);
   }
 
   listType2PreviewConsiderations() {
-    return buildType2MedicationConsiderations(this.genericMedications, { factors: [] });
+    return buildType2MedicationConsiderations(this.genericMedications, {
+      currentHba1c: 8,
+      targetHba1c: 7,
+      workflow: "initiation",
+      factors: []
+    });
   }
 
   private isGenericMedicationVisible(medication: GenericMedication): boolean {

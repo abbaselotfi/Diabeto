@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
   app.enableCors({
     origin: process.env.WEB_ORIGIN ? process.env.WEB_ORIGIN.split(",") : ["http://localhost:3000"],
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "PATCH"],
     credentials: false
   });
   // A container deployment sets HOST=0.0.0.0. Loopback is the safe local default.

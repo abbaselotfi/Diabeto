@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "node scripts/next.cjs build --webpack",
-    "dev": "node scripts/next.cjs dev --webpack --port 3000",
+    "dev": "node scripts/next.cjs dev --webpack",
     "start": "next start --port 3000",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },

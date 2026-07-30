@@ -62,7 +62,7 @@ export interface ClinicalProtocolBundle {
   sourceReference: string;
   publishedAt: string;
   status: ProtocolStatus;
-  clinicalReviewRequired: true;
+  clinicalReviewRequired: boolean;
 }
 
 export interface GuidelineSource {
@@ -176,6 +176,24 @@ export interface UpdateMedicationVisibilityInput {
 }
 
 export type Type2DecisionFactor = "ascvd" | "heart_failure" | "ckd" | "hypoglycemia_risk" | "weight_priority" | "insulin_pathway";
+export type Type2Workflow = "initiation" | "intensification";
+
+export type Type2PathwayPriority =
+  | "maintain_and_monitor"
+  | "single_or_stepwise_therapy"
+  | "combination_therapy"
+  | "glp1_based_therapy"
+  | "consider_insulin";
+
+export interface Type2PathwayRecommendation {
+  priority: Type2PathwayPriority;
+  title: string;
+  rationale: string[];
+  hba1cGap: number;
+  urgentReview: boolean;
+  sourceUrl: string;
+  sourceReference: string;
+}
 
 export interface Type2MedicationConsideration {
   genericMedicationId: string;
@@ -193,5 +211,15 @@ export interface Type2MedicationConsideration {
 
 export interface Type2ConsiderationRequest {
   eGfr?: number;
+  currentHba1c: number;
+  targetHba1c: number;
+  workflow: Type2Workflow;
+  hyperglycemiaSymptoms?: boolean;
+  catabolicFeatures?: boolean;
   factors: Type2DecisionFactor[];
+}
+
+export interface Type2AssessmentResult {
+  recommendation: Type2PathwayRecommendation;
+  medications: Type2MedicationConsideration[];
 }

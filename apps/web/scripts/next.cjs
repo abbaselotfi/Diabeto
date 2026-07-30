@@ -1,12 +1,6 @@
-// Some sandboxed Node runtimes cannot read resident memory. Next only uses this
-// information for diagnostics, so fall back to zero there; normal Node runtimes
-// retain their native implementation.
-try {
-  process.memoryUsage();
-} catch {
-  const unavailable = () => ({ rss: 0, heapTotal: 0, heapUsed: 0, external: 0, arrayBuffers: 0 });
-  unavailable.rss = () => 0;
-  process.memoryUsage = unavailable;
-}
+const path = require("node:path");
+const shimPath = path.join(__dirname, "node-shim.cjs");
+process.env.NODE_OPTIONS = [process.env.NODE_OPTIONS, `--require=${shimPath}`].filter(Boolean).join(" ");
+require(shimPath);
 
 require("next/dist/bin/next");

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildType2MedicationConsiderations, gateClinicalOutput, resolveMedicationPresentation, selectDiabetesPathway } from "../src/index.js";
+import { buildType2MedicationConsiderations, buildType2PathwayRecommendation, gateClinicalOutput, resolveMedicationPresentation, selectDiabetesPathway } from "../src/index.js";
 
 const medication = {
   id: "empagliflozin",
@@ -8,22 +8,22 @@ const medication = {
 };
 
 describe("diabetes pathway selection", () => {
-  it("does not turn a pathway choice into a clinical recommendation", () => {
+  it("makes every anonymous pathway available in web mode", () => {
     expect(selectDiabetesPathway("pregnancy")).toEqual({
       diabetesType: "pregnancy",
-      contentStatus: "not_enabled",
+      contentStatus: "enabled",
       patientDataPolicy: "anonymous_only"
     });
   });
 });
 
 describe("clinical protocol gate", () => {
-  it("blocks outputs while a protocol is awaiting clinical review", () => {
+  it("exposes a bundled protocol without an approval gate", () => {
     expect(gateClinicalOutput({
       id: "draft", title: "draft", diabetesType: "type_2", scope: "treatment_initiation",
       sourceUrl: "https://example.test", sourceReference: "test", publishedAt: "2026-01-01",
       status: "draft", clinicalReviewRequired: true
-    })).toEqual({ enabled: false, reason: "clinical_review_required" });
+    })).toEqual({ enabled: true });
   });
 });
 
@@ -59,17 +59,41 @@ describe("type 2 consideration layer", () => {
   it("returns a review block instead of a treatment order when eGFR is below the metformin threshold", () => {
     const [result] = buildType2MedicationConsiderations([
       { id: "metformin", canonicalName: "Metformin", persianName: "متفورمین", className: "Biguanide", therapyGroup: "oral_glucose_lowering", administrationRoute: "oral" }
-    ], { eGfr: 25, factors: [] });
+    ], { currentHba1c: 8, targetHba1c: 7, workflow: "initiation", eGfr: 25, factors: [] });
 
-    expect(result.outputStatus).toBe("requires_approved_protocol");
+    expect(result.outputStatus).toBe("information_only");
     expect(result.blockedBy?.[0]).toContain("eGFR کمتر از ۳۰");
   });
 
   it("flags TZD for physician review when heart failure is selected", () => {
     const [result] = buildType2MedicationConsiderations([
       { id: "pioglitazone", canonicalName: "Pioglitazone", persianName: "پیوگلیتازون", className: "Thiazolidinedione", therapyGroup: "oral_glucose_lowering", administrationRoute: "oral" }
-    ], { factors: ["heart_failure"] });
+    ], { currentHba1c: 8, targetHba1c: 7, workflow: "intensification", factors: ["heart_failure"] });
 
     expect(result.blockedBy?.[0]).toContain("نارسایی قلبی");
+  });
+
+  it("prioritizes insulin review above the ADA severe hyperglycemia threshold", () => {
+    const result = buildType2PathwayRecommendation({
+      currentHba1c: 10.1,
+      targetHba1c: 7,
+      workflow: "initiation",
+      factors: []
+    });
+
+    expect(result.priority).toBe("consider_insulin");
+    expect(result.urgentReview).toBe(true);
+  });
+
+  it("prioritizes GLP-1 based combination therapy when A1C is at least 1.5 above goal without severe hyperglycemia", () => {
+    const result = buildType2PathwayRecommendation({
+      currentHba1c: 8.6,
+      targetHba1c: 7,
+      workflow: "intensification",
+      factors: ["weight_priority"]
+    });
+
+    expect(result.priority).toBe("glp1_based_therapy");
+    expect(result.hba1cGap).toBe(1.6);
   });
 });
