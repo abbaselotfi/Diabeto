@@ -1,6 +1,6 @@
-# راه‌اندازی احراز هویت مدیریت DiaYar
+# راه‌اندازی احراز هویت مدیریت GLYMIZE
 
-صفحات عمومی DiaYar بدون ورود کار می‌کنند. فقط مسیر `/admin` به Cloudflare
+صفحات عمومی GLYMIZE بدون ورود کار می‌کنند. فقط مسیر `/admin` به Cloudflare
 Worker متصل می‌شود و Worker فقط حساب GitHub با نام `abbaselotfi` را می‌پذیرد.
 
 ## ۱. ساخت GitHub OAuth App
@@ -8,8 +8,8 @@ Worker متصل می‌شود و Worker فقط حساب GitHub با نام `abba
 در GitHub به مسیر **Settings → Developer settings → OAuth Apps → New OAuth
 App** بروید و این مقادیر را ثبت کنید:
 
-- Application name: `DiaYar Admin`
-- Homepage URL: `https://abbaselotfi.github.io/Diabeto/`
+- Application name: `GLYMIZE Admin`
+- Homepage URL: `https://abbaselotfi.github.io/GLYMIZE/`
 - Authorization callback URL:
   `https://shiny-block-9d4a.abbaselotfi.workers.dev/auth/callback`
 
@@ -22,11 +22,11 @@ App** بروید و این مقادیر را ثبت کنید:
 
 ```powershell
 pnpm install
-pnpm --filter @diabeto/admin-worker exec wrangler login
-pnpm --filter @diabeto/admin-worker exec wrangler secret put GITHUB_CLIENT_ID
-pnpm --filter @diabeto/admin-worker exec wrangler secret put GITHUB_CLIENT_SECRET
-pnpm --filter @diabeto/admin-worker exec wrangler secret put SESSION_SECRET
-pnpm --filter @diabeto/admin-worker deploy
+pnpm --filter @glymize/admin-worker exec wrangler login
+pnpm --filter @glymize/admin-worker exec wrangler secret put GITHUB_CLIENT_ID
+pnpm --filter @glymize/admin-worker exec wrangler secret put GITHUB_CLIENT_SECRET
+pnpm --filter @glymize/admin-worker exec wrangler secret put SESSION_SECRET
+pnpm --filter @glymize/admin-worker deploy
 ```
 
 برای ساخت مقدار تصادفی `SESSION_SECRET` در PowerShell:
@@ -43,8 +43,8 @@ $rng.GetBytes($bytes)
 نشانی نهایی Worker را به‌صورت Repository Variable ثبت کنید:
 
 ```powershell
-gh variable set NEXT_PUBLIC_ADMIN_API_URL --repo abbaselotfi/Diabeto --body "https://shiny-block-9d4a.abbaselotfi.workers.dev"
-gh workflow run "Deploy DiaYar to GitHub Pages" --repo abbaselotfi/Diabeto --ref agent/secure-admin-publishing
+gh variable set NEXT_PUBLIC_ADMIN_API_URL --repo abbaselotfi/GLYMIZE --body "https://shiny-block-9d4a.abbaselotfi.workers.dev"
+gh workflow run "Deploy GLYMIZE to GitHub Pages" --repo abbaselotfi/GLYMIZE --ref agent/secure-admin-publishing
 ```
 
 تا وقتی این متغیر ثبت نشده باشد، workflow نسخه‌ای که پنل مدیریت آن backend

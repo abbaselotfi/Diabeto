@@ -1,4 +1,4 @@
-name: Deploy DiaYar to GitHub Pages
+name: Deploy GLYMIZE to GitHub Pages
 
 on:
   push:
@@ -46,13 +46,13 @@ jobs:
         run: pnpm typecheck && pnpm test
 
       - name: Prepare versioned PWA
-        run: node -e 'const fs=require("fs"); const version=process.env.GITHUB_SHA; fs.writeFileSync("apps/web/public/version.json", JSON.stringify({version,builtAt:new Date().toISOString()},null,2)+"\n"); const path="apps/web/public/sw.js"; fs.writeFileSync(path,fs.readFileSync(path,"utf8").replaceAll("__DIAYAR_BUILD_VERSION__",version));'
+        run: node -e 'const fs=require("fs"); const version=process.env.GITHUB_SHA; fs.writeFileSync("apps/web/public/version.json", JSON.stringify({version,builtAt:new Date().toISOString()},null,2)+"\n"); const path="apps/web/public/sw.js"; fs.writeFileSync(path,fs.readFileSync(path,"utf8").replaceAll("__GLYMIZE_BUILD_VERSION__",version));'
 
       - name: Build static application
         env:
           GITHUB_PAGES: "true"
           NEXT_PUBLIC_ADMIN_API_URL: ${{ vars.NEXT_PUBLIC_ADMIN_API_URL }}
-        run: pnpm --filter @diabeto/web... build
+        run: pnpm --filter @glymize/web... build
 
       - name: Disable Jekyll processing
         run: touch apps/web/out/.nojekyll

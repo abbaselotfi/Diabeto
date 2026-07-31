@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
-import type { CatalogImportRequest, CreateMedicationBrandInput, GenericMedicationInput, Type2ConsiderationRequest, UpdateMedicationBrandInput, UpdateMedicationInsuranceInput, UpdateMedicationVisibilityInput } from "@diabeto/contracts";
+import type { CatalogImportRequest, CreateMedicationBrandInput, GenericMedicationInput, Type2ConsiderationRequest, UpdateMedicationBrandInput, UpdateMedicationInsuranceInput, UpdateMedicationVisibilityInput } from "@glymize/contracts";
 import { CatalogService } from "./catalog.service.js";
 
 @Controller("v1")

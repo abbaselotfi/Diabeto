@@ -1,4 +1,4 @@
--- Diabeto V1: anonymous clinical sessions only. No patient identifiers or
+-- GLYMIZE V1: anonymous clinical sessions only. No patient identifiers or
 -- clinical inputs are stored in this migration.
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
@@ -76,7 +76,7 @@ CREATE TABLE brand_market_entry (
 CREATE TABLE organization_display_setting (
   organization_id uuid PRIMARY KEY REFERENCES organization(id) ON DELETE CASCADE,
   medication_display_mode display_mode NOT NULL DEFAULT 'generic_first',
-  theme_key text NOT NULL DEFAULT 'diabeto-default',
+  theme_key text NOT NULL DEFAULT 'glymize-default',
   updated_at timestamptz NOT NULL DEFAULT now(),
   updated_by uuid REFERENCES user_account(id)
 );

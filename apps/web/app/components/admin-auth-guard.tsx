@@ -45,8 +45,8 @@ export default function AdminAuthGuard({ children }: Readonly<{ children: React.
     const handler = (event: Event) => {
       setPublishMessage((event as CustomEvent<PublishEventDetail>).detail.message);
     };
-    window.addEventListener("diayar-publish-status", handler);
-    return () => window.removeEventListener("diayar-publish-status", handler);
+    window.addEventListener("glymize-publish-status", handler);
+    return () => window.removeEventListener("glymize-publish-status", handler);
   }, []);
 
   if (auth.status === "checking") {
@@ -64,7 +64,7 @@ export default function AdminAuthGuard({ children }: Readonly<{ children: React.
   if (auth.status === "signed_out") {
     return <main className="admin-auth-page"><section className="admin-auth-card">
       <span className="eyebrow">Admin only</span>
-      <h1>ورود مدیر DiaYar</h1>
+      <h1>ورود مدیر GLYMIZE</h1>
       <p>فقط حساب GitHub مجاز می‌تواند کاتالوگ، برندها و پوشش بیمه را تغییر داده و روی تمام دستگاه‌ها منتشر کند.</p>
       <a className="primary-button" href={getAdminLoginUrl(window.location.href)}>ورود امن با GitHub</a>
     </section></main>;

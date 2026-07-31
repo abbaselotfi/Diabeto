@@ -1,20 +1,22 @@
 {
-  "name": "diabeto",
-  "private": true,
-  "version": "0.1.0",
-  "packageManager": "pnpm@11.7.0",
-  "engines": {
-    "node": ">=22"
-  },
-  "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
-    "test": "turbo run test",
-    "typecheck": "turbo run typecheck"
-  },
-  "devDependencies": {
-    "@types/node": "26.1.2",
-    "turbo": "2.10.7",
-    "typescript": "5.9.3"
-  }
+    "name":  "glymize",
+    "private":  true,
+    "version":  "0.1.0",
+    "packageManager":  "pnpm@11.7.0",
+    "engines":  {
+                    "node":  "\u003e=22"
+                },
+    "scripts":  {
+                    "build":  "turbo run build",
+                    "dev":  "turbo run dev --parallel",
+                    "test":  "turbo run test",
+                    "typecheck":  "turbo run typecheck",
+                    "dev:worker":  "pnpm --filter @glymize/admin-worker run dev",
+                    "dev:app":  "turbo run dev --filter=@glymize/web --filter=@glymize/api"
+                },
+    "devDependencies":  {
+                            "@types/node":  "26.1.2",
+                            "turbo":  "2.10.7",
+                            "typescript":  "5.9.3"
+                        }
 }

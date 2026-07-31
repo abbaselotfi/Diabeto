@@ -5,8 +5,8 @@ export const dynamic = "force-static";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "DiaYar | دستیار بالینی دیابت",
-    short_name: "DiaYar",
+    name: "GLYMIZE | دستیار بالینی دیابت",
+    short_name: "GLYMIZE",
     description: "فضای کار قابل نصب برای پشتیبانی تصمیم بالینی دیابت",
     start_url: withBasePath("/"),
     scope: withBasePath("/"),

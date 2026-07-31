@@ -40,7 +40,7 @@ interface CatalogState {
 const githubHeaders = {
   accept: "application/vnd.github+json",
   "x-github-api-version": "2022-11-28",
-  "user-agent": "DiaYar-Admin-Worker"
+  "user-agent": "GLYMIZE-Admin-Worker"
 };
 
 function base64UrlEncode(bytes: Uint8Array) {
@@ -268,7 +268,7 @@ async function publishCatalog(request: Request, env: Env, session: AdminSession)
       "content-type": "application/json"
     },
     body: JSON.stringify({
-      message: "Publish DiaYar admin catalog",
+      message: "Publish GLYMIZE admin catalog",
       content: utf8Base64(`${JSON.stringify(publishedCatalog, null, 2)}\n`),
       branch: env.GITHUB_BRANCH,
       ...(current?.sha ? { sha: current.sha } : {})

@@ -1,5 +1,5 @@
-const BUILD_VERSION = "__DIAYAR_BUILD_VERSION__";
-const CACHE_NAME = `diayar-pwa-${BUILD_VERSION}`;
+const BUILD_VERSION = "__GLYMIZE_BUILD_VERSION__";
+const CACHE_NAME = `glymize-pwa-${BUILD_VERSION}`;
 const BASE_PATH = new URL(self.registration.scope).pathname.replace(/\/$/, "");
 const pathFor = (path) => `${BASE_PATH}${path}`;
 const APP_SHELL = ["/", "/type-2/", "/type-1/", "/pregnancy/", "/icon-192.png", "/icon-512.png"].map(pathFor);

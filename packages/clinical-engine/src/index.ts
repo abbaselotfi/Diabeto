@@ -8,7 +8,7 @@ import type {
   Type2AssessmentResult,
   Type2ConsiderationRequest,
   Type2MedicationConsideration
-} from "@diabeto/contracts";
+} from "@glymize/contracts";
 
 export interface ProtocolGateResult {
   enabled: boolean;

@@ -29,10 +29,10 @@ importers:
 
   apps/api:
     dependencies:
-      '@diabeto/clinical-engine':
+      '@glymize/clinical-engine':
         specifier: workspace:*
         version: link:../../packages/clinical-engine
-      '@diabeto/contracts':
+      '@glymize/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
       '@nestjs/common':
@@ -57,10 +57,10 @@ importers:
 
   apps/web:
     dependencies:
-      '@diabeto/clinical-engine':
+      '@glymize/clinical-engine':
         specifier: workspace:*
         version: link:../../packages/clinical-engine
-      '@diabeto/contracts':
+      '@glymize/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
       next:
@@ -85,7 +85,7 @@ importers:
 
   packages/clinical-engine:
     dependencies:
-      '@diabeto/contracts':
+      '@glymize/contracts':
         specifier: workspace:*
         version: link:../contracts
     devDependencies:

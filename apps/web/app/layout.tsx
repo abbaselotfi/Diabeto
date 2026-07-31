@@ -1,27 +1,35 @@
 import type { Metadata } from "next";
-import AppShell from "./components/app-shell";
+
 import { withBasePath } from "../lib/base-path";
+import AppShell from "./components/app-shell";
 import "./globals.css";
+import "./internal-shell.css";
 
 export const metadata: Metadata = {
-  title: "DiaYar | پشتیبان تصمیم بالینی دیابت",
-  description: "پلتفرم وب و قابل نصب برای پشتیبانی تصمیم بالینی دیابت",
+  title: "GLYMIZE | Diabetes Prescribing Intelligence",
+  description:
+    "A bilingual clinical decision-support platform for diabetes prescribing.",
   manifest: withBasePath("/manifest.webmanifest"),
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "DiaYar"
+    title: "GLYMIZE",
   },
   icons: {
-    icon: withBasePath("/icon-192.png"),
-    apple: withBasePath("/icon-192.png")
-  }
+    icon: withBasePath("/glymize-favicon.svg"),
+    shortcut: withBasePath("/glymize-favicon.svg"),
+    apple: withBasePath("/glymize-app-icon.png"),
+  },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="fa" dir="rtl">
-      <body><AppShell>{children}</AppShell></body>
+      <body>
+        <AppShell>{children}</AppShell>
+      </body>
     </html>
   );
 }

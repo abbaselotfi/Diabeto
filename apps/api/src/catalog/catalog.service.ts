@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { NotFoundException } from "@nestjs/common";
-import { buildType2Assessment, buildType2MedicationConsiderations } from "@diabeto/clinical-engine";
+import { buildType2Assessment, buildType2MedicationConsiderations } from "@glymize/clinical-engine";
 import type {
   CatalogImportRequest,
   CatalogImportResult,
@@ -14,7 +14,7 @@ import type {
   UpdateMedicationInsuranceInput,
   UpdateMedicationBrandInput,
   UpdateMedicationVisibilityInput
-} from "@diabeto/contracts";
+} from "@glymize/contracts";
 import { ada2026Type2GenericSeed, type2ProtocolSeed } from "./ada-2026-type2-seed.js";
 import { globalReferenceCatalogue, globalReferenceCatalogueSources } from "./global-reference-catalog.js";
 

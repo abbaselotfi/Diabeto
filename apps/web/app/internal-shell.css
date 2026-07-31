@@ -1,0 +1,154 @@
+/* GLYMIZE structural i18n v9 */
+
+.glymize-internal-shell .global-topbar.glymize-shared-topbar {
+  height: 64px;
+  min-height: 64px;
+  padding: 0 clamp(22px, 3vw, 48px);
+  border-bottom: 1px solid rgba(6, 41, 74, 0.08);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 1px 0 rgba(6, 41, 74, 0.02);
+  backdrop-filter: blur(18px);
+}
+
+.glymize-internal-shell .topbar-title {
+  min-width: 0;
+}
+
+.glymize-internal-shell .topbar-title strong {
+  color: #082f57;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.glymize-internal-shell .topbar-title span {
+  margin-top: 3px;
+  color: #6b8298;
+  font-size: 11px;
+}
+
+.glymize-language-switch {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 5px 9px;
+  border: 1px solid rgba(6, 41, 74, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #0a2f57;
+  direction: ltr;
+  box-shadow: 0 8px 24px rgba(5, 44, 77, 0.08);
+}
+
+.glymize-language-switch button {
+  min-width: 30px;
+  min-height: 28px;
+  padding: 3px 4px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  box-shadow: none;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.glymize-language-switch button:hover {
+  background: rgba(0, 183, 165, 0.08);
+  color: #008f83;
+}
+
+.glymize-language-switch button.active {
+  color: #00a99a;
+}
+
+.glymize-internal-shell .brand-mark {
+  color: #2de3d0;
+  background: linear-gradient(180deg, #07355f 0%, #075477 100%);
+}
+
+.glymize-internal-shell .page-content {
+  padding-top: 34px;
+}
+
+.type2-page {
+  direction: inherit;
+}
+
+.type2-page .page-heading,
+.type2-page .section-heading,
+.type2-page .form-section-title,
+.type2-page .result-content,
+.type2-page .consideration-card {
+  text-align: start;
+}
+
+.type2-page .glymize-numeric-field {
+  position: relative;
+  display: block;
+  direction: ltr;
+}
+
+.type2-page .glymize-numeric-field input {
+  direction: ltr !important;
+  text-align: left !important;
+  padding-left: 12px !important;
+  padding-right: 66px !important;
+}
+
+.type2-page .glymize-numeric-field b {
+  position: absolute !important;
+  top: 50% !important;
+  right: 12px !important;
+  left: auto !important;
+  inset-inline-start: auto !important;
+  inset-inline-end: auto !important;
+  transform: translateY(-50%);
+  color: #698184;
+  font-size: 9px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.type2-page[dir="ltr"] .back-button {
+  direction: ltr;
+}
+
+.type2-page[dir="ltr"] .workflow-switch,
+.type2-page[dir="ltr"] .cost-option,
+.type2-page[dir="ltr"] .checkbox-card,
+.type2-page[dir="ltr"] .form-section-title {
+  direction: ltr;
+}
+
+.type2-page[dir="ltr"] .calculator-card,
+.type2-page[dir="ltr"] .result-panel,
+.type2-page[dir="ltr"] .medication-results,
+.type2-page[dir="ltr"] .triple-therapy-panel {
+  text-align: left;
+}
+
+.type2-page[dir="rtl"] .calculator-card,
+.type2-page[dir="rtl"] .result-panel,
+.type2-page[dir="rtl"] .medication-results,
+.type2-page[dir="rtl"] .triple-therapy-panel {
+  text-align: right;
+}
+
+@media (max-width: 760px) {
+  .glymize-internal-shell .global-topbar.glymize-shared-topbar {
+    height: 60px;
+    min-height: 60px;
+    padding: 0 14px;
+  }
+
+  .glymize-internal-shell .topbar-title span {
+    display: none;
+  }
+
+  .glymize-language-switch {
+    min-height: 36px;
+    padding: 4px 7px;
+  }
+}

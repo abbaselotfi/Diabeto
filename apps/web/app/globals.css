@@ -1,3 +1,5 @@
+@import "./glymize-theme.css";
+
 :root {
   --ink: #173a3d;
   --muted: #698184;
@@ -362,3 +364,55 @@ button:disabled, select:disabled, input:disabled { cursor: not-allowed; opacity:
   .brand-branch-main, .brand-insurance-editor { grid-template-columns: 1fr; }
   .brand-insurance-editor .registered-coverages { grid-column: 1; }
 }
+
+/* GLYMIZE_ICON_LAYOUT_FIX_START */
+/*
+  Prevent PWA/app-icon assets from rendering at their intrinsic 512/1024px
+  dimensions inside the application interface.
+*/
+img[src*="glymize-app-icon"],
+img[src$="/icon.png"],
+img[src$="/icon-192.png"],
+img[src$="/icon-512.png"],
+img[src$="/icon-192x192.png"],
+img[src$="/icon-512x512.png"],
+.glymize-shell-logo,
+.app-shell .brand img,
+.app-shell .global-topbar img,
+.app-shell .topbar-title img,
+.content-shell > img,
+.page-content > img[src*="glymize-app-icon"] {
+  display: block !important;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  max-width: 44px !important;
+  max-height: 44px !important;
+  flex: 0 0 44px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border-radius: 12px;
+}
+
+.global-topbar,
+.brand,
+.topbar-title {
+  min-width: 0;
+}
+
+.global-topbar {
+  overflow: hidden;
+}
+
+/* The welcome-page clinical-intelligence icon has its own deliberate size. */
+.eyebrow img[src*="glymize-app-icon"] {
+  width: 58px !important;
+  height: 58px !important;
+  min-width: 58px !important;
+  min-height: 58px !important;
+  max-width: 58px !important;
+  max-height: 58px !important;
+  flex-basis: 58px !important;
+}
+/* GLYMIZE_ICON_LAYOUT_FIX_END */

@@ -1,4 +1,4 @@
-import { buildType2Assessment, buildType2MedicationConsiderations } from "@diabeto/clinical-engine";
+import { buildType2Assessment, buildType2MedicationConsiderations } from "@glymize/clinical-engine";
 import type {
   CatalogImportRequest,
   GenericMedication,
@@ -9,7 +9,7 @@ import type {
   MedicationChecklistItem,
   Type2AssessmentResult,
   Type2ConsiderationRequest
-} from "@diabeto/contracts";
+} from "@glymize/contracts";
 import { ada2026Type2GenericSeed, type2ProtocolSeed } from "../../api/src/catalog/ada-2026-type2-seed";
 import { globalReferenceCatalogue, globalReferenceCatalogueSources } from "../../api/src/catalog/global-reference-catalog";
 import { guidelineSources } from "../../api/src/guidelines/guideline-sources";
@@ -17,7 +17,7 @@ import { getAdminSession, isAdminApiConfigured, publishAdminCatalog } from "./ad
 import { withBasePath } from "./base-path";
 
 const remoteApiUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
-const storageKey = "diayar-browser-catalog-v2";
+const storageKey = "glymize-browser-catalog-v2";
 
 export interface BrowserCatalogState {
   visibility: Record<string, boolean>;
@@ -87,7 +87,7 @@ function readState(): BrowserCatalogState {
 
 function notifyPublish(status: "pending" | "publishing" | "success" | "error", message: string) {
   if (typeof window === "undefined") return;
-  window.dispatchEvent(new CustomEvent("diayar-publish-status", { detail: { status, message } }));
+  window.dispatchEvent(new CustomEvent("glymize-publish-status", { detail: { status, message } }));
 }
 
 function schedulePublish(state: BrowserCatalogState) {
@@ -111,7 +111,7 @@ function schedulePublish(state: BrowserCatalogState) {
 function saveState(state: BrowserCatalogState) {
   stateCache = state;
   window.localStorage.setItem(storageKey, JSON.stringify(state));
-  window.dispatchEvent(new CustomEvent("diayar-catalog-change"));
+  window.dispatchEvent(new CustomEvent("glymize-catalog-change"));
   schedulePublish(state);
 }
 

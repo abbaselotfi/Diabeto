@@ -1,4 +1,4 @@
-import type { ReferenceCatalogSource, ReferenceMedicationPresentation } from "@diabeto/contracts";
+import type { ReferenceCatalogSource, ReferenceMedicationPresentation } from "@glymize/contracts";
 
 /**
  * Imported verbatim in structure from the user-supplied workbook. It is a
