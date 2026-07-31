@@ -1,5 +1,5 @@
 {
-  "name": "@diabeto/web",
+  "name": "@glymize/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,8 +9,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@diabeto/clinical-engine": "workspace:*",
-    "@diabeto/contracts": "workspace:*",
+    "@glymize/clinical-engine": "workspace:*",
+    "@glymize/contracts": "workspace:*",
     "next": "16.2.12",
     "react": "19.2.8",
     "react-dom": "19.2.8",

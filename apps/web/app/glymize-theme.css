@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap");
+
+:root {
+  --glymize-navy-950: #06294a;
+  --glymize-navy-900: #0a3156;
+  --glymize-navy-800: #123e67;
+  --glymize-teal-700: #008f8d;
+  --glymize-teal-650: #009f99;
+  --glymize-teal-600: #00aa9d;
+  --glymize-teal-500: #00b7a5;
+  --glymize-slate-700: #425d76;
+  --glymize-slate-650: #536b82;
+  --glymize-slate-600: #667a8f;
+  --glymize-surface: #ffffff;
+  --glymize-background: #fbfdff;
+  --glymize-border: rgba(6, 41, 74, 0.13);
+  --glymize-focus: rgba(0, 183, 165, 0.45);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+  background: var(--glymize-background);
+}
+
+body {
+  margin: 0;
+  color: var(--glymize-navy-950);
+  background: var(--glymize-background);
+  font-family: Manrope, Arial, Helvetica, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+html[lang="fa"] body,
+[dir="rtl"] {
+  font-family: Vazirmatn, Tahoma, Arial, sans-serif;
+}
+
+html[lang="en"] body,
+[dir="ltr"] {
+  font-family: Manrope, Arial, Helvetica, sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid var(--glymize-focus);
+  outline-offset: 3px;
+}
+
+::selection {
+  color: var(--glymize-navy-950);
+  background: rgba(0, 183, 165, 0.22);
+}

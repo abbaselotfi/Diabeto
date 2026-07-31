@@ -1,5 +1,5 @@
 {
-  "name": "@diabeto/admin-worker",
+  "name": "@glymize/admin-worker",
   "version": "0.1.0",
   "private": true,
   "type": "module",

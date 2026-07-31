@@ -1,5 +1,5 @@
 {
-  "name": "@diabeto/api",
+  "name": "@glymize/api",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,8 +8,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@diabeto/clinical-engine": "workspace:*",
-    "@diabeto/contracts": "workspace:*",
+    "@glymize/clinical-engine": "workspace:*",
+    "@glymize/contracts": "workspace:*",
     "@nestjs/common": "11.1.28",
     "@nestjs/core": "11.1.28",
     "@nestjs/platform-fastify": "11.1.28",

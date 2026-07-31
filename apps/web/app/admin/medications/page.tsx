@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { InsuranceProvider, MedicationBrand, MedicationChecklistItem } from "@diabeto/contracts";
+import type { InsuranceProvider, MedicationBrand, MedicationChecklistItem } from "@glymize/contracts";
 import { useEffect, useMemo, useState } from "react";
 import { readSheet } from "read-excel-file/browser";
 import { apiFetch, beginCatalogPublishBatch, endCatalogPublishBatch } from "../../../lib/api-client";
@@ -286,7 +286,7 @@ export default function MedicationSelectionPage() {
     <Link className="back-button" href="/admin">→ بازگشت به پنل مدیریت</Link>
     <header className="page-heading"><div><span className="eyebrow">Medication visibility & insurance</span><h1>انتخاب دارو و پوشش بیمه</h1><p>برای هر دارو چند سازمان بیمه و درصد متفاوت قابل ثبت است.</p></div><span className="version-badge">{items.filter((item) => item.showInApp).length} فعال از {items.length || 104}</span></header>
     <section className="import-card">
-      <div className="import-heading"><div><span className="eyebrow">Excel Import</span><h2>ورود اطلاعات دارویی از فایل استاندارد</h2><p>فایل ابتدا بررسی می‌شود و تا زدن دکمهٔ ثبت، تغییری انجام نمی‌گیرد. ستون بیمهٔ خالی، اطلاعات بیمهٔ قبلی را دست‌نخورده نگه می‌دارد.</p></div><a className="secondary import-template-link" download href={withBasePath("/diayar-medication-import-template.xlsx")}>دانلود قالب خالی</a></div>
+      <div className="import-heading"><div><span className="eyebrow">Excel Import</span><h2>ورود اطلاعات دارویی از فایل استاندارد</h2><p>فایل ابتدا بررسی می‌شود و تا زدن دکمهٔ ثبت، تغییری انجام نمی‌گیرد. ستون بیمهٔ خالی، اطلاعات بیمهٔ قبلی را دست‌نخورده نگه می‌دارد.</p></div><a className="secondary import-template-link" download href={withBasePath("/glymize-medication-import-template.xlsx")}>دانلود قالب خالی</a></div>
       <div className="import-controls">
         <label className="file-picker"><span>انتخاب فایل Excel</span><input accept=".xlsx" onChange={(event) => { const file = event.target.files?.[0]; if (file) void prepareImport(file); }} type="file" /></label>
         <label className="compact-check"><input checked={syncVisibility} onChange={(event) => setSyncVisibility(event.target.checked)} type="checkbox" /><span>فقط ژنریک‌های موجود در فایل نمایش داده شوند</span></label>

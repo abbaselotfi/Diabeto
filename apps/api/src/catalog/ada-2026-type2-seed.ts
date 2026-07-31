@@ -1,4 +1,4 @@
-import type { ClinicalProtocolBundle, GenericMedication } from "@diabeto/contracts";
+import type { ClinicalProtocolBundle, GenericMedication } from "@glymize/contracts";
 
 const adaSection9 = {
   sourceUrl: "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment",

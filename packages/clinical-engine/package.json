@@ -1,5 +1,5 @@
 {
-  "name": "@diabeto/clinical-engine",
+  "name": "@glymize/clinical-engine",
   "version": "0.1.0",
   "private": true,
   "main": "./dist/index.js",
@@ -10,7 +10,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@diabeto/contracts": "workspace:*"
+    "@glymize/contracts": "workspace:*"
   },
   "devDependencies": {
     "vitest": "4.1.10"

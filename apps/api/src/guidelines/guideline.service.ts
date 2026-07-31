@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import type { GuidelineSource, GuidelineUpdateCheckResult } from "@diabeto/contracts";
+import type { GuidelineSource, GuidelineUpdateCheckResult } from "@glymize/contracts";
 import { guidelineSources } from "./guideline-sources.js";
 
 @Injectable()

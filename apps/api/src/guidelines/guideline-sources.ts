@@ -1,4 +1,4 @@
-import type { GuidelineSource } from "@diabeto/contracts";
+import type { GuidelineSource } from "@glymize/contracts";
 
 export const guidelineSources: GuidelineSource[] = [
   {

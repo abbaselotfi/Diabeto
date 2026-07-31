@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { ClinicalProtocolBundle, GuidelineSource, MedicationChecklistItem, ReferenceCatalogSource, Type2MedicationConsideration } from "@diabeto/contracts";
+import type { ClinicalProtocolBundle, GuidelineSource, MedicationChecklistItem, ReferenceCatalogSource, Type2MedicationConsideration } from "@glymize/contracts";
 import { useEffect, useState } from "react";
 import { apiFetch } from "../../lib/api-client";
 

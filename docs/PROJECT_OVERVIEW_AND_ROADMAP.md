@@ -350,11 +350,11 @@ The following issues should be addressed one by one. Their order will be refined
 
 The repository name is GLYMIZE, but old identities remain in the codebase:
 
-- root package name `diabeto`;
-- package namespace `@diabeto/*`;
-- `DiaYar` strings;
-- `diayar-browser-catalog-v2` localStorage key;
-- `DiaYar-Admin-Worker` user agent;
+- root package name `glymize`;
+- package namespace `@glymize/*`;
+- `GLYMIZE` strings;
+- `glymize-browser-catalog-v2` localStorage key;
+- `GLYMIZE-Admin-Worker` user agent;
 - old wording in build, Worker, documentation, UI, and configuration files.
 
 **Required outcome:** one consistent GLYMIZE identity across code, package names, storage keys, environment variables, metadata, UI, PWA, documentation, and deployment.
@@ -809,7 +809,7 @@ An improvement should not be marked complete until all relevant items below are 
 
 The recommended first task is:
 
-> **Complete the GLYMIZE rebranding inventory and replace all obsolete Diabeto/DiaYar identities in a controlled change without breaking package resolution, deployments, local storage migration, or admin publishing.**
+> **Complete the GLYMIZE rebranding inventory and replace all obsolete GLYMIZE/GLYMIZE identities in a controlled change without breaking package resolution, deployments, local storage migration, or admin publishing.**
 
 This task should include a search-based inventory before edits and should distinguish between:
 
@@ -823,7 +823,7 @@ This task should include a search-based inventory before edits and should distin
 - documentation;
 - migration compatibility.
 
-Package namespace changes should be handled carefully because changing `@diabeto/*` affects imports, lockfiles, workspace dependencies, GitHub Actions, and deployment scripts.
+Package namespace changes should be handled carefully because changing `@glymize/*` affects imports, lockfiles, workspace dependencies, GitHub Actions, and deployment scripts.
 
 ---
 

@@ -1,6 +1,6 @@
 "use client";
 
-import type { InsuranceProvider, MedicationChecklistItem } from "@diabeto/contracts";
+import type { InsuranceProvider, MedicationChecklistItem } from "@glymize/contracts";
 import { useEffect, useMemo, useState } from "react";
 import { apiFetch } from "../../lib/api-client";
 

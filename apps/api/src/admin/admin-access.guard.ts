@@ -11,8 +11,8 @@ export class AdminAccessGuard implements CanActivate {
     if (process.env.NODE_ENV === "production") {
       throw new ForbiddenException("دسترسی مدیریت تا زمان فعال‌سازی احراز هویت نقش‌محور غیرفعال است.");
     }
-    if (process.env.DIABETO_DEV_ADMIN_BYPASS !== "true") {
-      throw new ForbiddenException("برای توسعهٔ محلی DIABETO_DEV_ADMIN_BYPASS=true را تنظیم کنید.");
+    if (process.env.GLYMIZE_DEV_ADMIN_BYPASS !== "true") {
+      throw new ForbiddenException("برای توسعهٔ محلی GLYMIZE_DEV_ADMIN_BYPASS=true را تنظیم کنید.");
     }
     return true;
   }

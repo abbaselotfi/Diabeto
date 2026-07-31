@@ -2,7 +2,7 @@
 
 ## هدف
 
-Diabeto برای پزشکان تأییدشده یک دستیار پشتیبان تصمیم است. این ماژول تشخیص، نسخه‌نویسی خودکار یا جایگزینی قضاوت پزشک نیست.
+GLYMIZE برای پزشکان تأییدشده یک دستیار پشتیبان تصمیم است. این ماژول تشخیص، نسخه‌نویسی خودکار یا جایگزینی قضاوت پزشک نیست.
 
 ## محدودهٔ این کامیت
 
@@ -18,7 +18,7 @@ Diabeto برای پزشکان تأییدشده یک دستیار پشتیبان 
 
 ## دسترسی ادمین
 
-در production پنل `/admin` و endpointهای `v1/admin/*` تا اتصال احراز هویت نقش‌محور fail-closed هستند. migration `003_role_based_access.sql` نقش‌های `pending`، `clinician` و `admin` را آماده می‌کند. در توسعهٔ محلی، فقط با تنظیم سروری `DIABETO_DEV_ADMIN_BYPASS=true` می‌توان پنل prototype را دید؛ این bypass نباید هرگز در production استفاده شود.
+در production پنل `/admin` و endpointهای `v1/admin/*` تا اتصال احراز هویت نقش‌محور fail-closed هستند. migration `003_role_based_access.sql` نقش‌های `pending`، `clinician` و `admin` را آماده می‌کند. در توسعهٔ محلی، فقط با تنظیم سروری `GLYMIZE_DEV_ADMIN_BYPASS=true` می‌توان پنل prototype را دید؛ این bypass نباید هرگز در production استفاده شود.
 
 ## ملاحظات کاتالوگ Type 2
 
