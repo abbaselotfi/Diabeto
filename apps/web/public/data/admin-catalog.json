@@ -1,13 +1,17 @@
 {
   "schemaVersion": 1,
-  "revision": "b076f3b1-a96e-412e-a016-b6ae0ecff112",
-  "updatedAt": "2026-08-02T07:41:26.422Z",
+  "revision": "5b28a351-6012-4127-b207-1fa7ec839b89",
+  "updatedAt": "2026-08-02T07:41:32.772Z",
   "updatedBy": "abbaselotfi",
   "visibility": {},
   "insurance": {
     "global-metformin-1": [
       {
         "provider": "social_security",
+        "percent": 90
+      },
+      {
+        "provider": "health_insurance",
         "percent": 90
       }
     ]
