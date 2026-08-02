@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "revision": "64a68bbc-ad44-458c-9520-c816e070a398",
-  "updatedAt": "2026-08-02T07:41:38.861Z",
+  "revision": "e2faa932-ef61-4cc8-a66a-e069f2cfba41",
+  "updatedAt": "2026-08-02T07:42:14.841Z",
   "updatedBy": "abbaselotfi",
   "visibility": {},
   "insurance": {
@@ -24,8 +24,8 @@
     "global-metformin-1": [
       {
         "id": "5c13c6c3-c2d3-45c3-824b-b5544aa493b0",
-        "name": "",
-        "showInsteadOfGeneric": false,
+        "name": "گاوکوفاژ",
+        "showInsteadOfGeneric": true,
         "priority": 1,
         "customInsurance": false,
         "insuranceCoverages": []
