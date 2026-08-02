@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "revision": "5b28a351-6012-4127-b207-1fa7ec839b89",
-  "updatedAt": "2026-08-02T07:41:32.772Z",
+  "revision": "399f046d-bce3-45bb-bc1e-d05d38e9c684",
+  "updatedAt": "2026-08-02T07:41:37.111Z",
   "updatedBy": "abbaselotfi",
   "visibility": {},
   "insurance": {
@@ -13,6 +13,10 @@
       {
         "provider": "health_insurance",
         "percent": 90
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 100
       }
     ]
   },
