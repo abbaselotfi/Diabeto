@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "revision": "e2faa932-ef61-4cc8-a66a-e069f2cfba41",
-  "updatedAt": "2026-08-02T07:42:14.841Z",
+  "revision": "ce354b92-4fc0-495a-95ea-bc688b37c6be",
+  "updatedAt": "2026-08-02T07:42:17.081Z",
   "updatedBy": "abbaselotfi",
   "visibility": {},
   "insurance": {
@@ -27,7 +27,7 @@
         "name": "گاوکوفاژ",
         "showInsteadOfGeneric": true,
         "priority": 1,
-        "customInsurance": false,
+        "customInsurance": true,
         "insuranceCoverages": []
       }
     ]
