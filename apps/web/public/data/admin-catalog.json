@@ -1,10 +1,17 @@
 {
   "schemaVersion": 1,
-  "revision": "initial",
-  "updatedAt": "2026-07-30T00:00:00.000Z",
-  "updatedBy": "system",
+  "revision": "b076f3b1-a96e-412e-a016-b6ae0ecff112",
+  "updatedAt": "2026-08-02T07:41:26.422Z",
+  "updatedBy": "abbaselotfi",
   "visibility": {},
-  "insurance": {},
+  "insurance": {
+    "global-metformin-1": [
+      {
+        "provider": "social_security",
+        "percent": 90
+      }
+    ]
+  },
   "brands": {},
   "customGenerics": []
 }
