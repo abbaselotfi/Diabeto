@@ -13,10 +13,26 @@ export default function PwaInstall() {
     useState<BeforeInstallPromptEvent | null>(null);
   const [installed, setInstalled] = useState(false);
   const [waitingWorker, setWaitingWorker] = useState<ServiceWorker | null>(null);
+  const [catalogRevision, setCatalogRevision] = useState<string | null>(null);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | undefined;
     let registration: ServiceWorkerRegistration | undefined;
+    const catalogRevisionKey = "glymize-catalog-revision-v1";
+
+    const checkCatalogRevision = async () => {
+      try {
+        const response = await fetch(`${withBasePath("/data/admin-catalog.json")}?t=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) return;
+        const catalog = await response.json() as { revision?: string };
+        if (!catalog.revision) return;
+        const previous = window.localStorage.getItem(catalogRevisionKey);
+        if (!previous) window.localStorage.setItem(catalogRevisionKey, catalog.revision);
+        else if (previous !== catalog.revision) setCatalogRevision(catalog.revision);
+      } catch {
+        // Offline PWA continues to use the last healthy cached catalogue.
+      }
+    };
 
     const watchInstallingWorker = (worker: ServiceWorker | null) => {
       if (!worker) return;
@@ -75,9 +91,10 @@ export default function PwaInstall() {
             watchInstallingWorker(registered.installing),
           );
           interval = setInterval(
-            () => void registered.update(),
-            30 * 60 * 1000,
+            () => { void registered.update(); void checkCatalogRevision(); },
+            5 * 60 * 1000,
           );
+          void checkCatalogRevision();
         });
     }
 
@@ -93,6 +110,7 @@ export default function PwaInstall() {
     const visibilityHandler = () => {
       if (document.visibilityState === "visible") {
         void registration?.update();
+        void checkCatalogRevision();
       }
     };
 
@@ -138,6 +156,15 @@ export default function PwaInstall() {
         >
           به‌روزرسانی
         </button>
+      </div>
+    );
+  }
+
+  if (catalogRevision) {
+    return (
+      <div className="update-toast" role="status">
+        <span><b>اطلاعات دارویی جدید آماده است</b><small>قیمت، کدها یا پوشش بیمهٔ تأییدشده به‌روزرسانی شده‌اند.</small></span>
+        <button onClick={() => { window.localStorage.setItem("glymize-catalog-revision-v1", catalogRevision); window.location.reload(); }} type="button">دریافت اطلاعات</button>
       </div>
     );
   }

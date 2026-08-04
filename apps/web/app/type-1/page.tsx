@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PathwayMedicationCards from "../components/pathway-medication-cards";
+import ClinicalDomainMedications from "../components/clinical-domain-medications";
 
 export default function Type1Page() {
   return (
@@ -18,6 +19,7 @@ export default function Type1Page() {
         <p className="muted">انتخاب داروهای قابل نمایش از مسیر مستقیم `/admin` مدیریت می‌شود.</p>
       </section>
       <PathwayMedicationCards pathway="type1" />
+      <ClinicalDomainMedications />
     </main>
   );
 }

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import GlymizeLanguageSwitch from "./glymize-language-switch";
+import PwaInstall from "./pwa-install";
 import { useGlymizeLocale } from "./use-glymize-locale";
 
 const NAVIGATION = [
@@ -66,7 +67,7 @@ export default function AppShell({
   const copy = COPY[locale];
 
   if (pathname === "/") {
-    return <>{children}</>;
+    return <><div className="home-pwa-control"><PwaInstall /></div>{children}</>;
   }
 
   return (
@@ -135,7 +136,7 @@ export default function AppShell({
             <span>{copy.subtitle}</span>
           </div>
 
-          <GlymizeLanguageSwitch />
+          <div className="topbar-actions"><PwaInstall /><GlymizeLanguageSwitch /></div>
         </header>
 
         <div className="page-content">{children}</div>

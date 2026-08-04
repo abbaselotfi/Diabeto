@@ -2,12 +2,16 @@ import { Injectable } from "@nestjs/common";
 import { NotFoundException } from "@nestjs/common";
 import { buildType2Assessment, buildType2MedicationConsiderations } from "@glymize/clinical-engine";
 import type {
+  AdminNotification,
   CatalogImportRequest,
   CatalogImportResult,
+  CreateAdminNotificationInput,
   CreateMedicationBrandInput,
   GenericMedication,
   GenericMedicationInput,
   InsuranceCoverage,
+  MedicationMarketData,
+  MedicationMarketDataInput,
   MedicationChecklistItem,
   MedicationBrand,
   Type2ConsiderationRequest,
@@ -24,6 +28,8 @@ export class CatalogService {
   private readonly referenceVisibility = new Map(globalReferenceCatalogue.map((presentation) => [presentation.id, true]));
   private readonly referenceInsurance = new Map<string, InsuranceCoverage[]>();
   private readonly referenceBrands = new Map<string, MedicationBrand[]>();
+  private readonly referenceMarketData = new Map<string, MedicationMarketData>();
+  private readonly notifications: AdminNotification[] = [];
 
   listGenerics(therapyGroup?: string) {
     return therapyGroup ? this.genericMedications.filter((medication) => medication.therapyGroup === therapyGroup) : this.genericMedications;
@@ -92,25 +98,35 @@ export class CatalogService {
         inheritedCoverage: this.referenceInsurance.get(reference.id) ?? []
       }))
     )
-      .filter(({ brand }) => brand.showInsteadOfGeneric && brand.name.trim())
+      .filter(({ brand }) => brand.showInsteadOfGeneric && !brand.hiddenFromSource && brand.name.trim())
       .sort((left, right) => left.referenceIndex - right.referenceIndex || left.brand.priority - right.brand.priority);
-    if (brands.length === 0) {
+    const primaryReference = references[0];
+    const market = primaryReference ? this.referenceMarketData.get(primaryReference.id) : undefined;
+    if (brands.length === 0 || market?.displayMode === "generic_with_selected_brands") {
       return [{
         cardId: `${medication.id}:generic`,
         displayName: medication.persianName,
         selectedBrandName: undefined,
         selectedBrandId: undefined,
+        selectedBrands: market?.displayMode === "generic_with_selected_brands" ? brands.map(({ brand, inheritedCoverage }) => ({ ...brand, insuranceCoverages: brand.customInsurance ? brand.insuranceCoverages : inheritedCoverage })) : undefined,
         brandPriority: 0,
-        insuranceCoverages: this.mergeInsuranceCoverages(genericCoverage)
+        insuranceCoverages: this.mergeInsuranceCoverages(genericCoverage),
+        genericRegistryCode: market?.genericRegistryCode,
+        price: market?.price,
+        marketBadge: market?.marketBadge
       }];
     }
-    return brands.map(({ brand, inheritedCoverage }, index) => ({
+    return brands.slice(0, 1).map(({ brand, inheritedCoverage }, index) => ({
       cardId: `${medication.id}:${brand.id}`,
       displayName: brand.name.trim(),
       selectedBrandName: brand.name.trim(),
       selectedBrandId: brand.id,
       brandPriority: index + 1,
-      insuranceCoverages: this.mergeInsuranceCoverages(brand.customInsurance ? brand.insuranceCoverages : inheritedCoverage)
+      insuranceCoverages: this.mergeInsuranceCoverages(brand.customInsurance ? brand.insuranceCoverages : inheritedCoverage),
+      genericRegistryCode: brand.genericRegistryCode ?? market?.genericRegistryCode,
+      brandRegistryCode: brand.brandRegistryCode,
+      price: brand.price ?? market?.price,
+      marketBadge: brand.marketBadge ?? market?.marketBadge
     }));
   }
 
@@ -134,7 +150,9 @@ export class CatalogService {
   }
 
   listMedicationChecklist(): MedicationChecklistItem[] {
-    return globalReferenceCatalogue.map((presentation) => ({
+    return globalReferenceCatalogue.map((presentation) => {
+      const market = this.referenceMarketData.get(presentation.id);
+      return {
       referencePresentationId: presentation.id,
       genericName: presentation.genericName,
       therapeuticClass: presentation.therapeuticClass,
@@ -146,8 +164,15 @@ export class CatalogService {
       showInApp: this.referenceVisibility.get(presentation.id) ?? false
       ,
       insuranceCoverages: this.referenceInsurance.get(presentation.id) ?? [],
-      brands: this.referenceBrands.get(presentation.id) ?? []
-    }));
+      brands: this.referenceBrands.get(presentation.id) ?? [],
+      displayMode: market?.displayMode ?? "generic_or_primary_brand",
+      clinicalDomains: market?.clinicalDomains ?? ["diabetes"],
+      genericRegistryCode: market?.genericRegistryCode,
+      price: market?.price,
+      marketBadge: market?.marketBadge,
+      sourceObservedAt: market?.sourceObservedAt
+    };
+    });
   }
 
   updateMedicationInsurance(referencePresentationId: string, input: UpdateMedicationInsuranceInput): MedicationChecklistItem {
@@ -159,7 +184,19 @@ export class CatalogService {
         throw new NotFoundException("ارگان بیمه و درصد معتبر بین صفر تا صد لازم است.");
       }
       const current = this.referenceInsurance.get(referencePresentationId) ?? [];
-      this.referenceInsurance.set(referencePresentationId, [...current.filter((item) => item.provider !== input.provider), { provider: input.provider, percent: input.percent }]);
+      this.referenceInsurance.set(referencePresentationId, [...current.filter((item) => item.provider !== input.provider), {
+        provider: input.provider,
+        percent: input.percent,
+        origin: input.origin ?? "manual",
+        genericCode: input.genericCode,
+        brandCode: input.brandCode,
+        insurerShareToman: input.insurerShareToman,
+        patientShareToman: input.patientShareToman,
+        referencePriceToman: input.referencePriceToman,
+        effectiveAt: input.effectiveAt,
+        sourceUrl: input.sourceUrl,
+        sourceReference: input.sourceReference
+      }]);
     }
     return this.listMedicationChecklist().find((item) => item.referencePresentationId === referencePresentationId)!;
   }
@@ -204,6 +241,43 @@ export class CatalogService {
     if (!presentation) throw new NotFoundException("رکورد مرجع دارو پیدا نشد.");
     this.referenceVisibility.set(referencePresentationId, input.showInApp);
     return this.listMedicationChecklist().find((item) => item.referencePresentationId === referencePresentationId)!;
+  }
+
+  updateMedicationMarketData(referencePresentationId: string, input: MedicationMarketDataInput): MedicationChecklistItem {
+    const presentation = globalReferenceCatalogue.find((item) => item.id === referencePresentationId);
+    if (!presentation) throw new NotFoundException("رکورد مرجع دارو پیدا نشد.");
+    this.referenceMarketData.set(referencePresentationId, {
+      ...(this.referenceMarketData.get(referencePresentationId) ?? {}),
+      ...input,
+      updatedAt: new Date().toISOString()
+    });
+    return this.listMedicationChecklist().find((item) => item.referencePresentationId === referencePresentationId)!;
+  }
+
+  listNotifications() {
+    return this.notifications;
+  }
+
+  createNotification(input: CreateAdminNotificationInput) {
+    const existing = this.notifications.find((notification) =>
+      notification.status !== "resolved" && notification.title === input.title && notification.entityReferenceId === input.entityReferenceId
+    );
+    if (existing) return existing;
+    const notification: AdminNotification = {
+      ...input,
+      id: crypto.randomUUID(),
+      status: "unread",
+      createdAt: new Date().toISOString()
+    };
+    this.notifications.unshift(notification);
+    return notification;
+  }
+
+  updateNotification(notificationId: string, status: AdminNotification["status"]) {
+    const notification = this.notifications.find((item) => item.id === notificationId);
+    if (!notification) throw new NotFoundException("اعلان پیدا نشد.");
+    notification.status = status;
+    return notification;
   }
 
   listGlobalReferenceSources() {

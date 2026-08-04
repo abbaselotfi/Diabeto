@@ -44,7 +44,7 @@ $rng.GetBytes($bytes)
 
 ```powershell
 gh variable set NEXT_PUBLIC_ADMIN_API_URL --repo abbaselotfi/GLYMIZE --body "https://shiny-block-9d4a.abbaselotfi.workers.dev"
-gh workflow run "Deploy GLYMIZE to GitHub Pages" --repo abbaselotfi/GLYMIZE --ref agent/secure-admin-publishing
+gh workflow run "Deploy GLYMIZE to GitHub Pages" --repo abbaselotfi/GLYMIZE --ref main
 ```
 
 تا وقتی این متغیر ثبت نشده باشد، workflow نسخه‌ای که پنل مدیریت آن backend
@@ -52,6 +52,5 @@ gh workflow run "Deploy GLYMIZE to GitHub Pages" --repo abbaselotfi/GLYMIZE --re
 
 ## ۴. بعد از merge
 
-در `apps/admin-worker/wrangler.jsonc` مقدار `GITHUB_BRANCH` را از
-`agent/secure-admin-publishing` به `main` تغییر دهید و Worker را یک بار دیگر
-deploy کنید.
+Worker را فقط بعد از ادغام این تغییرات روی `main` دوباره deploy کنید؛ انتشار
+کاتالوگ ادمین عمداً فقط روی شاخهٔ `main` انجام می‌شود.

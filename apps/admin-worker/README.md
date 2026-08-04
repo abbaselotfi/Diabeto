@@ -24,5 +24,5 @@ Deployment outline:
    Worker origin `https://shiny-block-9d4a.abbaselotfi.workers.dev` and re-run
    the Pages workflow.
 
-After the feature branch is merged, change `GITHUB_BRANCH` from
-`agent/secure-admin-publishing` to `main` and deploy the Worker once more.
+`GITHUB_BRANCH` is intentionally fixed to `main`. Deploy the Worker only after
+this feature branch has been reviewed and merged.

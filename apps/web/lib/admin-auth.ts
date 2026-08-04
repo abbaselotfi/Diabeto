@@ -1,4 +1,4 @@
-const adminApiUrl = ((((process.env.NEXT_PUBLIC_ADMIN_API_URL ?? "http://localhost:8787") ?? "http://localhost:8787") ?? "http://localhost:8787") ?? "http://localhost:8787")?.replace(/\/$/, "") ?? "";
+const adminApiUrl = (process.env.NEXT_PUBLIC_ADMIN_API_URL ?? "").replace(/\/$/, "");
 const sessionStorageKey = "glymize-admin-session";
 
 export interface AdminIdentity {

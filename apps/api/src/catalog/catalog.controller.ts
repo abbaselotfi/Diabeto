@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
-import type { CatalogImportRequest, CreateMedicationBrandInput, GenericMedicationInput, Type2ConsiderationRequest, UpdateMedicationBrandInput, UpdateMedicationInsuranceInput, UpdateMedicationVisibilityInput } from "@glymize/contracts";
+import type { AdminNotification, CatalogImportRequest, CreateAdminNotificationInput, CreateMedicationBrandInput, GenericMedicationInput, MedicationMarketDataInput, Type2ConsiderationRequest, UpdateMedicationBrandInput, UpdateMedicationInsuranceInput, UpdateMedicationVisibilityInput } from "@glymize/contracts";
 import { CatalogService } from "./catalog.service.js";
 
 @Controller("v1")
@@ -34,6 +34,31 @@ export class CatalogController {
   @Patch("admin/catalog/medication-checklist/:referencePresentationId/insurance")
   updateMedicationInsurance(@Param("referencePresentationId") referencePresentationId: string, @Body() input: UpdateMedicationInsuranceInput) {
     return this.catalogService.updateMedicationInsurance(referencePresentationId, input);
+  }
+
+  @Patch("admin/catalog/medication-checklist/:referencePresentationId/market-data")
+  updateMedicationMarketData(@Param("referencePresentationId") referencePresentationId: string, @Body() input: MedicationMarketDataInput) {
+    return this.catalogService.updateMedicationMarketData(referencePresentationId, input);
+  }
+
+  @Get("admin/notifications")
+  notifications() {
+    return this.catalogService.listNotifications();
+  }
+
+  @Post("admin/notifications")
+  createNotification(@Body() input: CreateAdminNotificationInput) {
+    return this.catalogService.createNotification(input);
+  }
+
+  @Patch("admin/notifications/:notificationId")
+  updateNotification(@Param("notificationId") notificationId: string, @Body() input: { status: AdminNotification["status"] }) {
+    return this.catalogService.updateNotification(notificationId, input.status);
+  }
+
+  @Get("admin/catalog/update-runs")
+  updateRuns() {
+    return [];
   }
 
   @Post("admin/catalog/medication-checklist/:referencePresentationId/brands")
