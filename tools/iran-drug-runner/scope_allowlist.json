@@ -1,0 +1,899 @@
+{
+  "schemaVersion": 1,
+  "description": "فهرست دامنه دارویی تاییدشده GLYMIZE؛ ورود خودکار فقط برای ردیف‌های مطابق این فهرست انجام می‌شود.",
+  "entries": [
+    {
+      "canonicalName": "Metformin",
+      "aliases": [
+        "Metformin",
+        "متفورمین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Glibenclamide (Glyburide)",
+      "aliases": [
+        "Glibenclamide (Glyburide)",
+        "گلی‌بن‌کلامید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Gliclazide",
+      "aliases": [
+        "Gliclazide",
+        "گلیکلازید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Glimepiride",
+      "aliases": [
+        "Glimepiride",
+        "گلیمپیرید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Glipizide",
+      "aliases": [
+        "Glipizide",
+        "گلی‌پیزاید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Repaglinide",
+      "aliases": [
+        "Repaglinide",
+        "رپاگلیناید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Nateglinide",
+      "aliases": [
+        "Nateglinide",
+        "ناتگلیناید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Mitiglinide",
+      "aliases": [
+        "Mitiglinide",
+        "میتی‌گلیناید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Pioglitazone",
+      "aliases": [
+        "Pioglitazone",
+        "پیوگلیتازون"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Rosiglitazone",
+      "aliases": [
+        "Rosiglitazone",
+        "روزی‌گلیتازون"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Lobeglitazone",
+      "aliases": [
+        "Lobeglitazone",
+        "لوبگلیتازون"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Acarbose",
+      "aliases": [
+        "Acarbose",
+        "آکاربوز"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Miglitol",
+      "aliases": [
+        "Miglitol",
+        "میگلیتول"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Voglibose",
+      "aliases": [
+        "Voglibose",
+        "ووگلیبوز"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Sitagliptin",
+      "aliases": [
+        "Sitagliptin",
+        "سیتاگلیپتین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Vildagliptin",
+      "aliases": [
+        "Vildagliptin",
+        "ویلداگلیپتین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Saxagliptin",
+      "aliases": [
+        "Saxagliptin",
+        "ساکساگلیپتین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Linagliptin",
+      "aliases": [
+        "Linagliptin",
+        "لیناگلیپتین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Alogliptin",
+      "aliases": [
+        "Alogliptin",
+        "آلوگلیپتین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Teneligliptin",
+      "aliases": [
+        "Teneligliptin",
+        "تنلی‌گلیپتین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Gemigliptin",
+      "aliases": [
+        "Gemigliptin",
+        "جمی‌گلیپتین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Evogliptin",
+      "aliases": [
+        "Evogliptin",
+        "اووگلیپتین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Anagliptin",
+      "aliases": [
+        "Anagliptin",
+        "آناگلیپتین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Trelagliptin",
+      "aliases": [
+        "Trelagliptin",
+        "ترلاگلیپتین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Omarigliptin",
+      "aliases": [
+        "Omarigliptin",
+        "اوماریگلیپتین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Dapagliflozin",
+      "aliases": [
+        "Dapagliflozin",
+        "داپاگلیفلوزین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Empagliflozin",
+      "aliases": [
+        "Empagliflozin",
+        "امپاگلیفلوزین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Canagliflozin",
+      "aliases": [
+        "Canagliflozin",
+        "کاناگلیفلوزین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Ertugliflozin",
+      "aliases": [
+        "Ertugliflozin",
+        "ارتوگلیفلوزین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Bexagliflozin",
+      "aliases": [
+        "Bexagliflozin",
+        "بکساگلیفلوزین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Ipragliflozin",
+      "aliases": [
+        "Ipragliflozin",
+        "ایپراگلیفلوزین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Luseogliflozin",
+      "aliases": [
+        "Luseogliflozin",
+        "لوسئوگلیفلوزین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Tofogliflozin",
+      "aliases": [
+        "Tofogliflozin",
+        "توفوگلیفلوزین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Remogliflozin etabonate",
+      "aliases": [
+        "Remogliflozin etabonate",
+        "رموگلیفلوزین اتابونات"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Sotagliflozin",
+      "aliases": [
+        "Sotagliflozin",
+        "سوتاگلیفلوزین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Colesevelam",
+      "aliases": [
+        "Colesevelam",
+        "کلسیولام"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Bromocriptine-QR",
+      "aliases": [
+        "Bromocriptine-QR",
+        "بروموکریپتین QR"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Imeglimin",
+      "aliases": [
+        "Imeglimin",
+        "ایمگلیمین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Semaglutide",
+      "aliases": [
+        "Semaglutide",
+        "سماگلوتاید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Metformin + glyburide",
+      "aliases": [
+        "Metformin + glyburide"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Metformin + glipizide",
+      "aliases": [
+        "Metformin + glipizide"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Metformin + glimepiride",
+      "aliases": [
+        "Metformin + glimepiride"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Metformin + gliclazide",
+      "aliases": [
+        "Metformin + gliclazide"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Pioglitazone + metformin",
+      "aliases": [
+        "Pioglitazone + metformin"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Pioglitazone + glimepiride",
+      "aliases": [
+        "Pioglitazone + glimepiride"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Rosiglitazone + metformin",
+      "aliases": [
+        "Rosiglitazone + metformin"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Sitagliptin + metformin",
+      "aliases": [
+        "Sitagliptin + metformin"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Sitagliptin + metformin ER",
+      "aliases": [
+        "Sitagliptin + metformin ER"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Vildagliptin + metformin",
+      "aliases": [
+        "Vildagliptin + metformin"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Saxagliptin + metformin ER",
+      "aliases": [
+        "Saxagliptin + metformin ER"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Linagliptin + metformin",
+      "aliases": [
+        "Linagliptin + metformin"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Linagliptin + metformin ER",
+      "aliases": [
+        "Linagliptin + metformin ER"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Alogliptin + metformin",
+      "aliases": [
+        "Alogliptin + metformin"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Teneligliptin + metformin",
+      "aliases": [
+        "Teneligliptin + metformin"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Gemigliptin + metformin",
+      "aliases": [
+        "Gemigliptin + metformin"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Alogliptin + pioglitazone",
+      "aliases": [
+        "Alogliptin + pioglitazone"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Canagliflozin + metformin",
+      "aliases": [
+        "Canagliflozin + metformin"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Dapagliflozin + metformin ER",
+      "aliases": [
+        "Dapagliflozin + metformin ER"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Empagliflozin + metformin",
+      "aliases": [
+        "Empagliflozin + metformin"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Empagliflozin + metformin ER",
+      "aliases": [
+        "Empagliflozin + metformin ER"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Ertugliflozin + metformin",
+      "aliases": [
+        "Ertugliflozin + metformin"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Empagliflozin + linagliptin",
+      "aliases": [
+        "Empagliflozin + linagliptin"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Dapagliflozin + saxagliptin",
+      "aliases": [
+        "Dapagliflozin + saxagliptin"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Ertugliflozin + sitagliptin",
+      "aliases": [
+        "Ertugliflozin + sitagliptin"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Empagliflozin + linagliptin + metformin ER",
+      "aliases": [
+        "Empagliflozin + linagliptin + metformin ER"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Dapagliflozin + saxagliptin + metformin ER",
+      "aliases": [
+        "Dapagliflozin + saxagliptin + metformin ER"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Exenatide",
+      "aliases": [
+        "Exenatide",
+        "اگزناتاید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Exenatide extended-release",
+      "aliases": [
+        "Exenatide extended-release",
+        "اگزناتاید ER"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Lixisenatide",
+      "aliases": [
+        "Lixisenatide",
+        "لیکسی‌سناتاید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Liraglutide",
+      "aliases": [
+        "Liraglutide",
+        "لیراگلوتاید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Dulaglutide",
+      "aliases": [
+        "Dulaglutide",
+        "دولاگلوتاید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Tirzepatide",
+      "aliases": [
+        "Tirzepatide",
+        "تیرزپاتاید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Pramlintide",
+      "aliases": [
+        "Pramlintide",
+        "پراملینتاید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Human insulin (Technosphere)",
+      "aliases": [
+        "Human insulin (Technosphere)",
+        "انسولین انسانی"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Insulin lispro",
+      "aliases": [
+        "Insulin lispro",
+        "انسولین لیسپرو"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Insulin lispro-aabc",
+      "aliases": [
+        "Insulin lispro-aabc",
+        "لیسپرو-aabc"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Insulin aspart",
+      "aliases": [
+        "Insulin aspart",
+        "انسولین آسپارت"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Faster insulin aspart",
+      "aliases": [
+        "Faster insulin aspart",
+        "آسپارت سریع‌تر"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Insulin glulisine",
+      "aliases": [
+        "Insulin glulisine",
+        "انسولین گلولایزین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Regular human insulin",
+      "aliases": [
+        "Regular human insulin",
+        "انسولین رگولار انسانی"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "NPH human insulin",
+      "aliases": [
+        "NPH human insulin",
+        "انسولین NPH انسانی"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Insulin glargine",
+      "aliases": [
+        "Insulin glargine",
+        "انسولین گلارژین"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Insulin detemir",
+      "aliases": [
+        "Insulin detemir",
+        "انسولین دتمیر"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Insulin degludec",
+      "aliases": [
+        "Insulin degludec",
+        "انسولین دگلودک"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Insulin icodec (icodec-abae در US)",
+      "aliases": [
+        "Insulin icodec (icodec-abae در US)",
+        "انسولین آیکودک"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Human insulin isophane/regular",
+      "aliases": [
+        "Human insulin isophane/regular",
+        "انسولین انسانی مخلوط"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Biphasic insulin aspart",
+      "aliases": [
+        "Biphasic insulin aspart",
+        "آسپارت دو فازی"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Insulin degludec + insulin aspart",
+      "aliases": [
+        "Insulin degludec + insulin aspart",
+        "دگلودک+آسپارت"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Insulin lispro protamine + insulin lispro",
+      "aliases": [
+        "Insulin lispro protamine + insulin lispro",
+        "لیسپرو مخلوط"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Insulin glargine + lixisenatide",
+      "aliases": [
+        "Insulin glargine + lixisenatide",
+        "گلارژین+لیکسی‌سناتاید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Insulin degludec + liraglutide",
+      "aliases": [
+        "Insulin degludec + liraglutide",
+        "دگلودک+لیراگلوتاید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    },
+    {
+      "canonicalName": "Insulin icodec + semaglutide",
+      "aliases": [
+        "Insulin icodec + semaglutide",
+        "آیکودک+سماگلوتاید"
+      ],
+      "clinicalDomains": [
+        "diabetes"
+      ]
+    }
+  ]
+}

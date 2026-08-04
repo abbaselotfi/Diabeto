@@ -9,3 +9,8 @@ coverage/
 !.env.example
 *.log
 *.tsbuildinfo
+__pycache__/
+.venv/
+tools/iran-drug-runner/input/
+tools/iran-drug-runner/runs/
+tools/iran-drug-runner/output/

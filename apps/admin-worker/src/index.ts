@@ -23,18 +23,37 @@ interface AdminSession {
   expiresAt: number;
 }
 
+interface CoverageState {
+  provider: string;
+  percent: number;
+  origin?: string;
+  genericCode?: string;
+  brandCode?: string;
+  insurerShareToman?: number;
+  patientShareToman?: number;
+  referencePriceToman?: number;
+}
+
 interface CatalogState {
   visibility: Record<string, boolean>;
-  insurance: Record<string, Array<{ provider: string; percent: number }>>;
+  insurance: Record<string, CoverageState[]>;
   brands: Record<string, Array<{
     id: string;
     name: string;
     showInsteadOfGeneric: boolean;
     priority: number;
     customInsurance: boolean;
-    insuranceCoverages: Array<{ provider: string; percent: number }>;
+    insuranceCoverages: CoverageState[];
+    genericRegistryCode?: string;
+    brandRegistryCode?: string;
+    price?: unknown;
+    sourceDiscovered?: boolean;
+    hiddenFromSource?: boolean;
   }>>;
   customGenerics: unknown[];
+  marketData?: Record<string, unknown>;
+  notifications?: unknown[];
+  updateRuns?: unknown[];
 }
 
 const githubHeaders = {
@@ -139,18 +158,76 @@ async function requireAdmin(request: Request, env: Env): Promise<AdminSession | 
 
 function validCoverage(value: unknown) {
   if (!value || typeof value !== "object") return false;
-  const coverage = value as { provider?: unknown; percent?: unknown };
-  return typeof coverage.provider === "string" &&
+  const coverage = value as Record<string, unknown>;
+  const providers = ["social_security", "health_insurance", "armed_forces", "other_organizations", "supplementary"];
+  const validOptionalCode = (key: string) => coverage[key] === undefined || (typeof coverage[key] === "string" && (coverage[key] as string).length <= 160);
+  const validOptionalMoney = (key: string) => coverage[key] === undefined || (typeof coverage[key] === "number" && Number.isSafeInteger(coverage[key]) && (coverage[key] as number) >= 0);
+  const validOptionalRawMoney = (key: string) => coverage[key] === undefined || (typeof coverage[key] === "number" && Number.isFinite(coverage[key]) && (coverage[key] as number) >= 0);
+  return typeof coverage.provider === "string" && providers.includes(coverage.provider) &&
     typeof coverage.percent === "number" &&
     Number.isFinite(coverage.percent) &&
     coverage.percent >= 0 &&
-    coverage.percent <= 100;
+    coverage.percent <= 100 &&
+    (coverage.origin === undefined || coverage.origin === "source" || coverage.origin === "manual") &&
+    validOptionalCode("genericCode") &&
+    validOptionalCode("brandCode") &&
+    validOptionalMoney("insurerShareToman") &&
+    validOptionalMoney("patientShareToman") &&
+    validOptionalMoney("referencePriceToman") &&
+    (coverage.sourceCurrency === undefined || coverage.sourceCurrency === "IRR" || coverage.sourceCurrency === "TOMAN") &&
+    validOptionalRawMoney("sourceInsurerShare") &&
+    validOptionalRawMoney("sourcePatientShare") &&
+    validOptionalRawMoney("sourceReferencePrice");
+}
+
+function validPrice(value: unknown) {
+  if (!value || typeof value !== "object") return false;
+  const price = value as Record<string, unknown>;
+  const validMoney = (amount: unknown) => typeof amount === "number" && Number.isSafeInteger(amount) && amount >= 0;
+  return validMoney(price.amountToman) &&
+    ["consumer_retail", "insurance_reference", "unknown"].includes(String(price.priceKind)) &&
+    (price.manualOverrideToman === undefined || validMoney(price.manualOverrideToman)) &&
+    (price.sourceCurrency === undefined || price.sourceCurrency === "IRR" || price.sourceCurrency === "TOMAN") &&
+    (price.sourceUrl === undefined || (typeof price.sourceUrl === "string" && price.sourceUrl.length <= 2000));
+}
+
+function validMarketData(value: unknown) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const market = value as Record<string, unknown>;
+  const domains = ["diabetes", "cardiovascular", "kidney", "liver", "obesity"];
+  return (market.displayMode === undefined || ["generic_or_primary_brand", "generic_with_selected_brands"].includes(String(market.displayMode))) &&
+    (market.clinicalDomains === undefined || (Array.isArray(market.clinicalDomains) && market.clinicalDomains.every((domain) => domains.includes(String(domain))))) &&
+    (market.genericRegistryCode === undefined || (typeof market.genericRegistryCode === "string" && market.genericRegistryCode.length <= 160)) &&
+    (market.price === undefined || validPrice(market.price));
+}
+
+function validNotification(value: unknown) {
+  if (!value || typeof value !== "object") return false;
+  const notification = value as Record<string, unknown>;
+  return typeof notification.id === "string" && notification.id.length <= 100 &&
+    ["info", "warning", "error"].includes(String(notification.severity)) &&
+    ["unread", "read", "resolved"].includes(String(notification.status)) &&
+    typeof notification.title === "string" && notification.title.length <= 240 &&
+    typeof notification.message === "string" && notification.message.length <= 2000 &&
+    typeof notification.createdAt === "string";
+}
+
+function validUpdateRun(value: unknown) {
+  if (!value || typeof value !== "object") return false;
+  const run = value as Record<string, unknown>;
+  return typeof run.id === "string" && run.schemaVersion === 1 &&
+    ["staging", "needs_review", "ready_to_publish", "published", "failed"].includes(String(run.status)) &&
+    typeof run.startedAt === "string" && Array.isArray(run.sources) && run.sources.length <= 4 &&
+    typeof run.summary === "object" && run.summary !== null;
 }
 
 function validCatalog(value: unknown): value is CatalogState {
   if (!value || typeof value !== "object") return false;
   const catalog = value as Partial<CatalogState>;
   if (!catalog.visibility || !catalog.insurance || !catalog.brands || !Array.isArray(catalog.customGenerics)) return false;
+  if (catalog.marketData !== undefined && (!catalog.marketData || typeof catalog.marketData !== "object" || Array.isArray(catalog.marketData) || Object.values(catalog.marketData).some((item) => !validMarketData(item)))) return false;
+  if (catalog.notifications !== undefined && (!Array.isArray(catalog.notifications) || catalog.notifications.length > 200 || catalog.notifications.some((item) => !validNotification(item)))) return false;
+  if (catalog.updateRuns !== undefined && (!Array.isArray(catalog.updateRuns) || catalog.updateRuns.length > 24 || catalog.updateRuns.some((item) => !validUpdateRun(item)))) return false;
   if (Object.values(catalog.visibility).some((visible) => typeof visible !== "boolean")) return false;
   if (Object.values(catalog.insurance).some((coverages) => !Array.isArray(coverages) || coverages.some((coverage) => !validCoverage(coverage)))) return false;
   return !Object.values(catalog.brands).some((brands) => !Array.isArray(brands) || brands.some((brand) =>
@@ -160,7 +237,13 @@ function validCatalog(value: unknown): value is CatalogState {
     brand.name.length > 160 ||
     typeof brand.showInsteadOfGeneric !== "boolean" ||
     typeof brand.priority !== "number" ||
+    !Number.isSafeInteger(brand.priority) || brand.priority < 1 ||
     typeof brand.customInsurance !== "boolean" ||
+    (brand.genericRegistryCode !== undefined && (typeof brand.genericRegistryCode !== "string" || brand.genericRegistryCode.length > 160)) ||
+    (brand.brandRegistryCode !== undefined && (typeof brand.brandRegistryCode !== "string" || brand.brandRegistryCode.length > 160)) ||
+    (brand.price !== undefined && !validPrice(brand.price)) ||
+    (brand.sourceDiscovered !== undefined && typeof brand.sourceDiscovered !== "boolean") ||
+    (brand.hiddenFromSource !== undefined && typeof brand.hiddenFromSource !== "boolean") ||
     !Array.isArray(brand.insuranceCoverages) ||
     brand.insuranceCoverages.some((coverage) => !validCoverage(coverage))
   ));
@@ -246,11 +329,11 @@ async function publishCatalog(request: Request, env: Env, session: AdminSession)
   if (!validCatalog(payload.catalog)) return json(request, env, { error: "invalid_catalog" }, 400);
 
   const publishedCatalog = {
-    schemaVersion: 1,
+    ...payload.catalog,
+    schemaVersion: 2,
     revision: crypto.randomUUID(),
     updatedAt: new Date().toISOString(),
-    updatedBy: session.login,
-    ...payload.catalog
+    updatedBy: session.login
   };
   const contentsUrl = `https://api.github.com/repos/${env.GITHUB_REPOSITORY}/contents/${env.CATALOG_PATH}`;
   const currentResponse = await fetch(`${contentsUrl}?ref=${encodeURIComponent(env.GITHUB_BRANCH)}`, {

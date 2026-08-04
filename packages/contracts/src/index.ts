@@ -5,6 +5,12 @@
 export const diabetesTypes = ["type_1", "type_2", "pregnancy"] as const;
 export type DiabetesType = (typeof diabetesTypes)[number];
 
+export const medicationClinicalDomains = ["diabetes", "cardiovascular", "kidney", "liver", "obesity"] as const;
+export type MedicationClinicalDomain = (typeof medicationClinicalDomains)[number];
+
+export const medicationDisplayModes = ["generic_or_primary_brand", "generic_with_selected_brands"] as const;
+export type MedicationDisplayMode = (typeof medicationDisplayModes)[number];
+
 export const brandDisplayModes = ["generic_first", "brand_first"] as const;
 export type BrandDisplayMode = (typeof brandDisplayModes)[number];
 
@@ -171,6 +177,12 @@ export interface MedicationChecklistItem {
   showInApp: boolean;
   insuranceCoverages: InsuranceCoverage[];
   brands: MedicationBrand[];
+  displayMode?: MedicationDisplayMode;
+  clinicalDomains?: MedicationClinicalDomain[];
+  genericRegistryCode?: string;
+  price?: MedicationPrice;
+  marketBadge?: MedicationMarketBadge;
+  sourceObservedAt?: string;
 }
 
 export interface UpdateMedicationVisibilityInput {
@@ -182,11 +194,58 @@ export type InsuranceProvider = (typeof insuranceProviders)[number];
 export interface InsuranceCoverage {
   provider: InsuranceProvider;
   percent: number;
+  origin?: "source" | "manual";
+  manualOverrideNeedsReview?: boolean;
+  genericCode?: string;
+  brandCode?: string;
+  insurerShareToman?: number;
+  patientShareToman?: number;
+  referencePriceToman?: number;
+  sourceCurrency?: MedicationPriceSourceCurrency;
+  sourceInsurerShare?: number;
+  sourcePatientShare?: number;
+  sourceReferencePrice?: number;
+  effectiveAt?: string;
+  sourceUrl?: string;
+  sourceReference?: string;
+}
+
+export type MedicationPriceKind = "consumer_retail" | "insurance_reference" | "unknown";
+export type MedicationPriceSourceCurrency = "IRR" | "TOMAN";
+export interface MedicationPrice {
+  amountToman: number;
+  priceKind: MedicationPriceKind;
+  sourceAmount?: number;
+  sourceCurrency?: MedicationPriceSourceCurrency;
+  effectiveAt?: string;
+  sourceUrl?: string;
+  sourceReference?: string;
+  manualOverrideToman?: number;
+  manualOverrideUpdatedAt?: string;
+  manualOverrideNeedsReview?: boolean;
+}
+
+export interface MedicationMarketBadge {
+  key: string;
+  labelFa: string;
+  labelEn?: string;
+  tone: "blue" | "neutral";
+  validUntil?: string;
+  confirmedByAdmin: boolean;
 }
 export interface UpdateMedicationInsuranceInput {
   enabled: boolean;
   provider?: InsuranceProvider;
   percent?: number;
+  origin?: "source" | "manual";
+  genericCode?: string;
+  brandCode?: string;
+  insurerShareToman?: number;
+  patientShareToman?: number;
+  referencePriceToman?: number;
+  effectiveAt?: string;
+  sourceUrl?: string;
+  sourceReference?: string;
 }
 
 export interface MedicationBrand {
@@ -196,6 +255,14 @@ export interface MedicationBrand {
   priority: number;
   customInsurance: boolean;
   insuranceCoverages: InsuranceCoverage[];
+  genericRegistryCode?: string;
+  brandRegistryCode?: string;
+  price?: MedicationPrice;
+  sourceDiscovered?: boolean;
+  sourceUrl?: string;
+  sourceObservedAt?: string;
+  hiddenFromSource?: boolean;
+  marketBadge?: MedicationMarketBadge;
 }
 export interface CreateMedicationBrandInput {
   name?: string;
@@ -205,6 +272,97 @@ export interface UpdateMedicationBrandInput {
   showInsteadOfGeneric?: boolean;
   customInsurance?: boolean;
   insuranceCoverages?: InsuranceCoverage[];
+  priority?: number;
+  genericRegistryCode?: string;
+  brandRegistryCode?: string;
+  price?: MedicationPrice;
+  hiddenFromSource?: boolean;
+}
+
+export interface MedicationMarketDataInput {
+  displayMode?: MedicationDisplayMode;
+  clinicalDomains?: MedicationClinicalDomain[];
+  genericRegistryCode?: string;
+  price?: MedicationPrice;
+  marketBadge?: MedicationMarketBadge;
+}
+
+export interface MedicationMarketData extends MedicationMarketDataInput {
+  sourceObservedAt?: string;
+  sourceUrl?: string;
+  updatedAt?: string;
+}
+
+export type AdminNotificationSeverity = "info" | "warning" | "error";
+export type AdminNotificationStatus = "unread" | "read" | "resolved";
+export interface AdminNotification {
+  id: string;
+  severity: AdminNotificationSeverity;
+  status: AdminNotificationStatus;
+  title: string;
+  message: string;
+  createdAt: string;
+  actionHref?: string;
+  actionLabel?: string;
+  sourceRunId?: string;
+  entityReferenceId?: string;
+}
+export type CreateAdminNotificationInput = Pick<AdminNotification, "severity" | "title" | "message"> &
+  Partial<Pick<AdminNotification, "actionHref" | "actionLabel" | "sourceRunId" | "entityReferenceId">>;
+
+export const drugDataSourceIds = ["iran_fda_nfi", "health_insurance", "armed_forces", "social_security"] as const;
+export type DrugDataSourceId = (typeof drugDataSourceIds)[number];
+export type DrugDataSourceRunStatus = "pending" | "running" | "succeeded" | "failed" | "needs_review";
+export interface DrugDataSourceRun {
+  sourceId: DrugDataSourceId;
+  status: DrugDataSourceRunStatus;
+  rowCount?: number;
+  startedAt?: string;
+  completedAt?: string;
+  sourceUrl?: string;
+  checksumSha256?: string;
+  error?: string;
+}
+
+export interface DrugDataUpdateRun {
+  id: string;
+  schemaVersion: 1;
+  status: "staging" | "needs_review" | "ready_to_publish" | "published" | "failed";
+  startedAt: string;
+  completedAt?: string;
+  sources: DrugDataSourceRun[];
+  previousPublishedRevision?: string;
+  summary: {
+    genericCount: number;
+    brandCount: number;
+    priceChangeCount: number;
+    coverageChangeCount: number;
+    ambiguousMatchCount: number;
+    errorCount: number;
+  };
+}
+
+export interface NormalizedDrugImportRecord {
+  referencePresentationId?: string;
+  genericName: string;
+  genericRegistryCode?: string;
+  brandName?: string;
+  brandRegistryCode?: string;
+  dosageForm?: string;
+  strengthPresentation?: string;
+  clinicalDomains?: MedicationClinicalDomain[];
+  price?: MedicationPrice;
+  insuranceCoverages: InsuranceCoverage[];
+  sourceUrl: string;
+  sourceReference: string;
+  observedAt: string;
+  matchConfidence?: number;
+}
+
+export interface NormalizedDrugImportBundle {
+  schemaVersion: 1;
+  run: DrugDataUpdateRun;
+  records: NormalizedDrugImportRecord[];
 }
 
 export type Type2DecisionFactor = "ascvd" | "heart_failure" | "ckd" | "hypoglycemia_risk" | "weight_priority" | "insulin_pathway";
@@ -252,7 +410,12 @@ export interface Type2MedicationConsideration {
   displayName?: string;
   selectedBrandName?: string;
   selectedBrandId?: string;
+  selectedBrands?: MedicationBrand[];
   brandPriority?: number;
+  genericRegistryCode?: string;
+  brandRegistryCode?: string;
+  price?: MedicationPrice;
+  marketBadge?: MedicationMarketBadge;
   outputStatus: "information_only" | "requires_approved_protocol";
 }
 

@@ -90,6 +90,7 @@ button.secondary, .secondary { border: 1px solid var(--line); background: #fff; 
 .update-toast b { font-size: 12px; }
 .update-toast small { margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.6; }
 .update-toast button { flex: 0 0 auto; padding: 9px 12px; font-size: 10px; }
+.home-pwa-control { position: fixed; z-index: 45; inset-inline-end: 22px; top: 18px; }
 .mobile-menu { display: none; border: 0; background: transparent; color: var(--ink); padding: 8px; font-size: 22px; }
 .sidebar-overlay { display: none; }
 .page-content { max-width: 1220px; margin: 0 auto; padding: 48px 4.5vw 72px; }
@@ -312,6 +313,84 @@ label { font-size: 12px; font-weight: 700; }
 .inherited-insurance { margin: 9px 0 0; color: var(--muted); font-size: 9px; }
 .brand-insurance-editor { display: grid; grid-template-columns: minmax(210px, 1fr) 120px auto; align-items: center; gap: 8px; margin-top: 10px; padding: 10px; border-radius: 9px; background: #f4f8f7; }
 .brand-insurance-editor .registered-coverages { grid-column: 1 / -1; }
+.page-heading-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.coverage-metadata-editor { grid-column: 2 / -1; display: grid; grid-template-columns: repeat(4, minmax(150px, 1fr)); gap: 8px; padding: 10px; border-radius: 9px; background: #f5f8f8; }
+.coverage-metadata-editor label, .brand-market-editor label, .brand-insurance-editor label { display: grid; gap: 5px; color: var(--muted); font-size: 9px; }
+.registered-coverages em { padding: 2px 5px; border-radius: 99px; background: #fff0c8; color: #865f11; font-style: normal; }
+.medication-market-editor { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(190px, .8fr) minmax(170px, .8fr) minmax(200px, 1fr) 1.4fr; align-items: end; gap: 9px; padding: 12px; border: 1px solid #cfdfdc; border-radius: 10px; background: #fff; }
+.medication-market-editor > label { display: grid; gap: 6px; }
+.medication-market-editor > label:has(> span) { position: relative; }
+.medication-market-editor > label > span { position: absolute; inset-inline-end: 10px; bottom: 13px; color: var(--muted); font-size: 9px; }
+.medication-market-editor fieldset { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; min-height: 48px; margin: 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 9px; }
+.medication-market-editor legend { padding-inline: 5px; color: var(--muted); font-size: 9px; font-weight: 800; }
+.brand-market-editor { display: grid; grid-template-columns: repeat(3, minmax(170px, 1fr)); gap: 8px; margin-top: 10px; }
+.brand-market-editor label { position: relative; }
+.brand-market-editor label > span { position: absolute; inset-inline-end: 10px; bottom: 13px; }
+.brand-order-actions { display: flex; align-items: center; gap: 5px; }
+.brand-order-actions button { min-width: 36px; padding: 7px; font-size: 9px; }
+.danger-button { border-color: #e9b8b3; background: #fff2f1; color: var(--danger); }
+.source-discovered-badge, .market-new-badge { display: inline-flex; align-items: center; width: fit-content; border-radius: 99px; padding: 5px 8px; background: #e9f2ff; color: #28639b; font-size: 9px; font-weight: 900; }
+.hidden-source-brand { opacity: .62; border-style: dashed; }
+.brand-insurance-editor { grid-template-columns: repeat(2, minmax(160px, 1fr)) repeat(4, minmax(130px, .8fr)) auto; }
+.admin-notification-bell { position: fixed; z-index: 60; inset-inline-end: 22px; top: 18px; display: grid; width: 46px; height: 46px; place-items: center; border: 1px solid #bed5d1; border-radius: 50%; background: #fff; color: var(--navy); box-shadow: 0 10px 28px rgba(11, 43, 76, .14); text-decoration: none; }
+.admin-notification-bell > span { font-size: 23px; transform: rotate(45deg); }
+.admin-notification-bell b { position: absolute; inset-inline-start: -5px; top: -5px; display: grid; min-width: 21px; height: 21px; place-items: center; padding: 0 4px; border: 2px solid #fff; border-radius: 99px; background: #d5951f; color: #fff; font-size: 9px; }
+.admin-notification-bell.has-error b { background: var(--danger); }
+.admin-notification-list { display: grid; gap: 10px; }
+.admin-notification-card { padding: 16px; border: 1px solid var(--line); border-inline-start-width: 5px; border-radius: 12px; background: #fff; }
+.admin-notification-card.severity-error { border-inline-start-color: var(--danger); }
+.admin-notification-card.severity-warning { border-inline-start-color: #d69a24; }
+.admin-notification-card.severity-info { border-inline-start-color: var(--teal); }
+.admin-notification-card > div, .admin-notification-card footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.admin-notification-card h2 { margin: 10px 0 4px; font-size: 15px; }
+.admin-notification-card p, .admin-notification-card time { color: var(--muted); font-size: 10px; }
+.admin-notification-card footer { justify-content: flex-start; margin-top: 10px; }
+.resolved-notifications { margin-top: 20px; }
+.resolved-notifications summary { margin-bottom: 12px; cursor: pointer; font-weight: 900; }
+.runner-controls { display: grid; grid-template-columns: minmax(280px, 1fr) auto auto; align-items: end; gap: 10px; }
+.runner-controls label { display: grid; gap: 6px; }
+.source-run-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 12px 0; }
+.source-run { display: grid; gap: 5px; padding: 11px; border: 1px solid var(--line); border-radius: 9px; background: #f7f9f9; }
+.source-run strong { font-size: 10px; }
+.source-run span, .source-run small { color: var(--muted); font-size: 9px; }
+.source-run.source-succeeded { border-color: #a9d5bb; background: #f0faf4; }
+.source-run.source-failed { border-color: #edb7b1; background: #fff2f1; }
+.update-run-list { display: grid; gap: 8px; }
+.update-run-list article { padding: 12px; border: 1px solid var(--line); border-radius: 9px; background: #fbfdfd; }
+.update-run-list article > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.update-run-list small { color: var(--muted); }
+.ambiguous-record-list { display: grid; gap: .75rem; margin: 1rem 0; max-height: 28rem; overflow: auto; }
+.ambiguous-record-list label { background: #fff; border: 1px solid #ecd69e; border-radius: 12px; display: grid; gap: .45rem; padding: .8rem; }
+.ambiguous-record-list select { max-width: 100%; }
+.ambiguous-record-list small { color: var(--danger); }
+.market-card-summary { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin: 11px 0; padding: 9px 10px; border-radius: 9px; background: #f3f7f6; color: #365d59; font-size: 10px; }
+.market-card-summary small { padding: 3px 6px; border-radius: 99px; background: #e9f4ef; color: #267154; }
+.market-card-summary .override-warning { background: #fff0c8; color: #865f11; }
+.medication-market-details { margin: 10px 0; border: 1px solid #cdddda; border-radius: 10px; background: rgba(255,255,255,.8); }
+.medication-market-details summary { padding: 10px 12px; cursor: pointer; color: #285e58; font-size: 10px; font-weight: 900; }
+.market-details-body { display: grid; gap: 10px; padding: 0 12px 12px; }
+.registry-code-row, .insurance-code-block { display: flex; flex-wrap: wrap; gap: 8px 15px; padding: 9px; border-radius: 8px; background: #f6f9f9; font-size: 9px; }
+.insurance-code-block { display: grid; }
+.insurance-code-block span { display: flex; justify-content: space-between; gap: 8px; }
+code { direction: ltr; unicode-bidi: embed; }
+.coverage-detail-list { display: grid; gap: 7px; }
+.coverage-detail-list article { padding: 9px; border: 1px solid var(--line); border-radius: 8px; }
+.coverage-detail-list article header, .coverage-detail-list article div { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 7px; }
+.coverage-detail-list article span, .coverage-detail-list article small { font-size: 9px; }
+.selected-brand-details { display: grid; gap: 7px; }
+.selected-brand-details h4 { margin: 0; }
+.selected-brand-details article { display: grid; gap: 8px; padding: 9px; border: 1px solid var(--line); border-radius: 8px; }
+.selected-brand-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; }
+.selected-brand-insurance { display: grid; gap: 6px; padding-top: 7px; border-top: 1px dashed var(--line); }
+.selected-brand-insurance > span { font-size: 9px; }
+.companion-medication-section { margin-top: 38px; }
+.domain-toggle-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; margin: 15px 0; }
+.domain-toggle { display: grid; min-height: 112px; align-content: start; gap: 5px; text-align: start; }
+.domain-toggle small, .domain-toggle span { color: var(--muted); font-size: 9px; line-height: 1.6; }
+.domain-toggle.selected { border-color: #69b8ad; background: var(--teal-soft); color: var(--navy); }
+.companion-grid { margin-top: 14px; }
+.companion-card { border-inline-start-color: #497cae; }
+.companion-disclaimer { margin: 11px 0 0; color: var(--muted); font-size: 9px; line-height: 1.7; }
 button:disabled, select:disabled, input:disabled { cursor: not-allowed; opacity: .52; }
 
 @media (max-width: 980px) {
@@ -332,6 +411,11 @@ button:disabled, select:disabled, input:disabled { cursor: not-allowed; opacity:
   .brand-branch-main .brand-name-field { grid-column: 2; }
   .brand-branch-main .compact-check { grid-column: 2; }
   .brand-insurance-editor { grid-template-columns: 1fr 120px auto; }
+  .coverage-metadata-editor, .medication-market-editor, .brand-market-editor { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .coverage-metadata-editor { grid-column: 1 / -1; }
+  .source-run-grid, .domain-toggle-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .runner-controls { grid-template-columns: 1fr 1fr; }
+  .runner-controls label { grid-column: 1 / -1; }
 }
 
 @media (max-width: 760px) {
@@ -363,6 +447,10 @@ button:disabled, select:disabled, input:disabled { cursor: not-allowed; opacity:
   .brand-branch { margin-inline-start: 17px; }
   .brand-branch-main, .brand-insurance-editor { grid-template-columns: 1fr; }
   .brand-insurance-editor .registered-coverages { grid-column: 1; }
+  .coverage-metadata-editor, .medication-market-editor, .brand-market-editor, .source-run-grid, .domain-toggle-grid, .runner-controls { grid-template-columns: 1fr; }
+  .medication-market-editor fieldset { align-items: flex-start; flex-direction: column; }
+  .selected-brand-details article { grid-template-columns: 1fr; }
+  .admin-notification-bell { inset-inline-end: 12px; top: 10px; }
 }
 
 /* GLYMIZE_ICON_LAYOUT_FIX_START */

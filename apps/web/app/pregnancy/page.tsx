@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PathwayMedicationCards from "../components/pathway-medication-cards";
+import ClinicalDomainMedications from "../components/clinical-domain-medications";
 
 export default function PregnancyPage() {
   return (
@@ -21,6 +22,7 @@ export default function PregnancyPage() {
         </div>
       </section>
       <PathwayMedicationCards pathway="pregnancy" />
+      <ClinicalDomainMedications />
     </main>
   );
 }

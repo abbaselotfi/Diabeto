@@ -8,7 +8,7 @@
     "ADMIN_PATH_PREFIX": "/GLYMIZE/admin",
     "ALLOWED_GITHUB_LOGIN": "abbaselotfi",
     "GITHUB_REPOSITORY": "abbaselotfi/GLYMIZE",
-    "GITHUB_BRANCH": "agent/secure-admin-publishing",
+    "GITHUB_BRANCH": "main",
     "CATALOG_PATH": "apps/web/public/data/admin-catalog.json"
   },
   "secrets": {

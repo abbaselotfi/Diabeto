@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-      - agent/pwa-clinical-dashboard
-      - agent/secure-admin-publishing
   workflow_dispatch:
 
 permissions:

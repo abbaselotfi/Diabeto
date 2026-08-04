@@ -18,7 +18,6 @@ const groupLabels: Record<MedicationTherapyGroup, string> = {
 
 export default function AdminPage() {
   const [message, setMessage] = useState("در حال دریافت کاتالوگ و وضعیت پروتکل‌ها…");
-  const [displayMode, setDisplayMode] = useState<"generic_first" | "brand_first">("generic_first");
   const [generics, setGenerics] = useState<GenericMedication[]>([]);
   const [protocols, setProtocols] = useState<ClinicalProtocolBundle[]>([]);
   const [guidelines, setGuidelines] = useState<GuidelineSource[]>([]);
@@ -133,6 +132,8 @@ export default function AdminPage() {
           <h1>کاتالوگ نوع ۲، پروتکل‌ها و نمایش دارو</h1>
         </div>
         <div className="topbar-actions">
+          <Link className="admin-link" href="/admin/data-updates">استخراج و به‌روزرسانی</Link>
+          <Link className="admin-link" href="/admin/notifications">اعلان‌ها</Link>
           <Link className="admin-link" href="/admin/medications">انتخاب داروهای قابل نمایش</Link>
           <Link className="admin-link" href="/type-2/preview">پیش‌نمایش کامل Type 2</Link>
           <button className="secondary" onClick={() => void refresh()} type="button">بازخوانی</button>
@@ -148,21 +149,23 @@ export default function AdminPage() {
       <div className="admin-grid">
         <section className="panel">
           <p className="eyebrow">نمایش دارو</p>
-          <h2>ژنریک، پیش‌فرض ثابت</h2>
-          <p>منطق بالینی همیشه با ژنریک اجرا می‌شود؛ برند فقط در خروجی نمایش تغییر می‌کند.</p>
-          <label className="radio"><input checked={displayMode === "generic_first"} name="display" onChange={() => setDisplayMode("generic_first")} type="radio" /> نمایش ژنریک در اولویت</label>
-          <label className="radio"><input checked={displayMode === "brand_first"} name="display" onChange={() => setDisplayMode("brand_first")} type="radio" /> نمایش برند تأییدشده در اولویت</label>
-          <p className="muted">حالت فعلی: {displayMode === "generic_first" ? "فقط ژنریک" : "برندِ اولویت‌دار پس از تأیید"}</p>
+          <h2>حالت نمایش مستقل برای هر دارو</h2>
+          <p>منطق بالینی همیشه با ژنریک اجرا می‌شود. ادمین برای هر دارو یکی از دو حالت «ژنریک یا یک برند» و «ژنریک با برندهای منتخب» را انتخاب می‌کند.</p>
+          <Link className="admin-link" href="/admin/medications">تنظیم حالت نمایش و ترتیب برندها</Link>
         </section>
 
         <section className="panel">
           <p className="eyebrow">به‌روزرسانی بازار ایران</p>
-          <h2>ورود برندها</h2>
+          <h2>استخراج از منابع رسمی</h2>
+          <p>استخراج خودکار روی کامپیوتر ادمین داخل ایران انجام می‌شود و نسخه ناقص منتشر نخواهد شد.</p>
+          <Link className="admin-link" href="/admin/data-updates">باز کردن مرکز به‌روزرسانی داروها</Link>
+          <details><summary>ورود URL یا فایل قدیمی</summary>
           <form onSubmit={requestCatalogUpdate}>
             <label htmlFor="catalogSourceUrl">نشانی API یا export مجاز</label>
             <input id="catalogSourceUrl" name="sourceUrl" placeholder="https://…" type="url" />
             <button type="submit">بازخوانی و ورود به صف</button>
           </form>
+          </details>
         </section>
       </div>
 

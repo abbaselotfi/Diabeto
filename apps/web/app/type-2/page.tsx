@@ -12,6 +12,8 @@ import type {
 } from "@glymize/contracts";
 
 import { apiFetch } from "../../lib/api-client";
+import MedicationMarketDetails from "../components/medication-market-details";
+import ClinicalDomainMedications from "../components/clinical-domain-medications";
 import { useGlymizeLocale } from "../components/use-glymize-locale";
 
 type Locale = "fa" | "en";
@@ -866,6 +868,16 @@ export default function Type2Page() {
                     ))}
                   </div>
 
+                  <MedicationMarketDetails
+                    brandRegistryCode={item.brandRegistryCode}
+                    coverages={item.insuranceCoverages}
+                    genericRegistryCode={item.genericRegistryCode}
+                    locale={locale}
+                    marketBadge={item.marketBadge}
+                    price={item.price}
+                    selectedBrands={item.selectedBrands}
+                  />
+
                   <ul>
                     {item.considerations.map((note) => (
                       <li key={note}>
@@ -929,6 +941,7 @@ export default function Type2Page() {
           )}
         </section>
       )}
+      <ClinicalDomainMedications />
     </main>
   );
 }
