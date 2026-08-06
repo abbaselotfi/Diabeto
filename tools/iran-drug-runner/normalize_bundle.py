@@ -29,19 +29,28 @@ SOURCE_META = {
 DEFAULT_SCOPE_PATH = Path(__file__).resolve().with_name("scope_allowlist.json")
 
 HEADER_ALIASES = {
-    "generic_name": ["نام ژنریک", "نام علمی", "generic name", "genericname", "نام دارو"],
-    "brand_name": ["نام برند", "نام تجاری", "brand name", "brandname"],
-    "generic_code": ["کد ژنریک", "generic code", "genericcode", "کد دارو"],
-    "brand_code": ["کد برند", "کد تجاری", "brand code", "brandcode", "کد فرآورده", "irc"],
+    "generic_name": ["نام ژنریک", "نام علمی", "generic inn", "generic name", "genericname", "نام دارو"],
+    "brand_name": ["نام برند", "نام تجاری", "nfi title fa", "brand name", "brandname"],
+    "generic_code": ["کد ژنریک", "nfi generic code", "generic code", "genericcode", "کد دارو"],
+    "brand_code": ["کد برند", "nfi irc code", "nfi product code", "کد تجاری", "brand code", "brandcode", "کد فرآورده", "irc"],
     "dosage_form": ["شکل دارویی", "dosage form", "dosageform", "فرم دارویی"],
     "strength": ["قدرت", "دوز", "strength", "strength presentation"],
-    "price": ["قیمت مصرف کننده", "قیمت مصرف‌کننده", "قیمت", "consumer price", "price"],
+    "price": ["قیمت مصرف کننده", "قیمت مصرف‌کننده", "price per pack irr", "قیمت", "consumer price", "price"],
     "coverage_percent": ["درصد پوشش", "درصد بیمه", "coverage percent", "coverage"],
     "insurer_share": ["سهم سازمان", "سهم بیمه", "insurer share"],
     "patient_share": ["سهم بیمار", "فرانشیز", "patient share", "copay"],
     "reference_price": ["تعرفه", "قیمت مرجع", "reference price", "tariff"],
-    "source_link": ["لینک", "آدرس منبع", "source url", "url"],
+    "source_link": ["لینک", "آدرس منبع", "nfi product url", "source url", "url"],
 }
+
+NFI_PRODUCTS_SHEET_PREFIX = "nfi products"
+NFI_CONFIDENCE_HEADER = "Match_Confidence_0_100"
+NFI_DETAIL_ID_HEADER = "NFI_Detail_ID"
+NFI_TITLE_HEADER = "NFI_Title_FA"
+NFI_BRAND_OWNER_HEADER = "NFI_Brand_Name"
+NFI_LABELS_JSON_HEADER = "All_Label_Value_JSON"
+NFI_RAW_DETAIL_HEADER = "Raw_Detail_Text"
+NFI_GTIN_HEADER = "GTIN"
 
 
 def normalize_text(value: Any) -> str:
@@ -80,7 +89,14 @@ def match_scope(name: str, scope: list[dict[str, Any]]) -> dict[str, Any] | None
             continue
         if any(len(alias) >= 5 and alias in normalized_name for alias in aliases):
             contained.append(entry)
-    candidates = exact or contained
+    token_matches: list[dict[str, Any]] = []
+    if not exact and not contained:
+        name_tokens = set(normalized_name.split())
+        if len(name_tokens) >= 2:
+            for entry in scope:
+                if any(set(normalize_text(alias).split()) == name_tokens for alias in entry["aliases"]):
+                    token_matches.append(entry)
+    candidates = exact or contained or token_matches
     unique = {entry["canonicalName"]: entry for entry in candidates}
     return next(iter(unique.values())) if len(unique) == 1 else None
 
@@ -106,11 +122,144 @@ def sha256(path: Path) -> str:
 
 def workbook_rows(path: Path, sheet_name: str | None = None) -> tuple[list[dict[str, Any]], list[str], str]:
     workbook = load_workbook(path, read_only=True, data_only=True)
-    sheet = workbook[sheet_name] if sheet_name and sheet_name in workbook.sheetnames else workbook[workbook.sheetnames[0]]
-    iterator = sheet.iter_rows(values_only=True)
-    headers = [str(value or "").strip() for value in next(iterator, ())]
-    rows = [dict(zip(headers, values)) for values in iterator if any(value not in (None, "") for value in values)]
-    return rows, headers, sheet.title
+    try:
+        sheet = workbook[sheet_name] if sheet_name and sheet_name in workbook.sheetnames else workbook[workbook.sheetnames[0]]
+        iterator = sheet.iter_rows(values_only=True)
+        headers = [str(value or "").strip() for value in next(iterator, ())]
+        rows = [dict(zip(headers, values)) for values in iterator if any(value not in (None, "") for value in values)]
+        return rows, headers, sheet.title
+    finally:
+        workbook.close()
+
+
+def nfi_workbook_rows(path: Path) -> tuple[list[dict[str, Any]], list[str], str]:
+    """Read all NFI_Products* sheets, falling back to the first sheet for legacy files."""
+    workbook = load_workbook(path, read_only=True, data_only=True)
+    try:
+        product_sheets = [
+            sheet
+            for sheet in workbook.worksheets
+            if normalize_text(sheet.title).startswith(NFI_PRODUCTS_SHEET_PREFIX)
+        ]
+        selected = product_sheets or [workbook[workbook.sheetnames[0]]]
+        rows: list[dict[str, Any]] = []
+        combined_headers: list[str] = []
+        for sheet in selected:
+            iterator = sheet.iter_rows(values_only=True)
+            headers = [str(item or "").strip() for item in next(iterator, ())]
+            for header in headers:
+                if header and header not in combined_headers:
+                    combined_headers.append(header)
+            rows.extend(
+                dict(zip(headers, values))
+                for values in iterator
+                if any(item not in (None, "") for item in values)
+            )
+        return rows, combined_headers, ", ".join(sheet.title for sheet in selected)
+    finally:
+        workbook.close()
+
+
+def direct_value(row: dict[str, Any], header: str) -> Any:
+    wanted = normalize_text(header)
+    for current, item in row.items():
+        if normalize_text(current) == wanted:
+            return item
+    return None
+
+
+def nfi_match_confidence(row: dict[str, Any]) -> float:
+    raw = number(direct_value(row, NFI_CONFIDENCE_HEADER))
+    if raw is None:
+        return 1
+    fraction = raw / 100 if raw > 1 else raw
+    return max(0, min(1, fraction))
+
+
+def nfi_json_labels(row: dict[str, Any]) -> dict[str, Any]:
+    raw = direct_value(row, NFI_LABELS_JSON_HEADER)
+    if not isinstance(raw, str) or not raw.strip():
+        return {}
+    try:
+        parsed = json.loads(raw)
+        return parsed if isinstance(parsed, dict) else {}
+    except json.JSONDecodeError:
+        return {}
+
+
+def nfi_registry_code(row: dict[str, Any], headers: list[str]) -> str | None:
+    direct = str(value(row, headers, "brand_code") or "").strip()
+    if direct:
+        return direct
+    labels = nfi_json_labels(row)
+    for key in ("IRC", "کد IRC", "کد فرآورده"):
+        candidate = str(labels.get(key) or "").strip()
+        if candidate:
+            return candidate
+    raw = str(direct_value(row, NFI_RAW_DETAIL_HEADER) or "")
+    match = re.search(r"(?:\bIRC\b\s*:|:IRC\b)\s*([0-9]{6,})", raw, flags=re.IGNORECASE)
+    return match.group(1) if match else None
+
+
+def nfi_gtin(row: dict[str, Any]) -> str | None:
+    direct = str(direct_value(row, NFI_GTIN_HEADER) or "").strip()
+    if direct:
+        return direct
+    labels = nfi_json_labels(row)
+    candidate = str(labels.get("GTIN") or "").strip()
+    if candidate:
+        return candidate
+    raw = str(direct_value(row, NFI_RAW_DETAIL_HEADER) or "")
+    match = re.search(r"(?:\bGTIN\b\s*:|:GTIN\b)\s*([0-9]{6,})", raw, flags=re.IGNORECASE)
+    return match.group(1) if match else None
+
+
+def nfi_brand_name(row: dict[str, Any], headers: list[str]) -> str | None:
+    labels = nfi_json_labels(row)
+    labelled_name = str(labels.get("نام") or labels.get("Name") or "").strip()
+    if labelled_name:
+        return labelled_name
+    title = str(direct_value(row, NFI_TITLE_HEADER) or "").strip()
+    if title:
+        compact_title = title.split("(", 1)[0].strip()
+        markers = (
+            " قرص", " کپسول", " محلول", " سوسپانسیون", " تزریقی", " پودر",
+            " شربت", " ویال", " آمپول", " قلم", " اسپری", " قطره", " کرم",
+            " پماد", " ژل", " شیاف", " استنشاقی", " خوراکی", " پرنترال",
+            " tablet", " capsule", " solution", " suspension", " injection",
+            " powder", " syrup", " vial", " ampoule", " pen", " spray",
+            " drops", " cream", " ointment", " gel", " suppository",
+        )
+        normalized_title = compact_title.lower()
+        positions = [normalized_title.find(marker) for marker in markers]
+        cut_at = min((position for position in positions if position > 0), default=-1)
+        trade_name = compact_title[:cut_at].strip() if cut_at > 0 else compact_title
+        return trade_name or title
+    # Legacy simple imports may contain a true brand-name column. NFI_Brand_Name
+    # in the rich crawler output is the brand owner, so it is not used here.
+    header = header_for(headers, "brand_name")
+    if header and normalize_text(header) != normalize_text(NFI_BRAND_OWNER_HEADER):
+        return str(row.get(header) or "").strip() or None
+    return None
+
+
+def nfi_record_identity(record: dict[str, Any], row: dict[str, Any]) -> tuple[str, ...]:
+    registry_code = normalize_text(record.get("brandRegistryCode"))
+    if registry_code:
+        return ("irc", registry_code)
+    gtin = normalize_text(nfi_gtin(row))
+    if gtin:
+        return ("gtin", gtin)
+    detail_id = normalize_text(direct_value(row, NFI_DETAIL_ID_HEADER))
+    if detail_id:
+        return ("detail", detail_id)
+    return (
+        "label",
+        normalize_text(record.get("genericName")),
+        normalize_text(record.get("brandName")),
+        normalize_text(record.get("dosageForm")),
+        normalize_text(record.get("strengthPresentation")),
+    )
 
 
 def header_for(headers: list[str], field: str) -> str | None:
@@ -133,9 +282,9 @@ def value(row: dict[str, Any], headers: list[str], field: str) -> Any:
 
 def price_currency(header: str | None, default_currency: str | None) -> str | None:
     normalized = normalize_text(header)
-    if "ریال" in normalized or "rial" in normalized:
+    if "ریال" in normalized or "rial" in normalized or "irr" in normalized.split():
         return "IRR"
-    if "تومان" in normalized or "toman" in normalized:
+    if "تومان" in normalized or "toman" in normalized or "toman" in normalized.split():
         return "TOMAN"
     if default_currency in {"IRR", "TOMAN"}:
         return default_currency
@@ -218,23 +367,27 @@ def make_record(
     scope_entry: dict[str, Any],
 ) -> dict[str, Any] | None:
     generic_name = str(value(row, headers, "generic_name") or "").strip()
-    brand_name = str(value(row, headers, "brand_name") or "").strip()
+    brand_name = nfi_brand_name(row, headers)
     if not generic_name:
         return None
     row_url = str(value(row, headers, "source_link") or source_url).strip()
     return {
         "genericName": scope_entry["canonicalName"],
         "genericRegistryCode": str(value(row, headers, "generic_code") or "").strip() or None,
-        "brandName": brand_name or None,
-        "brandRegistryCode": str(value(row, headers, "brand_code") or "").strip() or None,
+        "brandName": brand_name,
+        "brandRegistryCode": nfi_registry_code(row, headers),
         "dosageForm": str(value(row, headers, "dosage_form") or "").strip() or None,
         "strengthPresentation": str(value(row, headers, "strength") or "").strip() or None,
         "clinicalDomains": scope_entry["clinicalDomains"],
         "insuranceCoverages": [],
         "sourceUrl": row_url,
-        "sourceReference": f"Iran FDA NFI · {generic_name}",
+        "sourceReference": " · ".join(filter(None, [
+            f"Iran FDA NFI · {generic_name}",
+            f"Detail {str(direct_value(row, NFI_DETAIL_ID_HEADER) or '').strip()}" if direct_value(row, NFI_DETAIL_ID_HEADER) else None,
+            f"GTIN {nfi_gtin(row)}" if nfi_gtin(row) else None,
+        ])),
         "observedAt": observed_at,
-        "matchConfidence": 1,
+        "matchConfidence": nfi_match_confidence(row),
     }
 
 
@@ -258,10 +411,12 @@ def build_bundle(
         errors.append(f"Scope: {exc}")
 
     try:
-        nfi_rows, nfi_headers, _ = workbook_rows(nfi_path)
+        nfi_rows, nfi_headers, nfi_sheet = nfi_workbook_rows(nfi_path)
         if not header_for(nfi_headers, "generic_name"):
             raise ValueError("ستون نام ژنریک در خروجی NFI شناخته نشد.")
         skipped_outside_scope = 0
+        duplicate_rows = 0
+        seen_products: dict[tuple[str, ...], int] = {}
         for row in nfi_rows:
             raw_generic_name = str(value(row, nfi_headers, "generic_name") or "").strip()
             scope_entry = match_scope(raw_generic_name, scope)
@@ -282,11 +437,19 @@ def build_bundle(
                 errors.append(f"NFI: {warning}")
             if price:
                 record["price"] = price
+            identity = nfi_record_identity(record, row)
+            existing_index = seen_products.get(identity)
+            if existing_index is not None:
+                duplicate_rows += 1
+                if record["matchConfidence"] > records[existing_index].get("matchConfidence", 0):
+                    records[existing_index] = record
+                continue
+            seen_products[identity] = len(records)
             records.append(record)
         if not records:
             raise ValueError("هیچ ردیف NFI با فهرست مجاز دامنه دارویی تطبیق پیدا نکرد.")
         diagnostics.append(
-            f"NFI: {len(records)} ردیف وارد و {skipped_outside_scope} ردیف خارج از دامنه رد شد."
+            f"NFI ({nfi_sheet}): {len(seen_products)} فرآورده وارد، {duplicate_rows} ردیف تکراری حذف و {skipped_outside_scope} ردیف خارج از دامنه رد شد."
         )
         source_runs.append({"sourceId": "iran_fda_nfi", "status": "succeeded" if not errors else "needs_review", "rowCount": len(nfi_rows), "startedAt": observed_at, "completedAt": observed_at, "sourceUrl": "https://irc.fda.gov.ir/nfi", "checksumSha256": sha256(nfi_path), "error": errors[0] if errors else None})
     except Exception as exc:

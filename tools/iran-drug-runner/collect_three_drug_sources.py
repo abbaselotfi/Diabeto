@@ -4,12 +4,12 @@ import json
 import re
 import shutil
 import time
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from io import BytesIO
 from pathlib import Path
 from typing import Any
 from urllib.parse import urljoin
-from zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import requests
 import xlrd
@@ -56,6 +56,17 @@ USER_AGENT = (
     "AppleWebKit/537.36 (KHTML, like Gecko) "
     "Chrome/150.0.0.0 Safari/537.36"
 )
+
+
+def tehran_now() -> datetime:
+    """Return Tehran time even on a fresh Windows Python without system tzdata."""
+    try:
+        return datetime.now(ZoneInfo("Asia/Tehran"))
+    except ZoneInfoNotFoundError:
+        # Iran has used UTC+03:30 year-round since 22 September 2022. The
+        # fallback keeps a current extraction operational; installing tzdata
+        # remains the preferred path for complete historical timezone data.
+        return datetime.now(timezone(timedelta(hours=3, minutes=30)))
 
 # -----------------------------------------------------------------------------
 # ابزارهای عمومی
@@ -665,7 +676,7 @@ def fetch_source(
 def main() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    now = datetime.now(ZoneInfo("Asia/Tehran"))
+    now = tehran_now()
     timestamp = now.strftime("%Y%m%d_%H%M%S")
     archive_path = OUTPUT_DIR / f"drug_sources_{timestamp}.xlsx"
     latest_path = OUTPUT_DIR / "drug_sources_latest.xlsx"
