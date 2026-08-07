@@ -1,22 +1,630 @@
 {
   "schemaVersion": 1,
-  "revision": "e808ee94-0cf5-4ce6-bc75-7ae911f60e28",
-  "updatedAt": "2026-08-02T07:42:46.792Z",
+  "revision": "7be3a331-1e38-46ba-b08f-1335f16bec5c",
+  "updatedAt": "2026-08-07T20:56:13.453Z",
   "updatedBy": "abbaselotfi",
   "visibility": {},
   "insurance": {
     "global-metformin-1": [
       {
-        "provider": "social_security",
-        "percent": 90
-      },
-      {
         "provider": "health_insurance",
-        "percent": 90
+        "percent": 74.631,
+        "origin": "source",
+        "genericCode": "17197",
+        "brandCode": "17197",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
       },
       {
         "provider": "armed_forces",
-        "percent": 0
+        "percent": 93.162,
+        "origin": "source",
+        "genericCode": "00817",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 70,
+        "origin": "source",
+        "genericCode": "17106",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-acarbose-1": [
+      {
+        "provider": "health_insurance",
+        "percent": 88.923,
+        "origin": "source",
+        "genericCode": "02016",
+        "brandCode": "02016",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 87.179907,
+        "origin": "source",
+        "genericCode": "02016",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 70,
+        "origin": "source",
+        "genericCode": "02016",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-gliclazide-1": [
+      {
+        "provider": "health_insurance",
+        "percent": 80.331,
+        "origin": "source",
+        "genericCode": "01523",
+        "brandCode": "01523",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 90.1655,
+        "origin": "source",
+        "genericCode": "01523",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 70,
+        "origin": "source",
+        "genericCode": "01523",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-gliclazide-2": [
+      {
+        "provider": "health_insurance",
+        "percent": 79.421,
+        "origin": "source",
+        "genericCode": "19418",
+        "brandCode": "19418",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 89.7106,
+        "origin": "source",
+        "genericCode": "19418",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 70,
+        "origin": "source",
+        "genericCode": "19418",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-insulin-aspart-1": [
+      {
+        "provider": "health_insurance",
+        "percent": 98.203,
+        "origin": "source",
+        "genericCode": "50575",
+        "brandCode": "06695",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 0,
+        "origin": "source",
+        "genericCode": "50575",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 90,
+        "origin": "source",
+        "genericCode": "50575",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-insulin-detemir-1": [
+      {
+        "provider": "health_insurance",
+        "percent": 94.967,
+        "origin": "source",
+        "genericCode": "12837",
+        "brandCode": "12837",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 0,
+        "origin": "source",
+        "genericCode": "12837",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 70,
+        "origin": "source",
+        "genericCode": "12837",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-insulin-glargine-2": [
+      {
+        "provider": "health_insurance",
+        "percent": 98.181,
+        "origin": "source",
+        "genericCode": "12597",
+        "brandCode": "12597",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 0,
+        "origin": "source",
+        "genericCode": "12597",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 90,
+        "origin": "source",
+        "genericCode": "12597",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-insulin-glargine-1": [
+      {
+        "provider": "health_insurance",
+        "percent": 98.359,
+        "origin": "source",
+        "genericCode": "07338",
+        "brandCode": "09599",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 0,
+        "origin": "source",
+        "genericCode": "07338",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 90,
+        "origin": "source",
+        "genericCode": "07338",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-insulin-glulisine-1": [
+      {
+        "provider": "health_insurance",
+        "percent": 98.75,
+        "origin": "source",
+        "genericCode": "50107",
+        "brandCode": "50107",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 0,
+        "origin": "source",
+        "genericCode": "50107",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 90,
+        "origin": "source",
+        "genericCode": "50107",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-regular-human-insulin-1": [
+      {
+        "provider": "health_insurance",
+        "percent": 93.016,
+        "origin": "source",
+        "genericCode": "19875",
+        "brandCode": "19876",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      }
+    ],
+    "global-pioglitazone-1": [
+      {
+        "provider": "health_insurance",
+        "percent": 86.53,
+        "origin": "source",
+        "genericCode": "05625",
+        "brandCode": "05625",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 93.265,
+        "origin": "source",
+        "genericCode": "05625",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 70,
+        "origin": "source",
+        "genericCode": "05625",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-repaglinide-1": [
+      {
+        "provider": "health_insurance",
+        "percent": 72.022,
+        "origin": "source",
+        "genericCode": "04905",
+        "brandCode": "04905",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 86.011964,
+        "origin": "source",
+        "genericCode": "04905",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 70,
+        "origin": "source",
+        "genericCode": "04903",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-dapagliflozin-1": [
+      {
+        "provider": "health_insurance",
+        "percent": 75.396,
+        "origin": "source",
+        "genericCode": "52201",
+        "brandCode": "52201",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 87.698125,
+        "origin": "source",
+        "genericCode": "52201",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 70,
+        "origin": "source",
+        "genericCode": "52167",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-insulin-lispro-1": [
+      {
+        "provider": "health_insurance",
+        "percent": 90,
+        "origin": "source",
+        "genericCode": "51410",
+        "brandCode": "51410",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 0,
+        "origin": "source",
+        "genericCode": "51410",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 90,
+        "origin": "source",
+        "genericCode": "51410",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-metformin-3": [
+      {
+        "provider": "health_insurance",
+        "percent": 25.654,
+        "origin": "source",
+        "genericCode": "52921",
+        "brandCode": "52921",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 25.654521,
+        "origin": "source",
+        "genericCode": "52921",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 0,
+        "origin": "source",
+        "genericCode": "52921",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-empagliflozin-1": [
+      {
+        "provider": "health_insurance",
+        "percent": 88.895,
+        "origin": "source",
+        "genericCode": "52137",
+        "brandCode": "52137",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 90.251895,
+        "origin": "source",
+        "genericCode": "52137",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 70,
+        "origin": "source",
+        "genericCode": "52138",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-linagliptin-1": [
+      {
+        "provider": "health_insurance",
+        "percent": 77.928,
+        "origin": "source",
+        "genericCode": "51883",
+        "brandCode": "51883",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 88.9642,
+        "origin": "source",
+        "genericCode": "51883",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 70,
+        "origin": "source",
+        "genericCode": "51883",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-metformin-2": [
+      {
+        "provider": "health_insurance",
+        "percent": 87.5,
+        "origin": "source",
+        "genericCode": "16844",
+        "brandCode": "16844",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 58.333333,
+        "origin": "source",
+        "genericCode": "16844",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 70,
+        "origin": "source",
+        "genericCode": "21337",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-sitagliptin-1": [
+      {
+        "provider": "health_insurance",
+        "percent": 92.154,
+        "origin": "source",
+        "genericCode": "22428",
+        "brandCode": "22428",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://mdp.ihio.gov.ir/",
+        "sourceReference": "درصد سهم سازمان با احتساب يارانه ارزي"
+      },
+      {
+        "provider": "armed_forces",
+        "percent": 96.077364,
+        "origin": "source",
+        "genericCode": "22428",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 70,
+        "origin": "source",
+        "genericCode": "16303",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
+      }
+    ],
+    "global-glimepiride-1": [
+      {
+        "provider": "armed_forces",
+        "percent": 0,
+        "origin": "source",
+        "genericCode": "52425",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      }
+    ],
+    "global-liraglutide-1": [
+      {
+        "provider": "armed_forces",
+        "percent": 89.40292,
+        "origin": "source",
+        "genericCode": "22666",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+        "sourceReference": "درصد سهم بيمار عادي با احتساب يارانه"
+      },
+      {
+        "provider": "social_security",
+        "percent": 70,
+        "origin": "source",
+        "genericCode": "22666",
+        "brandCode": null,
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        "sourceReference": "درصد سازمان از قیمت بدون یارانه"
       }
     ]
   },
@@ -29,8 +637,2683 @@
         "priority": 1,
         "customInsurance": false,
         "insuranceCoverages": []
+      },
+      {
+        "id": "52b06848-2d95-4ac0-983a-846d5db2a1e5",
+        "name": "متفورمین",
+        "showInsteadOfGeneric": false,
+        "priority": 2,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "6510262399980274",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/47257",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/47257",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "d071e5c0-afc1-4df6-9e38-b86610c990e6",
+        "name": "متفورمین مینو",
+        "showInsteadOfGeneric": false,
+        "priority": 3,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "4722501770780190",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/24249",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/24249",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "2537e3a9-0004-4a76-94cf-c070536d818a",
+        "name": "متفورمین-ناژو",
+        "showInsteadOfGeneric": false,
+        "priority": 4,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "4134613025357901",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/38132",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/38132",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "2f16b207-c2ba-490e-a51e-f5dd04cca6f4",
+        "name": "متفورمین-حکیم",
+        "showInsteadOfGeneric": false,
+        "priority": 5,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "10915",
+        "brandRegistryCode": "5949172526098026",
+        "price": {
+          "amountToman": 330000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 3300000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/46650",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/46650",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "a0d97fd6-b171-472a-be07-57d97e9b944a",
+        "name": "متفورمین هگزال",
+        "showInsteadOfGeneric": false,
+        "priority": 6,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "10915",
+        "brandRegistryCode": "7065861147513776",
+        "price": {
+          "amountToman": 1680000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 16800000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/46914",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/46914",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "7ff7dba1-f2cd-4364-8d5f-d45139b9b30d",
+        "name": "متفورمین رازک",
+        "showInsteadOfGeneric": false,
+        "priority": 7,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "5020325691915441",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/43706",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/43706",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "6f07a54c-cefe-4df8-ba07-1ca0b94f272c",
+        "name": "اسوه-متفورمین",
+        "showInsteadOfGeneric": false,
+        "priority": 8,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "10915",
+        "brandRegistryCode": "5352135081343831",
+        "price": {
+          "amountToman": 330000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 3300000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/5064",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/5064",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "f26d1117-28ae-4314-8941-bd81cb6e1ae5",
+        "name": "متفورمین-اکسیر",
+        "showInsteadOfGeneric": false,
+        "priority": 9,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "5478358624135347",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/32836",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/32836",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "9ee2a5d7-7e49-4f79-b326-ec775d18f072",
+        "name": "متفورمین-شفا",
+        "showInsteadOfGeneric": false,
+        "priority": 10,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "8539758055015402",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/3607",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/3607",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "187f275b-a0fb-4074-83a3-93ad6449c12a",
+        "name": "متفورمین آریا",
+        "showInsteadOfGeneric": false,
+        "priority": 11,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "7571473048411839",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/3592",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/3592",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "3c38998c-fdb2-4ce1-8321-fbac27a5f089",
+        "name": "آپو- متفورمین",
+        "showInsteadOfGeneric": false,
+        "priority": 12,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "8947189699478498",
+        "price": {
+          "amountToman": 700000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 7000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/33355",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/33355",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "997d5c03-7741-42ee-a297-ad07806445dc",
+        "name": "متفورمین هیدروکلراید",
+        "showInsteadOfGeneric": false,
+        "priority": 13,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "5653000083745564",
+        "price": {
+          "amountToman": 270000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2700000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/49117",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/49117",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "e59149d5-ce84-4e04-8fe6-630f558ac7ec",
+        "name": "متفورسام",
+        "showInsteadOfGeneric": false,
+        "priority": 14,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "10915",
+        "brandRegistryCode": "1286078873292652",
+        "price": {
+          "amountToman": 396000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 3960000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/45223",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/45223",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "774d7de0-33d4-4229-afd4-f98e2cf55387",
+        "name": "رهامت",
+        "showInsteadOfGeneric": false,
+        "priority": 15,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "4356585169928684",
+        "price": {
+          "amountToman": 540000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 5400000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/18511",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/18511",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "869cd7fe-5a16-4cdc-8515-5821eaf89e7b",
+        "name": "متفورتکس",
+        "showInsteadOfGeneric": false,
+        "priority": 16,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "10915",
+        "brandRegistryCode": "3518493691878348",
+        "price": {
+          "amountToman": 198000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 1980000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/51661",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/51661",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "1e444cfa-1ca8-4182-91cc-9f7e3f5e9fa4",
+        "name": "رونوفاژ",
+        "showInsteadOfGeneric": false,
+        "priority": 17,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "7098231746317232",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/43733",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/43733",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "9a5dcaa6-3a0b-4c4a-b19e-a9029d0432cc",
+        "name": "رزفورمین",
+        "showInsteadOfGeneric": false,
+        "priority": 18,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "6828460868742989",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/48770",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/48770",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "51a49d0c-0c92-43fe-a766-8f3872bd3ae7",
+        "name": "کمفورمین",
+        "showInsteadOfGeneric": false,
+        "priority": 19,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "2478268625869129",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/48218",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/48218",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "e1d55d7b-ac0b-4d2f-9d66-d2f663533d93",
+        "name": "نودیاکس",
+        "showInsteadOfGeneric": false,
+        "priority": 20,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "10915",
+        "brandRegistryCode": "1303895472681941",
+        "price": {
+          "amountToman": 330000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 3300000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/27002",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/27002",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "bbe76568-fa68-49c9-adbc-48a8f95550f3",
+        "name": "گلوکودر",
+        "showInsteadOfGeneric": false,
+        "priority": 21,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "9129366340955921",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/5285",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/5285",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "17973a4f-f7a3-4e7e-bad0-9c1b5e7f31f4",
+        "name": "گلوکوفاژ",
+        "showInsteadOfGeneric": false,
+        "priority": 22,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "10915",
+        "brandRegistryCode": "0175120039315031",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/17331",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/17331",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "9a249d92-c381-4259-9cf0-ad6b7f8281c4",
+        "name": "مهبامت",
+        "showInsteadOfGeneric": false,
+        "priority": 23,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "4933793629016300",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/36699",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/36699",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "61982470-724f-442d-a3b0-d38f323ff741",
+        "name": "گلوبت گات",
+        "showInsteadOfGeneric": false,
+        "priority": 24,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "7319898384368672",
+        "price": {
+          "amountToman": 135000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 1350000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/27162",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/27162",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "03876735-2889-43a8-991a-60b0b7877e2c",
+        "name": "متگلیندین",
+        "showInsteadOfGeneric": false,
+        "priority": 25,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "9157297648694924",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/51342",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/51342",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "b50f5cee-09e4-4de1-912b-fb801baf6469",
+        "name": "متلین",
+        "showInsteadOfGeneric": false,
+        "priority": 26,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "4181695511154126",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/47915",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/47915",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "fd2c0c27-d89e-4531-b11c-67afb59e6d59",
+        "name": "ریوفاژ",
+        "showInsteadOfGeneric": false,
+        "priority": 27,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "9273217177075178",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/40389",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/40389",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "971d47be-5fb2-48c9-8ea5-109e12445f7a",
+        "name": "رومتزا",
+        "showInsteadOfGeneric": false,
+        "priority": 28,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "3619534528563640",
+        "price": {
+          "amountToman": 540000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 5400000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/42777",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/42777",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "1f182d01-232a-46df-8800-cd209db131b7",
+        "name": "گلوکوف",
+        "showInsteadOfGeneric": false,
+        "priority": 29,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "817",
+        "brandRegistryCode": "1634441616348385",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/28105",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/28105",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
+    ],
+    "global-regular-human-insulin-1": [
+      {
+        "id": "ee72f4de-d924-4831-860e-89b25c5ebfa2",
+        "name": "لانسولین آر",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "19875",
+        "brandRegistryCode": "9616714341533409",
+        "price": {
+          "amountToman": 305000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 3050000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/33376",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/33376",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "a481d5cf-3aab-4a1e-8f8a-1c392968c07f",
+        "name": "ویتاسولین آر",
+        "showInsteadOfGeneric": false,
+        "priority": 2,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "674",
+        "brandRegistryCode": "6826076343114668",
+        "price": {
+          "amountToman": 240000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2400000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/40094",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/40094",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "70e79ab3-d97a-4c07-835a-f79e27522e97",
+        "name": "رونولین آر",
+        "showInsteadOfGeneric": false,
+        "priority": 3,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "674",
+        "brandRegistryCode": "7847103140581371",
+        "price": {
+          "amountToman": 240000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2400000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/18051",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/18051",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
+    ],
+    "global-insulin-lispro-1": [
+      {
+        "id": "d4355497-8a65-48a0-9ab8-892d1921392b",
+        "name": "هومالوگ میکس 50",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "52207",
+        "brandRegistryCode": "2792161799192503",
+        "price": {
+          "amountToman": 132950,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 1329500,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/29100",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/29100",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "40f409d2-8b3f-4f79-b742-c84300c2a04a",
+        "name": "هومالوگ میکس 25",
+        "showInsteadOfGeneric": false,
+        "priority": 2,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "52206",
+        "brandRegistryCode": "2886325851120181",
+        "price": {
+          "amountToman": 870000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 8700000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/29083",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/29083",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
+    ],
+    "global-insulin-detemir-1": [
+      {
+        "id": "c2b1c977-14d6-492e-9049-56651b09e840",
+        "name": "لومیرفلکس پن",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "12837",
+        "brandRegistryCode": "6481714139053866",
+        "price": {
+          "amountToman": 1200000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 12000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/34807",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/34807",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "62fe1ab4-e1f2-4ce4-b8fc-3b718b6b16d8",
+        "name": "لومیر فلکس پن",
+        "showInsteadOfGeneric": false,
+        "priority": 2,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "12837",
+        "brandRegistryCode": "7540837259469566",
+        "price": {
+          "amountToman": 4450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 44500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/34804",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/34804",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "71c931d2-79ed-43d8-8db8-2752ca8597bd",
+        "name": "لومیر",
+        "showInsteadOfGeneric": false,
+        "priority": 3,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "12837",
+        "brandRegistryCode": "8018868578970969",
+        "price": {
+          "amountToman": 240000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2400000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/32656",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/32656",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
+    ],
+    "global-metformin-2": [
+      {
+        "id": "fc6df44d-c6fb-4fc0-8f7f-3da4c78b26de",
+        "name": "متفورمین-سبحان",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "16845",
+        "brandRegistryCode": "9577994123906036",
+        "price": {
+          "amountToman": 675000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 6750000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/46828",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/46828",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "7391324b-e1dd-4b64-9510-4baaa6d3d527",
+        "name": "متفورمین",
+        "showInsteadOfGeneric": false,
+        "priority": 2,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "16844",
+        "brandRegistryCode": "7124356987542121",
+        "price": {
+          "amountToman": 360000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 3600000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/42948",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/42948",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "2b406ccb-a342-4a37-815d-5cad3ee01b68",
+        "name": "متفورمین هیدروکلراید",
+        "showInsteadOfGeneric": false,
+        "priority": 3,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "21337",
+        "brandRegistryCode": "9182161371726533",
+        "price": {
+          "amountToman": 270000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2700000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/49275",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/49275",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "8bf87562-81b8-4c18-9a9e-7411c74920cd",
+        "name": "زوگر",
+        "showInsteadOfGeneric": false,
+        "priority": 4,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "21337",
+        "brandRegistryCode": "3487047945499596",
+        "price": {
+          "amountToman": 270000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2700000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/44994",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/44994",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "099fdb97-d596-4a51-a54f-299d50fa2bd6",
+        "name": "گلوکودر",
+        "showInsteadOfGeneric": false,
+        "priority": 5,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "16845",
+        "brandRegistryCode": "8793206565318459",
+        "price": {
+          "amountToman": 750000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 7500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/39309",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/39309",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "e092560f-8b28-46cb-af0e-0309f8e227f3",
+        "name": "گلوکوفاژ ایکس آر",
+        "showInsteadOfGeneric": false,
+        "priority": 6,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "16845",
+        "brandRegistryCode": "6085115285590611",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/49471",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/49471",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "fea078e5-8180-4d81-90a7-9b49d098a249",
+        "name": "ویتالوفاژ",
+        "showInsteadOfGeneric": false,
+        "priority": 7,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "21337",
+        "brandRegistryCode": "8885154713587590",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/38257",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/38257",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "fced808b-a35b-4478-9e18-be1dd4efc66a",
+        "name": "گلای-وانس",
+        "showInsteadOfGeneric": false,
+        "priority": 8,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "21337",
+        "brandRegistryCode": "4445917997155331",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/31934",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/31934",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "bba66d85-2038-445f-92cc-9f3b02a5e9d0",
+        "name": "متفورسام",
+        "showInsteadOfGeneric": false,
+        "priority": 9,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "21337",
+        "brandRegistryCode": "8927397649792038",
+        "price": {
+          "amountToman": 135000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 1350000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/26397",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/26397",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "9af46247-8201-4a12-82e1-fcac2a783045",
+        "name": "گلوکوف ای آر",
+        "showInsteadOfGeneric": false,
+        "priority": 10,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "16845",
+        "brandRegistryCode": "7189205222430146",
+        "price": {
+          "amountToman": 225000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2250000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/38184",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/38184",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "5afcd97a-86c9-4866-bbd9-d129e1e8d7aa",
+        "name": "مهبامت",
+        "showInsteadOfGeneric": false,
+        "priority": 11,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "21337",
+        "brandRegistryCode": "6753524450854852",
+        "price": {
+          "amountToman": 270000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2700000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/36382",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/36382",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "529dca9e-6988-448b-953d-5d0f9528fde8",
+        "name": "آنیفورمین",
+        "showInsteadOfGeneric": false,
+        "priority": 12,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "16844",
+        "brandRegistryCode": "6367597292493925",
+        "price": {
+          "amountToman": 360000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 3600000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/41063",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/41063",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "ae3511df-7301-48c2-8d46-f05fd7a6b3a6",
+        "name": "متفورتکس",
+        "showInsteadOfGeneric": false,
+        "priority": 13,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "16845",
+        "brandRegistryCode": "3821678745199741",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/49294",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/49294",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "742d4c86-9337-4a95-b619-7c6ec6f7d6af",
+        "name": "مری کوم",
+        "showInsteadOfGeneric": false,
+        "priority": 14,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "21337",
+        "brandRegistryCode": "2473862952811476",
+        "price": {
+          "amountToman": 270000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2700000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/2597",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/2597",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "d64d8862-3f97-427b-83dd-41b8d1d7ed8f",
+        "name": "متلین",
+        "showInsteadOfGeneric": false,
+        "priority": 15,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "21337",
+        "brandRegistryCode": "6190313472018867",
+        "price": {
+          "amountToman": 135000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 1350000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/26468",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/26468",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "78702c53-65d3-4467-bac3-fdb6401ae5d2",
+        "name": "رونوفاژ",
+        "showInsteadOfGeneric": false,
+        "priority": 16,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "21337",
+        "brandRegistryCode": "5416664350183296",
+        "price": {
+          "amountToman": 135000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 1350000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/40904",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/40904",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
+    ],
+    "global-liraglutide-1": [
+      {
+        "id": "44b882a6-6ce0-4b7b-9630-3987ee763537",
+        "name": "ساکسندا",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "22666",
+        "brandRegistryCode": "4343077785260488",
+        "price": {
+          "amountToman": 7500000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 75000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/26472",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/26472",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "b5632c0d-105d-412e-b64c-b3037d50ce25",
+        "name": "لنلیرا",
+        "showInsteadOfGeneric": false,
+        "priority": 2,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "22666",
+        "brandRegistryCode": "6847940541935178",
+        "price": {
+          "amountToman": 2500000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 25000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/50490",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/50490",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "731ead99-5ca8-4dc4-8362-49430d8376b6",
+        "name": "ویکتوزا",
+        "showInsteadOfGeneric": false,
+        "priority": 3,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "22666",
+        "brandRegistryCode": "2102205533632240",
+        "price": {
+          "amountToman": 7000000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 70000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/48269",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/48269",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "6d7eb8e0-f941-4ce7-b527-e2c8fb1d481f",
+        "name": "ویکیتاید",
+        "showInsteadOfGeneric": false,
+        "priority": 4,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "22666",
+        "brandRegistryCode": "1612114027684039",
+        "price": {
+          "amountToman": 2500000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 25000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/35007",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/35007",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "6237ff44-3061-41d8-b3de-c60de97b9b55",
+        "name": "ماسیزا",
+        "showInsteadOfGeneric": false,
+        "priority": 5,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "22666",
+        "brandRegistryCode": "2362654424181611",
+        "price": {
+          "amountToman": 2500000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 25000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/36108",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/36108",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "bb712a3c-2f78-4435-bc37-714dc38b51c4",
+        "name": "ملیتاید",
+        "showInsteadOfGeneric": false,
+        "priority": 6,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "22666",
+        "brandRegistryCode": "3510212979247193",
+        "price": {
+          "amountToman": 2500000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 25000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/30273",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/30273",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
+    ],
+    "global-semaglutide-2": [
+      {
+        "id": "7783ea18-7d12-4edb-ad80-254a9e4bb97c",
+        "name": "اریکستاید",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53482",
+        "brandRegistryCode": "7302642445107085",
+        "price": {
+          "amountToman": 6000000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 60000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/51127",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/51127",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "de619d3b-39bf-4fad-8382-b5f42fe00127",
+        "name": "سایمرا",
+        "showInsteadOfGeneric": false,
+        "priority": 2,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53482",
+        "brandRegistryCode": "1923880555091139",
+        "price": {
+          "amountToman": 6000000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 60000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52530",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52530",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "88a8f7c6-776e-43a1-b2fa-b0b84398fe85",
+        "name": "ولوریتا",
+        "showInsteadOfGeneric": false,
+        "priority": 3,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53483",
+        "brandRegistryCode": "7001972637518054",
+        "price": {
+          "amountToman": 9509000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 95090000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/50974",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/51813",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "e0b39359-74bb-4b4e-b399-6ec43969f021",
+        "name": "ازمپیک",
+        "showInsteadOfGeneric": false,
+        "priority": 4,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53483",
+        "brandRegistryCode": "1530338666768141",
+        "price": {
+          "amountToman": 4500000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 45000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/49069",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/49069",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "9489d4d4-275b-4742-a6ba-a86564093870",
+        "name": "ویگووی",
+        "showInsteadOfGeneric": false,
+        "priority": 5,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53483",
+        "brandRegistryCode": "3721421725307897",
+        "price": {
+          "amountToman": 4500000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 45000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52859",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52859",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "b505ef57-be40-49d0-a81b-2bd748559fa9",
+        "name": "اوزیتاید",
+        "showInsteadOfGeneric": false,
+        "priority": 6,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53482",
+        "brandRegistryCode": "5014009191151461",
+        "price": {
+          "amountToman": 6000000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 60000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/49559",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/49559",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "053ca3c1-dea5-46c4-bdfa-7284e33580ed",
+        "name": "سویما",
+        "showInsteadOfGeneric": false,
+        "priority": 7,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53482",
+        "brandRegistryCode": "7740862492975550",
+        "price": {
+          "amountToman": 6000000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 60000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/51177",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/51177",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "30ec79a5-15b4-4170-9d8b-6a3df4006bb0",
+        "name": "سماکتو",
+        "showInsteadOfGeneric": false,
+        "priority": 8,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53482",
+        "brandRegistryCode": "2478926019706937",
+        "price": {
+          "amountToman": 6000000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 60000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52718",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52718",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
+    ],
+    "global-dulaglutide-1": [
+      {
+        "id": "c6f7e082-cb54-41ec-8d06-9afacc542c42",
+        "name": "ترولیسیتی",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53269",
+        "brandRegistryCode": "1069300185762418",
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/45116",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
+    ],
+    "global-tirzepatide-1": [
+      {
+        "id": "e01e1946-e81c-41cc-9582-6e7c2a41ecf4",
+        "name": "تیرزپاتاید",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53584",
+        "brandRegistryCode": "1805899871510399",
+        "price": {
+          "amountToman": 14000000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 140000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/51554",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/51554",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "3dfcf53c-68ec-4e8e-bc7f-f764385bfb12",
+        "name": "اسپارتینا",
+        "showInsteadOfGeneric": false,
+        "priority": 2,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53508",
+        "brandRegistryCode": "2261327674553955",
+        "price": {
+          "amountToman": 12000000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 120000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52498",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52498",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "2c9a6f75-27fe-4a1f-896c-9f3024fd747d",
+        "name": "لانیسا",
+        "showInsteadOfGeneric": false,
+        "priority": 3,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53585",
+        "brandRegistryCode": "4315255564510427",
+        "price": {
+          "amountToman": 9200000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 92000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/51060",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/51060",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "610ea0f1-9649-4c64-8a6d-e0ce889fd75a",
+        "name": "زیکورپا",
+        "showInsteadOfGeneric": false,
+        "priority": 4,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53585",
+        "brandRegistryCode": "6935891717749974",
+        "price": {
+          "amountToman": 13000000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 130000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52582",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52582",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "31de64f0-172c-49ad-80a2-f73a44d6d9ce",
+        "name": "تیرزکتو",
+        "showInsteadOfGeneric": false,
+        "priority": 5,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53508",
+        "brandRegistryCode": "6679505753051317",
+        "price": {
+          "amountToman": 12000000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 120000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52809",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52809",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "9eba3f12-d29b-4cf4-92fc-97d6ba1337b2",
+        "name": "زایفورا",
+        "showInsteadOfGeneric": false,
+        "priority": 6,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53507",
+        "brandRegistryCode": "4576760349189999",
+        "price": {
+          "amountToman": 11000000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 110000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/50107",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/50107",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "56a58236-f260-4211-af3a-8043b930b171",
+        "name": "لینگو-وار",
+        "showInsteadOfGeneric": false,
+        "priority": 7,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "53585",
+        "brandRegistryCode": "7091123856983794",
+        "price": {
+          "amountToman": 9653480,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 96534800,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52760",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52760",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
+    ],
+    "global-glibenclamide-glyburide-1": [
+      {
+        "id": "82cd1d22-a310-4bdc-9d65-14b38fd38c27",
+        "name": "گلی بنکلامید",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "595",
+        "brandRegistryCode": "9420893432193462",
+        "price": {
+          "amountToman": 220000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2200000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/27456",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/27456",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "1f90c28d-6508-4596-81d4-06cb0a57ea0b",
+        "name": "گلیبوتکس",
+        "showInsteadOfGeneric": false,
+        "priority": 2,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "595",
+        "brandRegistryCode": "7109495248959722",
+        "price": {
+          "amountToman": 220000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2200000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/518",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/518",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
+    ],
+    "global-repaglinide-1": [
+      {
+        "id": "cafcd80e-52f8-43ad-aef8-7d612905eacd",
+        "name": "رپاگلیناید",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "4903",
+        "brandRegistryCode": "4328843085252113",
+        "price": {
+          "amountToman": 220000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2200000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/45416",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/45416",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "cddda236-4464-458d-890d-6175cdf822ee",
+        "name": "رپاسد",
+        "showInsteadOfGeneric": false,
+        "priority": 2,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "4904",
+        "brandRegistryCode": "1496705454630721",
+        "price": {
+          "amountToman": 72000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 720000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/17572",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/17572",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "5ed370e5-50d8-4be4-ba2d-6fc99cc9859c",
+        "name": "پراگلیناید",
+        "showInsteadOfGeneric": false,
+        "priority": 3,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "4903",
+        "brandRegistryCode": "2360563786628930",
+        "price": {
+          "amountToman": 220000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2200000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/25812",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/25812",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "052da7ff-bb8f-45ef-940c-251fac959369",
+        "name": "نیوبت",
+        "showInsteadOfGeneric": false,
+        "priority": 4,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "4903",
+        "brandRegistryCode": "8033325068718261",
+        "price": {
+          "amountToman": 220000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2200000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/37754",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/37754",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "6a11cd55-9a79-4fc8-b35e-cb3fffd74f3a",
+        "name": "رپاگین",
+        "showInsteadOfGeneric": false,
+        "priority": 5,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "4903",
+        "brandRegistryCode": "6885550311830551",
+        "price": {
+          "amountToman": 220000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2200000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/7886",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/7886",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
+    ],
+    "global-pioglitazone-1": [
+      {
+        "id": "edace4e1-8927-42e7-a47f-5630a7e4493f",
+        "name": "اکتوسرک",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "8828",
+        "brandRegistryCode": "1356804183691539",
+        "price": {
+          "amountToman": 114000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 1140000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/22809",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/22809",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
+    ],
+    "global-acarbose-1": [
+      {
+        "id": "f15cf9e9-2a1d-4d20-b661-4c6d27052b06",
+        "name": "آکاربوز",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "2015",
+        "brandRegistryCode": "3375223687254700",
+        "price": {
+          "amountToman": 325000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 3250000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/31790",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/31790",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "ec384474-1d34-4561-a623-b46abccf1ce4",
+        "name": "آکارماکس",
+        "showInsteadOfGeneric": false,
+        "priority": 2,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "2015",
+        "brandRegistryCode": "9216848496636729",
+        "price": {
+          "amountToman": 790000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 7900000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/51979",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/51979",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "051b2f65-4911-43d0-b6ab-40295241551c",
+        "name": "آکاربکس",
+        "showInsteadOfGeneric": false,
+        "priority": 3,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "2016",
+        "brandRegistryCode": "2279771251073515",
+        "price": {
+          "amountToman": 76950,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 769500,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/18529",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/18529",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
+    ],
+    "global-glimepiride-1": [
+      {
+        "id": "d1d4b280-8b77-48de-88af-480939181281",
+        "name": "گلیمپراید",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "52422",
+        "brandRegistryCode": "1749485618432181",
+        "price": {
+          "amountToman": 63000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 630000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/42273",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/42273",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "77d64057-ae3d-4f17-aff3-5127be78d640",
+        "name": "تداپراید",
+        "showInsteadOfGeneric": false,
+        "priority": 2,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "52425",
+        "brandRegistryCode": "7927592018339223",
+        "price": {
+          "amountToman": 114000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 1140000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/34200",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/34200",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
+    ],
+    "global-gliclazide-1": [
+      {
+        "id": "98498727-4145-4621-8cbe-766c2ae034bb",
+        "name": "گلی کلازید",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "1523",
+        "brandRegistryCode": "8401683543678839",
+        "price": {
+          "amountToman": 135000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 1350000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/47080",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/47080",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "d330c2bc-782e-43e9-89c1-940ab4d983b7",
+        "name": "گلی کلازید آریا",
+        "showInsteadOfGeneric": false,
+        "priority": 2,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "1523",
+        "brandRegistryCode": "3649987114325903",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/523",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/523",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "d5914dec-b234-4e2b-9028-70363ee5315e",
+        "name": "کلازکس",
+        "showInsteadOfGeneric": false,
+        "priority": 3,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "1523",
+        "brandRegistryCode": "3216967624104387",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/32581",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/32581",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "8422f669-718b-4e86-954f-8c03df113567",
+        "name": "دیابزید",
+        "showInsteadOfGeneric": false,
+        "priority": 4,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "1523",
+        "brandRegistryCode": "5219332876787418",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/40710",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/40710",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "908b7ca5-6d9f-45ef-badf-4f488395ef1c",
+        "name": "گلی زیتکس",
+        "showInsteadOfGeneric": false,
+        "priority": 5,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "1523",
+        "brandRegistryCode": "4779708717592817",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/47225",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/47225",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "25829f9d-aefc-449f-bf0d-d7d624b20cb4",
+        "name": "گلیزان",
+        "showInsteadOfGeneric": false,
+        "priority": 6,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "1523",
+        "brandRegistryCode": "8426165271884844",
+        "price": {
+          "amountToman": 270000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2700000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/46296",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/46296",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "6187b89a-ef99-4575-967d-9de6ff3942b8",
+        "name": "آنی کلاز",
+        "showInsteadOfGeneric": false,
+        "priority": 7,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "1523",
+        "brandRegistryCode": "3995059775712588",
+        "price": {
+          "amountToman": 450000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 4500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/40785",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/40785",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
+    ],
+    "global-gliclazide-2": [
+      {
+        "id": "1969339d-7866-4a75-b1ff-08999bd7124c",
+        "name": "گلی کلازید",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "5442",
+        "brandRegistryCode": "5795216662478543",
+        "price": {
+          "amountToman": 258000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 2580000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/49655",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/49655",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "90ad0667-14a6-420c-b93d-438df2720232",
+        "name": "دیابزید",
+        "showInsteadOfGeneric": false,
+        "priority": 2,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "19418",
+        "brandRegistryCode": "8130063227006513",
+        "price": {
+          "amountToman": 300000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 3000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52185",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/52185",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "fc960824-3f92-46c3-a8d5-c04d953ac577",
+        "name": "زیدامد",
+        "showInsteadOfGeneric": false,
+        "priority": 3,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "5442",
+        "brandRegistryCode": "5576830832230295",
+        "price": {
+          "amountToman": 129000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 1290000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/26058",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/26058",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "ca9d098c-efdd-4660-8e3a-c65811561505",
+        "name": "گلی زیداس",
+        "showInsteadOfGeneric": false,
+        "priority": 4,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "19418",
+        "brandRegistryCode": "9145314749724314",
+        "price": {
+          "amountToman": 500000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 5000000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/34125",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/34125",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "8590ce0a-3c6e-4ea3-8e92-ec18dd7bf1e1",
+        "name": "گلی کلاویت",
+        "showInsteadOfGeneric": false,
+        "priority": 5,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "19418",
+        "brandRegistryCode": "7296044851319738",
+        "price": {
+          "amountToman": 150000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 1500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/38466",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/38466",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "3b26110f-a11e-46ef-a363-90a51df69c4c",
+        "name": "گلیزان",
+        "showInsteadOfGeneric": false,
+        "priority": 6,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "5442",
+        "brandRegistryCode": "8004190793193230",
+        "price": {
+          "amountToman": 129000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 1290000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/30055",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/30055",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "4d67c56d-c4b8-4f58-b1cf-40437487efc2",
+        "name": "آنی کلاز",
+        "showInsteadOfGeneric": false,
+        "priority": 7,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "5442",
+        "brandRegistryCode": "5516010139562122",
+        "price": {
+          "amountToman": 129000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 1290000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/48194",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/48194",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "6efa5e6e-6cd3-4069-b292-cd575a37ec28",
+        "name": "گلی زیتکس",
+        "showInsteadOfGeneric": false,
+        "priority": 8,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "19418",
+        "brandRegistryCode": "8032234781098543",
+        "price": {
+          "amountToman": 150000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 1500000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/28182",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/28182",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      },
+      {
+        "id": "1862e0fa-a64b-4717-88ed-4dd5b0aba816",
+        "name": "گلیکوور",
+        "showInsteadOfGeneric": false,
+        "priority": 9,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "5442",
+        "brandRegistryCode": "5277612655067828",
+        "price": {
+          "amountToman": 129000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 1290000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/33732",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/33732",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
       }
     ]
   },
-  "customGenerics": []
+  "customGenerics": [],
+  "marketData": {
+    "global-acarbose-1": {
+      "genericRegistryCode": "2015",
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    },
+    "global-gliclazide-1": {
+      "genericRegistryCode": "19418",
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    },
+    "global-gliclazide-2": {
+      "genericRegistryCode": "19418",
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    },
+    "global-insulin-aspart-1": {
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.898Z"
+    },
+    "global-insulin-detemir-1": {
+      "genericRegistryCode": "12837",
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    },
+    "global-insulin-glargine-2": {
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    },
+    "global-insulin-glargine-1": {
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    },
+    "global-insulin-glulisine-1": {
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    },
+    "global-regular-human-insulin-1": {
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://mdp.ihio.gov.ir/",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    },
+    "global-metformin-1": {
+      "genericRegistryCode": "10915",
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    },
+    "global-pioglitazone-1": {
+      "genericRegistryCode": "8828",
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    },
+    "global-repaglinide-1": {
+      "genericRegistryCode": "4903",
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    },
+    "global-dapagliflozin-1": {
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.898Z"
+    },
+    "global-insulin-lispro-1": {
+      "genericRegistryCode": "52206",
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    },
+    "global-metformin-3": {
+      "genericRegistryCode": "10915",
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.898Z"
+    },
+    "global-empagliflozin-1": {
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    },
+    "global-linagliptin-1": {
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.898Z"
+    },
+    "global-metformin-2": {
+      "genericRegistryCode": "10915",
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.898Z"
+    },
+    "global-sitagliptin-1": {
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    },
+    "global-glimepiride-1": {
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    },
+    "global-liraglutide-1": {
+      "genericRegistryCode": "22666",
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-07T20:56:09.897Z"
+    }
+  },
+  "notifications": [
+    {
+      "severity": "error",
+      "title": "استخراج منابع دارویی کامل نشد",
+      "message": "دریافت منابع بیمه کامل نشد: ther exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\abbas\\GLYMIZE\\tools\\iran-drug-runner\\collect_three_drug_sources.py\", line 859, in <module>\n    main()\n    ~~~~^^\n  File \"C:\\Users\\abbas\\GLYMIZE\\tools\\iran-drug-runner\\collect_three_drug_sources.py\", line 798, in main\n    mdp_rows, mdp_meta = fetch_source(\n                         ~~~~~~~~~~~~^\n        \"بیمه سلامت\",\n        ^^^^^^^^^^^^^\n        MDP_URL,\n        ^^^^^^^^\n        lambda: parse_excel_bytes(download_mdp_excel()),\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"C:\\Users\\abbas\\GLYMIZE\\tools\\iran-drug-runner\\collect_three_drug_sources.py\", line 755, in fetch_source\n    result = function()\n  File \"C:\\Users\\abbas\\GLYMIZE\\tools\\iran-drug-runner\\collect_three_drug_sources.py\", line 801, in <lambda>\n    lambda: parse_excel_bytes(download_mdp_excel()),\n                              ~~~~~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\abbas\\GLYMIZE\\tools\\iran-drug-runner\\collect_three_drug_sources.py\", line 413, in download_mdp_excel\n    initial = session.get(\n        MDP_URL,\n        timeout=TIMEOUT_SECONDS,\n        verify=VERIFY_TLS,\n    )\n  File \"C:\\Users\\abbas\\GLYMIZE\\tools\\iran-drug-runner\\.venv\\Lib\\site-packages\\requests\\sessions.py\", line 671, in get\n    return self.request(\"GET\", url, params=params, **kwargs)\n           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\abbas\\GLYMIZE\\tools\\iran-drug-runner\\.venv\\Lib\\site-packages\\requests\\sessions.py\", line 651, in request\n    resp = self.send(prep, **send_kwargs)\n  File \"C:\\Users\\abbas\\GLYMIZE\\tools\\iran-drug-runner\\.venv\\Lib\\site-packages\\requests\\sessions.py\", line 784, in send\n    r = adapter.send(request, **kwargs)\n  File \"C:\\Users\\abbas\\GLYMIZE\\tools\\iran-drug-runner\\.venv\\Lib\\site-packages\\requests\\adapters.py\", line 742, in send\n    raise ReadTimeout(e, request=request)\nrequests.exceptions.ReadTimeout: HTTPSConnectionPool(host='mdp.ihio.gov.ir', port=443): Read timed out. (read timeout=180)",
+      "actionHref": "/admin/data-updates",
+      "actionLabel": "بررسی مرکز به‌روزرسانی",
+      "id": "f1160e9a-f355-419b-9db9-10e0ee681c0b",
+      "status": "resolved",
+      "createdAt": "2026-08-07T18:45:35.060Z"
+    }
+  ],
+  "updateRuns": [
+    {
+      "id": "f30fad6a-3e60-4ab0-b0b0-578506f4f4e5",
+      "schemaVersion": 1,
+      "status": "ready_to_publish",
+      "startedAt": "2026-08-07T20:49:40.432578+00:00",
+      "completedAt": "2026-08-07T20:50:14.758024+00:00",
+      "sources": [
+        {
+          "sourceId": "iran_fda_nfi",
+          "status": "succeeded",
+          "rowCount": 7066,
+          "startedAt": "2026-08-07T20:49:40.432578+00:00",
+          "completedAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi",
+          "checksumSha256": "15ff53dafb61618340dcd05ff19db2a7e8cd6130c8b64ef62d87004a65e2156e",
+          "error": null
+        },
+        {
+          "sourceId": "health_insurance",
+          "status": "succeeded",
+          "rowCount": 3683,
+          "startedAt": "2026-08-07T20:49:40.432578+00:00",
+          "completedAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://mdp.ihio.gov.ir/",
+          "checksumSha256": "72c064da05645f323b210731974a1e19492e0aa1dbb60a46814c9777d944d532",
+          "error": null,
+          "warningCount": 1,
+          "skippedCoverageRowCount": 1,
+          "warning": "بیمه سلامت: ردیف 1315:  درصد پوشش بیمه سلامت نه در ستون درصد موجود بود و نه از مبلغ سهم سازمان/قیمت کل مورد تعهد قابل محاسبه بود؛ این ردیف بدون اختراع درصد پوشش از ورود پوشش بیمه‌ای کنار گذاشته شد."
+        },
+        {
+          "sourceId": "armed_forces",
+          "status": "succeeded",
+          "rowCount": 2809,
+          "startedAt": "2026-08-07T20:49:40.432578+00:00",
+          "completedAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://esata.ir/web/sakhad/drug/",
+          "checksumSha256": "72c064da05645f323b210731974a1e19492e0aa1dbb60a46814c9777d944d532",
+          "error": null
+        },
+        {
+          "sourceId": "social_security",
+          "status": "succeeded",
+          "rowCount": 2607,
+          "startedAt": "2026-08-07T20:49:40.432578+00:00",
+          "completedAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+          "checksumSha256": "72c064da05645f323b210731974a1e19492e0aa1dbb60a46814c9777d944d532",
+          "error": null
+        }
+      ],
+      "summary": {
+        "genericCount": 21,
+        "brandCount": 90,
+        "priceChangeCount": 473,
+        "coverageChangeCount": 110,
+        "ambiguousMatchCount": 0,
+        "errorCount": 0,
+        "warningCount": 1
+      }
+    }
+  ],
+  "masterCandidates": [
+    {
+      "genericName": "Bromocriptine",
+      "genericRegistryCode": "179",
+      "brandName": "بروموزیت-آی اچ",
+      "brandRegistryCode": "7928395533134065",
+      "dosageForm": "TABLET",
+      "strengthPresentation": "2.5 mg",
+      "clinicalDomains": [],
+      "insuranceCoverages": [],
+      "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/29621",
+      "sourceReference": "Iran FDA NFI · Bromocriptine-QR · Detail 29621 · GTIN 06260155201842",
+      "observedAt": "2026-08-07T20:49:40.432578+00:00",
+      "matchConfidence": 0.89,
+      "price": {
+        "amountToman": 87000,
+        "priceKind": "consumer_retail",
+        "sourceAmount": 870000,
+        "sourceCurrency": "IRR",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/29621",
+        "sourceReference": "Price_Per_Pack_IRR"
+      },
+      "originalGenericName": "Bromocriptine-QR",
+      "classificationStatus": "needs_domain_classification",
+      "identityDisposition": "preserved_for_master_registry",
+      "reviewReason": "NFI محصول 2.5 mg را نشان می‌دهد، اما Scope قدیمی آن را Bromocriptine-QR نام‌گذاری کرده بود. رکورد حذف نشده و برای Master Drug Registry با هویت ماده‌ای Bromocriptine نگهداری شد."
+    }
+  ]
 }
