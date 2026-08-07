@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import GlymizeLanguageSwitch from "./glymize-language-switch";
 import PwaInstall from "./pwa-install";
+import ThemeControls from "./theme-controls";
 import { useGlymizeLocale } from "./use-glymize-locale";
 
 const NAVIGATION = [
@@ -145,7 +146,7 @@ export default function AppShell({
             <span>{copy.subtitle}</span>
           </div>
 
-          <div className="topbar-actions"><PwaInstall /><GlymizeLanguageSwitch /></div>
+          <div className="topbar-actions"><ThemeControls /><PwaInstall /><GlymizeLanguageSwitch /></div>
         </header>
 
         <div className="page-content">{children}</div>
