@@ -11,7 +11,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
 
-from normalize_bundle_runtime import write_bundle
+from consensus_pipeline import write_bundle
 
 
 ROOT = Path(__file__).resolve().parent
@@ -63,7 +63,7 @@ def execute_job(job_id: str, nfi_path: Path, work_dir: Path) -> None:
         insurance_path = work_dir / "output" / "drug_sources_latest.xlsx"
         if not insurance_path.exists():
             raise FileNotFoundError("فایل نهایی سه منبع بیمه‌ای ساخته نشد.")
-        update_job(job_id, message="در حال استانداردسازی، تبدیل ریال به تومان و کنترل کدها…")
+        update_job(job_id, message="در حال استانداردسازی، اجماع چهار منبع و کنترل کدها…")
         output_path = work_dir / "output" / "glymize-drug-bundle.json"
         bundle = write_bundle(
             nfi_path,
@@ -83,7 +83,7 @@ def execute_job(job_id: str, nfi_path: Path, work_dir: Path) -> None:
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "GLYMIZEIranRunner/0.2"
+    server_version = "GLYMIZEIranRunner/0.3"
 
     def end_headers(self) -> None:
         origin = self.headers.get("Origin", "").rstrip("/")
@@ -112,7 +112,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:  # noqa: N802
         if self.path == "/health":
-            self.json_response({"status": "ok", "runnerVersion": "0.2", "boundTo": "127.0.0.1"})
+            self.json_response({"status": "ok", "runnerVersion": "0.3", "boundTo": "127.0.0.1"})
             return
         if self.path.startswith("/jobs/"):
             job_id = self.path.split("/", 2)[-1]
