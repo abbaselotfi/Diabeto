@@ -11,7 +11,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
 
-from normalize_bundle import write_bundle
+from normalize_bundle_runtime import write_bundle
 
 
 ROOT = Path(__file__).resolve().parent
@@ -30,6 +30,14 @@ def allowed_origins() -> set[str]:
 def update_job(job_id: str, **patch: Any) -> None:
     with LOCK:
         JOBS[job_id] = {**JOBS[job_id], **patch}
+
+
+def active_job() -> dict[str, Any] | None:
+    with LOCK:
+        for job in JOBS.values():
+            if job.get("status") in {"queued", "running"}:
+                return dict(job)
+    return None
 
 
 def execute_job(job_id: str, nfi_path: Path, work_dir: Path) -> None:
@@ -75,7 +83,7 @@ def execute_job(job_id: str, nfi_path: Path, work_dir: Path) -> None:
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "GLYMIZEIranRunner/0.1"
+    server_version = "GLYMIZEIranRunner/0.2"
 
     def end_headers(self) -> None:
         origin = self.headers.get("Origin", "").rstrip("/")
@@ -104,7 +112,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:  # noqa: N802
         if self.path == "/health":
-            self.json_response({"status": "ok", "runnerVersion": "0.1", "boundTo": "127.0.0.1"})
+            self.json_response({"status": "ok", "runnerVersion": "0.2", "boundTo": "127.0.0.1"})
             return
         if self.path.startswith("/jobs/"):
             job_id = self.path.split("/", 2)[-1]
@@ -122,6 +130,19 @@ class Handler(BaseHTTPRequestHandler):
         if origin and origin not in allowed_origins():
             self.json_response({"error": "origin_not_allowed"}, 403)
             return
+
+        running = active_job()
+        if running:
+            self.json_response(
+                {
+                    "error": "job_already_running",
+                    "message": "یک استخراج دیگر هنوز در حال اجرا است.",
+                    "job": running,
+                },
+                409,
+            )
+            return
+
         job_id = str(uuid.uuid4())
         job = {"id": job_id, "status": "queued", "message": "در صف اجرا"}
         with LOCK:
