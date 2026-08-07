@@ -26,6 +26,17 @@ import { withBasePath } from "./base-path";
 const remoteApiUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
 const storageKey = "glymize-browser-catalog-v2";
 
+export interface MasterDrugCandidate extends NormalizedDrugImportRecord {
+  originalGenericName?: string;
+  classificationStatus: "needs_domain_classification" | "classified";
+  identityDisposition: "preserved_for_master_registry";
+  reviewReason?: string;
+}
+
+type NormalizedDrugImportBundleWithMasterCandidates = NormalizedDrugImportBundle & {
+  masterCandidates?: MasterDrugCandidate[];
+};
+
 export interface BrowserCatalogState {
   visibility: Record<string, boolean>;
   insurance: Record<string, InsuranceCoverage[]>;
@@ -34,6 +45,7 @@ export interface BrowserCatalogState {
   marketData: Record<string, MedicationMarketData>;
   notifications: AdminNotification[];
   updateRuns: DrugDataUpdateRun[];
+  masterCandidates: MasterDrugCandidate[];
 }
 
 interface PublishedCatalogState extends BrowserCatalogState {
@@ -58,7 +70,8 @@ function emptyState(): BrowserCatalogState {
     customGenerics: [],
     marketData: {},
     notifications: [],
-    updateRuns: []
+    updateRuns: [],
+    masterCandidates: []
   };
 }
 
@@ -72,7 +85,8 @@ function parseStoredState(value: string | null): { state: BrowserCatalogState; s
       ...parsed,
       marketData: parsed.marketData ?? {},
       notifications: Array.isArray(parsed.notifications) ? parsed.notifications : [],
-      updateRuns: Array.isArray(parsed.updateRuns) ? parsed.updateRuns : []
+      updateRuns: Array.isArray(parsed.updateRuns) ? parsed.updateRuns : [],
+      masterCandidates: Array.isArray(parsed.masterCandidates) ? parsed.masterCandidates : []
     }, savedAt: raw.savedAt };
   } catch {
     return null;
@@ -95,7 +109,8 @@ async function ensureState() {
         customGenerics: published.customGenerics ?? [],
         marketData: published.marketData ?? {},
         notifications: published.notifications ?? [],
-        updateRuns: published.updateRuns ?? []
+        updateRuns: published.updateRuns ?? [],
+        masterCandidates: Array.isArray(published.masterCandidates) ? published.masterCandidates : []
       };
       const localIsNewer = Boolean(localDraft?.savedAt && Date.parse(localDraft.savedAt) > Date.parse(published.updatedAt));
       stateCache = localIsNewer ? localDraft!.state : publishedState;
@@ -400,6 +415,25 @@ function normalizedName(value: string) {
     .replace(/\s+/g, " ");
 }
 
+function masterCandidateKey(candidate: MasterDrugCandidate) {
+  const irc = String(candidate.brandRegistryCode ?? "").trim();
+  if (irc) return `irc:${irc}`;
+  return [
+    "label",
+    normalizedName(candidate.genericName),
+    normalizedName(candidate.brandName ?? ""),
+    normalizedName(candidate.dosageForm ?? ""),
+    normalizedName(candidate.strengthPresentation ?? "")
+  ].join(":");
+}
+
+function mergeMasterCandidates(current: MasterDrugCandidate[], incoming: MasterDrugCandidate[]) {
+  const merged = new Map<string, MasterDrugCandidate>();
+  for (const candidate of current) merged.set(masterCandidateKey(candidate), candidate);
+  for (const candidate of incoming) merged.set(masterCandidateKey(candidate), candidate);
+  return [...merged.values()];
+}
+
 function validateNormalizedBundle(bundle: NormalizedDrugImportBundle | null | undefined) {
   const errors: string[] = [];
   if (!bundle || typeof bundle !== "object" || bundle.schemaVersion !== 1 || bundle.run?.schemaVersion !== 1 || !Array.isArray(bundle.run?.sources) || !bundle.run?.summary || !Array.isArray(bundle.records)) {
@@ -422,6 +456,18 @@ function validateNormalizedBundle(bundle: NormalizedDrugImportBundle | null | un
     );
   })) {
     errors.push("حداقل یک رکورد، نام/منبع/قیمت یا اطلاعات بیمهٔ معتبر ندارد.");
+  }
+  const masterCandidates = (bundle as NormalizedDrugImportBundleWithMasterCandidates).masterCandidates;
+  if (masterCandidates !== undefined && (!Array.isArray(masterCandidates) || masterCandidates.some((candidate) =>
+    !candidate ||
+    typeof candidate !== "object" ||
+    !candidate.genericName ||
+    !candidate.sourceUrl ||
+    !candidate.observedAt ||
+    candidate.identityDisposition !== "preserved_for_master_registry" ||
+    !["needs_domain_classification", "classified"].includes(candidate.classificationStatus)
+  ))) {
+    errors.push("حداقل یک رکورد Master Drug Registry ساختار معتبر ندارد.");
   }
   return errors;
 }
@@ -458,6 +504,7 @@ function matchingImportCandidates(record: NormalizedDrugImportRecord, checklist:
 function applyNormalizedBundle(bundle: NormalizedDrugImportBundle) {
   const state = readState();
   const errors = validateNormalizedBundle(bundle);
+  const bundleWithMasterCandidates = bundle as NormalizedDrugImportBundleWithMasterCandidates;
   if (!bundle?.run || !Array.isArray(bundle.run.sources) || !bundle.run.summary) {
     addNotification({
       severity: "error",
@@ -467,7 +514,7 @@ function applyNormalizedBundle(bundle: NormalizedDrugImportBundle) {
       actionLabel: "بررسی فایل"
     });
     saveState(state, false);
-    return { applied: false, errors, matched: 0, ambiguous: 0 };
+    return { applied: false, errors, matched: 0, ambiguous: 0, masterCandidatesStored: 0 };
   }
   state.updateRuns = [bundle.run, ...state.updateRuns.filter((run) => run.id !== bundle.run.id)].slice(0, 24);
   if (errors.length) {
@@ -485,7 +532,7 @@ function applyNormalizedBundle(bundle: NormalizedDrugImportBundle) {
       ...state.updateRuns.filter((run) => run.id !== bundle.run.id)
     ].slice(0, 24);
     saveState(state, false);
-    return { applied: false, errors, matched: 0, ambiguous: 0 };
+    return { applied: false, errors, matched: 0, ambiguous: 0, masterCandidatesStored: 0 };
   }
 
   const checklist = listMedicationChecklist();
@@ -513,7 +560,8 @@ function applyNormalizedBundle(bundle: NormalizedDrugImportBundle) {
       applied: false,
       errors: [`${ambiguousRecords.length} رکورد مبهم است؛ نسخهٔ سالم قبلی فعال ماند.`],
       matched: 0,
-      ambiguous: ambiguousRecords.length
+      ambiguous: ambiguousRecords.length,
+      masterCandidatesStored: 0
     };
   }
   let matched = 0;
@@ -633,6 +681,10 @@ function applyNormalizedBundle(bundle: NormalizedDrugImportBundle) {
     }
     matched += 1;
   }
+  const incomingMasterCandidates = Array.isArray(bundleWithMasterCandidates.masterCandidates)
+    ? bundleWithMasterCandidates.masterCandidates
+    : [];
+  state.masterCandidates = mergeMasterCandidates(state.masterCandidates, incomingMasterCandidates);
   const completedRun: DrugDataUpdateRun = {
     ...bundle.run,
     status: "ready_to_publish",
@@ -640,7 +692,7 @@ function applyNormalizedBundle(bundle: NormalizedDrugImportBundle) {
   };
   state.updateRuns = [completedRun, ...state.updateRuns.filter((run) => run.id !== bundle.run.id)].slice(0, 24);
   saveState(state);
-  return { applied: true, errors: [], matched, ambiguous };
+  return { applied: true, errors: [], matched, ambiguous, masterCandidatesStored: incomingMasterCandidates.length };
 }
 
 function addBrand(referencePresentationId: string, body: Record<string, unknown>) {
@@ -667,7 +719,7 @@ function updateBrand(referencePresentationId: string, brandId: string, body: Rec
   if (!current.some((brand) => brand.id === brandId)) return undefined;
   state.brands = {
     ...state.brands,
-    [referencePresentationId]: current.map((brand) => brand.id === brandId ? { ...brand, ...body } as MedicationBrand : brand)
+    [referencePresentationId]: current.map((brand) => entry.id === brandId ? { ...brand, ...body } as MedicationBrand : brand)
   };
   saveState(state);
   return checklistItem(referencePresentationId);
@@ -710,6 +762,7 @@ async function browserApiFetch(path: string, init?: RequestInit): Promise<Respon
   if (method === "GET" && pathname === "/v1/admin/guidelines") return json(guidelineSources);
   if (method === "GET" && pathname === "/v1/admin/catalog/medication-checklist") return json(listMedicationChecklist());
   if (method === "GET" && pathname === "/v1/admin/catalog/reference-sources") return json(globalReferenceCatalogueSources);
+  if (method === "GET" && pathname === "/v1/admin/catalog/master-candidates") return json(readState().masterCandidates);
   if (method === "GET" && pathname === "/v1/admin/notifications") return json(readState().notifications);
   if (method === "POST" && pathname === "/v1/admin/notifications") {
     const created = createNotification(body as unknown as CreateAdminNotificationInput);
@@ -740,12 +793,16 @@ async function browserApiFetch(path: string, init?: RequestInit): Promise<Respon
         }))
       }];
     });
+    const masterCandidateCount = Array.isArray((bundle as NormalizedDrugImportBundleWithMasterCandidates | null)?.masterCandidates)
+      ? (bundle as NormalizedDrugImportBundleWithMasterCandidates).masterCandidates!.length
+      : 0;
     return json({
       valid: errors.length === 0,
       errors,
       recordCount: records.length,
       ambiguous,
       ambiguousRecords,
+      masterCandidateCount,
       canApply: errors.length === 0 && ambiguous === 0
     }, errors.length ? 422 : 200);
   }
