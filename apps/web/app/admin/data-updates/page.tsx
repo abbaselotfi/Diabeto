@@ -35,6 +35,15 @@ const sourceLabels = {
   social_security: "بیمه تأمین اجتماعی"
 } as const;
 
+function isNormalizedBundle(value: unknown): value is NormalizedDrugImportBundle {
+  if (!value || typeof value !== "object") return false;
+  const candidate = value as Partial<NormalizedDrugImportBundle>;
+  return candidate.schemaVersion === 1 &&
+    Boolean(candidate.run && typeof candidate.run === "object") &&
+    Array.isArray(candidate.run?.sources) &&
+    Array.isArray(candidate.records);
+}
+
 export default function DrugDataUpdatesPage() {
   const [runnerUrl, setRunnerUrl] = useState(defaultRunnerUrl);
   const [runnerConnected, setRunnerConnected] = useState(false);
@@ -109,6 +118,12 @@ export default function DrugDataUpdatesPage() {
   }
 
   async function prepareBundle(nextBundle: NormalizedDrugImportBundle) {
+    if (!isNormalizedBundle(nextBundle)) {
+      setBundle(null);
+      setPreview({ valid: false, errors: ["ساختار بستهٔ استخراج معتبر نیست یا فهرست منابع در آن وجود ندارد."], recordCount: 0, ambiguous: 0, canApply: false, ambiguousRecords: [] });
+      setMessage("بسته قابل بازبینی نیست؛ ساختار JSON باید توسط Runner استاندارد GLYMIZE تولید شود.");
+      return;
+    }
     setBundle(nextBundle);
     const response = await apiFetch("/v1/admin/catalog/normalized-imports/preview", {
       method: "POST",
@@ -124,12 +139,13 @@ export default function DrugDataUpdatesPage() {
 
   async function readBundleFile(file: File) {
     try {
-      const parsed = JSON.parse(await file.text()) as NormalizedDrugImportBundle;
+      const parsed = JSON.parse(await file.text()) as unknown;
+      if (!isNormalizedBundle(parsed)) throw new Error("invalid bundle shape");
       await prepareBundle(parsed);
     } catch {
       setBundle(null);
-      setPreview({ valid: false, errors: ["فایل JSON خوانده نشد یا ساختار معتبری ندارد."], recordCount: 0, ambiguous: 0, canApply: false, ambiguousRecords: [] });
-      setMessage("فایل استاندارد معتبر نیست.");
+      setPreview({ valid: false, errors: ["فایل JSON خوانده نشد یا ساختار استاندارد Runner را ندارد."], recordCount: 0, ambiguous: 0, canApply: false, ambiguousRecords: [] });
+      setMessage("فایل استاندارد معتبر نیست؛ نسخهٔ فعال بدون تغییر باقی ماند.");
     }
   }
 
@@ -187,7 +203,7 @@ export default function DrugDataUpdatesPage() {
 
       {preview && <section className={preview.canApply ? "import-preview" : "import-preview has-errors"} id="ambiguous-matches">
         <div className="import-summary"><span><b>{preview.recordCount}</b> رکورد</span><span><b>{preview.ambiguous}</b> تطبیق مبهم</span><span><b>{preview.errors.length}</b> خطای مسدودکننده</span></div>
-        {bundle && <div className="source-run-grid">{bundle.run.sources.map((source) => <article className={`source-run source-${source.status}`} key={source.sourceId}><strong>{sourceLabels[source.sourceId]}</strong><span>{source.status === "succeeded" ? "کامل" : source.status === "failed" ? "خطا" : "در حال بررسی"}</span><small>{source.rowCount !== undefined ? `${source.rowCount} ردیف` : source.error ?? "—"}</small></article>)}</div>}
+        {bundle && <div className="source-run-grid">{bundle.run.sources.map((source) => <article className={`source-run source-${source.status}`} key={source.sourceId}><strong>{sourceLabels[source.sourceId]}</strong><span>{source.status === "succeeded" ? "کامل" : source.status === "failed" ? "خطا" : "نیازمند بازبینی"}</span><small>{source.rowCount !== undefined ? `${source.rowCount} ردیف` : "بدون شمارش ردیف"}</small>{source.error && <small>{source.error}</small>}</article>)}</div>}
         {preview.errors.length > 0 && <div className="import-errors"><strong>علت توقف انتشار</strong><ul>{preview.errors.map((error) => <li key={error}>{error}</li>)}</ul></div>}
         {preview.ambiguous > 0 && <div className="import-warning"><strong>تطبیق مبهم</strong><p>رکوردهای مبهم باید با کد NFI یا شناسهٔ فرآورده به یک محصول یکتا متصل شوند؛ انتشار ناقص مجاز نیست.</p></div>}
         {preview.ambiguousRecords.length > 0 && <div className="ambiguous-record-list">{preview.ambiguousRecords.slice(0, 100).map((record) => <label key={record.recordIndex}><span>{record.genericName}{record.brandName ? ` / ${record.brandName}` : ""}</span><select defaultValue={bundle?.records[record.recordIndex]?.referencePresentationId ?? ""} onChange={(event) => selectImportCandidate(record.recordIndex, event.target.value)}><option value="">انتخاب ارائهٔ صحیح…</option>{record.candidates.map((candidate) => <option key={candidate.referencePresentationId} value={candidate.referencePresentationId}>{candidate.label}</option>)}</select>{record.candidates.length === 0 && <small>نام در فهرست مجاز/کاتالوگ پیدا نشد؛ فایل تطبیق باید اصلاح شود.</small>}</label>)}</div>}
