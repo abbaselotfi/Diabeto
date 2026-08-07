@@ -7,24 +7,230 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent
+REPO_ROOT = ROOT.parent.parent
 RUNS_DIR = ROOT / "runs"
 SOURCE_NAME = "glymize-drug-bundle-fixed.json"
 OUTPUT_NAME = "glymize-drug-bundle-ready.json"
+REFERENCE_CATALOG_PATH = REPO_ROOT / "apps" / "api" / "src" / "catalog" / "global-reference-catalog.ts"
+
+DIGIT_TRANSLATION = str.maketrans({
+    "۰": "0", "۱": "1", "۲": "2", "۳": "3", "۴": "4",
+    "۵": "5", "۶": "6", "۷": "7", "۸": "8", "۹": "9",
+    "٠": "0", "١": "1", "٢": "2", "٣": "3", "٤": "4",
+    "٥": "5", "٦": "6", "٧": "7", "٨": "8", "٩": "9",
+})
 
 
 def _normalized(value: Any) -> str:
-    text = str(value or "").strip().lower().replace("\u200c", " ")
+    text = str(value or "").strip().lower().translate(DIGIT_TRANSLATION).replace("\u200c", " ")
     text = re.sub(r"[^a-z0-9آ-ی.]+", " ", text)
     return " ".join(text.split())
 
 
-def _is_transitional_bromocriptine_candidate(record: dict[str, Any]) -> bool:
-    """Recognize only the known 2.5 mg NFI record that was mislabeled by the diabetes seed scope.
+def _reference_generic_label(value: Any) -> str:
+    """Return the English/canonical side without breaking internal slashes.
 
-    This is intentionally strict. We do not globally waive low-confidence records.
-    The product is preserved for the future master registry under the substance-level
-    identity ``Bromocriptine`` instead of forcing the formulation label ``Bromocriptine-QR``.
+    Reference catalogue labels use ``English / فارسی``. Some English names also
+    contain a slash (for example human insulin isophane/regular), so splitting
+    on every slash would corrupt the drug identity.
     """
+    text = str(value or "").strip()
+    return text.split(" / ", 1)[0].strip() if " / " in text else text
+
+
+def _load_reference_catalogue() -> list[dict[str, Any]]:
+    text = REFERENCE_CATALOG_PATH.read_text(encoding="utf-8")
+    start_marker = "export const globalReferenceCatalogue: readonly ReferenceMedicationPresentation[] = "
+    end_marker = ";\n\nexport const globalReferenceCatalogueSources"
+    if start_marker not in text or end_marker not in text:
+        raise ValueError("ساختار فایل global-reference-catalog.ts شناخته نشد.")
+    payload = text.split(start_marker, 1)[1].split(end_marker, 1)[0]
+    parsed = json.loads(payload)
+    if not isinstance(parsed, list):
+        raise ValueError("فهرست مرجع دارویی معتبر نیست.")
+    return parsed
+
+
+def _form_family(value: Any) -> str:
+    text = _normalized(value)
+    words = set(text.split())
+    if any(token in text for token in ("injection", "injectable", "vial", "pen", "cartridge", "ampoule", "تزریق", "ویال", "قلم", "کارتریج")):
+        return "injectable"
+    if "tablet" in words or "tab" in words or "قرص" in words:
+        return "tablet"
+    if "capsule" in words or "cap" in words or "کپسول" in words:
+        return "capsule"
+    if any(token in text for token in ("solution", "syrup", "suspension", "محلول", "شربت", "سوسپانسیون")):
+        return "liquid"
+    if any(token in text for token in ("inhal", "استنشاق")):
+        return "inhaled"
+    return ""
+
+
+def _release_kind(value: Any) -> str:
+    text = _normalized(value)
+    words = set(text.split())
+    if (
+        "extended release" in text
+        or "sustained release" in text
+        or "رهش پایدار" in text
+        or "رهش طولانی" in text
+        or any(token in words for token in ("er", "xr", "mr", "xl"))
+    ):
+        return "extended"
+    if "immediate release" in text or "فوری" in words or "ir" in words:
+        return "immediate"
+    if _form_family(value) == "tablet":
+        # NFI normally marks modified-release tablets explicitly. A plain TABLET
+        # therefore safely distinguishes the immediate-release reference row.
+        return "immediate"
+    return ""
+
+
+def _number_set(value: Any) -> set[float]:
+    text = str(value or "").translate(DIGIT_TRANSLATION)
+    return {round(float(match), 6) for match in re.findall(r"\d+(?:\.\d+)?", text)}
+
+
+def _u_concentrations(value: Any) -> set[float]:
+    text = str(value or "").lower().translate(DIGIT_TRANSLATION)
+    text = text.replace("µ", "u").replace("μ", "u")
+    result: set[float] = set()
+    for match in re.findall(r"\bu\s*[- ]\s*(\d+(?:\.\d+)?)", text, flags=re.IGNORECASE):
+        result.add(round(float(match), 6))
+    for match in re.findall(
+        r"(\d+(?:\.\d+)?)\s*(?:i\.?u\.?|units?|unit|واحد)\s*(?:/|per\s*)?\s*(?:m\s*l|ml|میلی\s*لیتر)?",
+        text,
+        flags=re.IGNORECASE,
+    ):
+        result.add(round(float(match), 6))
+    return result
+
+
+def _ratio_pairs(value: Any) -> set[tuple[float, float]]:
+    text = str(value or "").translate(DIGIT_TRANSLATION)
+    pairs: set[tuple[float, float]] = set()
+    for left, right in re.findall(r"(\d+(?:\.\d+)?)\s*/\s*(\d+(?:\.\d+)?)", text):
+        pair = tuple(sorted((round(float(left), 6), round(float(right), 6))))
+        pairs.add(pair)
+    return pairs
+
+
+def _presentation_score(record: dict[str, Any], candidate: dict[str, Any]) -> tuple[int, int]:
+    """Score only presentation evidence, never clinical indication.
+
+    The score is intentionally conservative. It is used only after the generic
+    identity is already an exact canonical match. A presentation is selected
+    automatically only when one candidate wins by a clear margin.
+    """
+    score = 0
+    evidence = 0
+
+    record_form = record.get("dosageForm")
+    candidate_form = candidate.get("dosageForm")
+    record_family = _form_family(record_form)
+    candidate_family = _form_family(candidate_form)
+    if record_family and candidate_family:
+        evidence += 1
+        score += 4 if record_family == candidate_family else -5
+
+    record_release = _release_kind(record_form)
+    candidate_release = _release_kind(candidate_form)
+    if record_release and candidate_release and record_family == "tablet" and candidate_family == "tablet":
+        evidence += 1
+        score += 6 if record_release == candidate_release else -7
+
+    record_strength = record.get("strengthPresentation")
+    candidate_strength = candidate.get("strengthPresentation")
+
+    record_u = _u_concentrations(record_strength)
+    candidate_u = _u_concentrations(candidate_strength)
+    if record_u:
+        evidence += 1
+        if candidate_u:
+            score += 10 if record_u & candidate_u else -10
+
+    record_ratios = _ratio_pairs(record_strength)
+    candidate_ratios = _ratio_pairs(candidate_strength)
+    if record_ratios:
+        evidence += 1
+        if candidate_ratios:
+            score += 8 if record_ratios & candidate_ratios else -8
+
+    record_numbers = _number_set(record_strength)
+    candidate_numbers = _number_set(candidate_strength)
+    if record_numbers:
+        evidence += 1
+        if record_numbers <= candidate_numbers:
+            score += 5
+        elif record_numbers & candidate_numbers:
+            score += 1
+        elif candidate_numbers:
+            score -= 4
+
+    normalized_record_strength = _normalized(record_strength)
+    normalized_candidate_strength = _normalized(candidate_strength)
+    if normalized_record_strength and normalized_candidate_strength and (
+        normalized_record_strength == normalized_candidate_strength
+        or normalized_record_strength in normalized_candidate_strength
+    ):
+        score += 3
+
+    return score, evidence
+
+
+def _reference_candidates(record: dict[str, Any], catalogue: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    wanted = _normalized(record.get("genericName"))
+    return [
+        item for item in catalogue
+        if _normalized(_reference_generic_label(item.get("genericName"))) == wanted
+    ]
+
+
+def _resolve_reference_presentation(
+    record: dict[str, Any],
+    catalogue: list[dict[str, Any]],
+) -> str | None:
+    if record.get("referencePresentationId"):
+        wanted_id = str(record["referencePresentationId"])
+        return wanted_id if any(str(item.get("id")) == wanted_id for item in catalogue) else None
+
+    candidates = _reference_candidates(record, catalogue)
+    if len(candidates) == 1:
+        return str(candidates[0]["id"])
+    if not candidates:
+        return None
+
+    ranked = sorted(
+        [(*_presentation_score(record, candidate), candidate) for candidate in candidates],
+        key=lambda item: (item[0], item[1]),
+        reverse=True,
+    )
+    best_score, best_evidence, best = ranked[0]
+    second_score = ranked[1][0] if len(ranked) > 1 else -999
+    if best_evidence > 0 and best_score >= 4 and best_score - second_score >= 3:
+        return str(best["id"])
+    return None
+
+
+def _attach_reference_presentations(
+    records: list[dict[str, Any]],
+    catalogue: list[dict[str, Any]],
+) -> tuple[int, list[dict[str, Any]]]:
+    resolved = 0
+    unresolved: list[dict[str, Any]] = []
+    for record in records:
+        reference_id = _resolve_reference_presentation(record, catalogue)
+        if not reference_id:
+            unresolved.append(record)
+            continue
+        record["referencePresentationId"] = reference_id
+        resolved += 1
+    return resolved, unresolved
+
+
+def _is_transitional_bromocriptine_candidate(record: dict[str, Any]) -> bool:
+    """Recognize only the known 2.5 mg NFI record mislabeled by the diabetes seed scope."""
     return (
         _normalized(record.get("genericName")) == "bromocriptine qr"
         and _normalized(record.get("strengthPresentation")) in {"2.5 mg", "2 5 mg"}
@@ -35,6 +241,7 @@ def _is_transitional_bromocriptine_candidate(record: dict[str, Any]) -> bool:
 
 def _master_candidate(record: dict[str, Any]) -> dict[str, Any]:
     candidate = copy.deepcopy(record)
+    candidate.pop("referencePresentationId", None)
     candidate["originalGenericName"] = record.get("genericName")
     candidate["genericName"] = "Bromocriptine"
     candidate["clinicalDomains"] = []
@@ -61,7 +268,8 @@ def _recompute_summary(bundle: dict[str, Any]) -> None:
         if record.get("brandName")
     })
     summary["ambiguousMatchCount"] = sum(
-        1 for record in records if float(record.get("matchConfidence") or 0) < 0.9
+        1 for record in records
+        if float(record.get("matchConfidence") or 0) < 0.9 or not record.get("referencePresentationId")
     )
     sources = bundle.get("run", {}).get("sources", [])
     errors = int(summary.get("errorCount", 0) or 0)
@@ -75,7 +283,10 @@ def _recompute_summary(bundle: dict[str, Any]) -> None:
     )
 
 
-def finalize_bundle(bundle: dict[str, Any]) -> dict[str, Any]:
+def finalize_bundle(
+    bundle: dict[str, Any],
+    reference_catalogue: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
     result = copy.deepcopy(bundle)
     records = list(result.get("records", []))
     low_confidence = [record for record in records if float(record.get("matchConfidence") or 0) < 0.9]
@@ -98,6 +309,21 @@ def finalize_bundle(bundle: dict[str, Any]) -> dict[str, Any]:
             "به masterCandidates منتقل شد تا بدون تحمیل برچسب بالینی/فرمولاسیون اشتباه نگهداری شود."
         )
 
+    catalogue = reference_catalogue if reference_catalogue is not None else _load_reference_catalogue()
+    resolved, unresolved = _attach_reference_presentations(result.get("records", []), catalogue)
+    result.setdefault("diagnostics", []).append(
+        f"Reference presentation resolution: {resolved} رکورد به شناسه ارائه مرجع یکتا متصل شد."
+    )
+    if unresolved:
+        sample = ", ".join(
+            f"{record.get('genericName', '?')} / {record.get('strengthPresentation', '?')}"
+            for record in unresolved[:8]
+        )
+        raise ValueError(
+            f"{len(unresolved)} رکورد هنوز به ارائه مرجع یکتا متصل نشد ({sample}). "
+            "انتشار تا رفع تطبیق presentation متوقف شد."
+        )
+
     _recompute_summary(result)
     return result
 
@@ -117,10 +343,13 @@ def main() -> None:
     output.write_text(json.dumps(finalized, ensure_ascii=False, indent=2), encoding="utf-8")
 
     summary = finalized["run"]["summary"]
+    records = finalized.get("records", [])
+    references = sum(1 for record in records if record.get("referencePresentationId"))
     print(f"SOURCE: {source}")
     print(f"OUTPUT: {output}")
     print(f"RUN STATUS: {finalized['run']['status']}")
-    print(f"IMPORT RECORDS: {len(finalized.get('records', []))}")
+    print(f"IMPORT RECORDS: {len(records)}")
+    print(f"REFERENCE IDS: {references}/{len(records)}")
     print(f"MASTER CANDIDATES: {len(finalized.get('masterCandidates', []))}")
     print(f"AMBIGUOUS: {summary.get('ambiguousMatchCount')}")
     print(f"ERRORS: {summary.get('errorCount')}")
