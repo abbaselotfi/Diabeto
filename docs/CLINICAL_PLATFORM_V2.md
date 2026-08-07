@@ -187,6 +187,25 @@ Workflow:
 3. پزشک patient code/name را جستجو می‌کند و یک pre-visit summary می‌بیند.
 4. پزشک داده را review/confirm می‌کند؛ Recommendation Engine فقط با دادهٔ تاییدشده یا واضحاً labelled به‌عنوان unverified اجرا می‌شود.
 
+### Lab scan / camera / OCR
+
+پنل Assistant/Nurse باید بتواند علاوه بر ورود دستی، برگهٔ آزمایش را با دوربین موبایل اسکن کند یا عکس/PDF آزمایش را بارگذاری کند. مسیر پیشنهادی:
+
+1. capture/upload تصویر یا PDF؛
+2. document preprocessing شامل crop، deskew، rotation و quality check؛
+3. OCR متن خام؛
+4. استخراج ساختاریافتهٔ نام آزمایش، مقدار، واحد، reference range و تاریخ؛
+5. نگاشت synonymها به کد داخلی استاندارد آزمایش؛
+6. unit normalization بدون از بین بردن مقدار/واحد اصلی؛
+7. confidence score در سطح هر فیلد؛
+8. صفحهٔ Review که مقدار OCR کنار تصویر اصلی نمایش داده می‌شود؛
+9. تایید/اصلاح توسط Assistant/Nurse و در صورت استفادهٔ بالینی، تایید پزشک؛
+10. فقط دادهٔ تاییدشده وارد Recommendation Engine شود.
+
+OCR یک ابزار ورود داده است، نه منبع حقیقت بالینی. مقدار با confidence پایین، واحد نامشخص، reference range غیرمعمول یا conflict با دادهٔ قبلی باید flag شود و هیچ‌گاه silently وارد محاسبات دوز یا Recommendation نشود.
+
+برای موبایل PWA می‌توان از camera capture مستقیم استفاده کرد. در نسخهٔ کامل بهتر است multi-page lab، PDF، barcode/QR در صورت وجود، تشخیص نام آزمایشگاه و تاریخ نمونه‌گیری نیز پشتیبانی شود. تصویر اصلی باید با دسترسی محدود و retention policy مشخص نگهداری شود یا پس از استخراج/تایید طبق سیاست مرکز حذف شود.
+
 ### Privacy/Security boundary
 
 این مرحله نیازمند RBAC واقعی، encryption in transit/at rest، audit log، session controls، organization isolation، retention policy و backup/restore است. برای کاهش ریسک بهتر است identity (نام/تماس) از clinical case data جدا و patient code شناسهٔ اصلی باشد.
@@ -223,6 +242,7 @@ Workflow:
 
 ### Future F
 - assistant/nurse pre-visit panel + patient case persistence
+- camera/PDF lab capture + OCR + structured lab review
 
 ## Safety invariant
 
