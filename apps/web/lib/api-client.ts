@@ -719,7 +719,7 @@ function updateBrand(referencePresentationId: string, brandId: string, body: Rec
   if (!current.some((brand) => brand.id === brandId)) return undefined;
   state.brands = {
     ...state.brands,
-    [referencePresentationId]: current.map((brand) => entry.id === brandId ? { ...brand, ...body } as MedicationBrand : brand)
+    [referencePresentationId]: current.map((brand) => brand.id === brandId ? { ...brand, ...body } as MedicationBrand : brand)
   };
   saveState(state);
   return checklistItem(referencePresentationId);
