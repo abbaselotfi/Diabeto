@@ -54,6 +54,7 @@ interface CatalogState {
   marketData?: Record<string, unknown>;
   notifications?: unknown[];
   updateRuns?: unknown[];
+  masterCandidates?: unknown[];
 }
 
 const githubHeaders = {
@@ -101,7 +102,7 @@ async function open<T extends OAuthState | AdminSession>(token: string, secret: 
     const iv = encoded.slice(0, 12);
     const encrypted = encoded.slice(12);
     const key = await sessionKey(secret);
-    const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, encrypted);
+    const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, encrypted);
     return JSON.parse(new TextDecoder().decode(decrypted)) as T;
   } catch {
     return null;
@@ -194,7 +195,23 @@ function validPrice(value: unknown) {
 function validMarketData(value: unknown) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
   const market = value as Record<string, unknown>;
-  const domains = ["diabetes", "cardiovascular", "kidney", "liver", "obesity"];
+  const domains = [
+    "diabetes",
+    "cardiovascular",
+    "kidney",
+    "liver",
+    "obesity",
+    "hypertension",
+    "lipids",
+    "heart_failure",
+    "ascvd",
+    "masld_mash",
+    "neuropathy",
+    "retinopathy",
+    "diabetic_foot",
+    "nutrition_support",
+    "pregnancy"
+  ];
   return (market.displayMode === undefined || ["generic_or_primary_brand", "generic_with_selected_brands"].includes(String(market.displayMode))) &&
     (market.clinicalDomains === undefined || (Array.isArray(market.clinicalDomains) && market.clinicalDomains.every((domain) => domains.includes(String(domain))))) &&
     (market.genericRegistryCode === undefined || (typeof market.genericRegistryCode === "string" && market.genericRegistryCode.length <= 160)) &&
@@ -228,6 +245,7 @@ function validCatalog(value: unknown): value is CatalogState {
   if (catalog.marketData !== undefined && (!catalog.marketData || typeof catalog.marketData !== "object" || Array.isArray(catalog.marketData) || Object.values(catalog.marketData).some((item) => !validMarketData(item)))) return false;
   if (catalog.notifications !== undefined && (!Array.isArray(catalog.notifications) || catalog.notifications.length > 200 || catalog.notifications.some((item) => !validNotification(item)))) return false;
   if (catalog.updateRuns !== undefined && (!Array.isArray(catalog.updateRuns) || catalog.updateRuns.length > 24 || catalog.updateRuns.some((item) => !validUpdateRun(item)))) return false;
+  if (catalog.masterCandidates !== undefined && !Array.isArray(catalog.masterCandidates)) return false;
   if (Object.values(catalog.visibility).some((visible) => typeof visible !== "boolean")) return false;
   if (Object.values(catalog.insurance).some((coverages) => !Array.isArray(coverages) || coverages.some((coverage) => !validCoverage(coverage)))) return false;
   return !Object.values(catalog.brands).some((brands) => !Array.isArray(brands) || brands.some((brand) =>
