@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -12,7 +13,9 @@ OUTPUT_NAME = "glymize-drug-bundle-ready.json"
 
 
 def _normalized(value: Any) -> str:
-    return " ".join(str(value or "").strip().lower().replace("\u200c", " ").split())
+    text = str(value or "").strip().lower().replace("\u200c", " ")
+    text = re.sub(r"[^a-z0-9آ-ی.]+", " ", text)
+    return " ".join(text.split())
 
 
 def _is_transitional_bromocriptine_candidate(record: dict[str, Any]) -> bool:
@@ -88,7 +91,6 @@ def finalize_bundle(bundle: dict[str, Any]) -> dict[str, Any]:
     preserved = [_master_candidate(record) for record in low_confidence]
     if preserved:
         low_ids = {id(record) for record in low_confidence}
-        # identity by object is safe here because records and low_confidence share references.
         result["records"] = [record for record in records if id(record) not in low_ids]
         result.setdefault("masterCandidates", []).extend(preserved)
         result.setdefault("diagnostics", []).append(
