@@ -147,6 +147,17 @@ def _unique_put(
         target[key] = value
 
 
+def _normalized_generic_code(value: Any) -> str:
+    """Normalize equivalent numeric generic codes such as 01523 and 1523."""
+    text = str(value or "").strip().translate(_base.DIGIT_TRANSLATION)
+    text = re.sub(r"\s+", "", text)
+    if not text:
+        return ""
+    if re.fullmatch(r"\d+", text):
+        return str(int(text))
+    return _base.normalize_text(text)
+
+
 def _nfi_authoritative_identity_index(
     nfi_path: Path,
     scope: list[dict[str, Any]],
@@ -168,13 +179,17 @@ def _nfi_authoritative_identity_index(
             "canonicalName": scope_entry["canonicalName"],
             "rawName": raw_name,
             "confidence": _scope_match_confidence(raw_name, scope_entry),
+            "clinicalDomains": scope_entry.get("clinicalDomains", []),
         }
         registry_code = _base.normalize_text(_base.nfi_registry_code(row, headers))
         detail_id = _base.normalize_text(_base.direct_value(row, _base.NFI_DETAIL_ID_HEADER))
+        generic_code = _normalized_generic_code(_base.value(row, headers, "generic_code"))
         if registry_code:
             _unique_put(index, ("irc", registry_code), info)
         if detail_id:
             _unique_put(index, ("detail", detail_id), info)
+        if generic_code:
+            _unique_put(index, ("generic_code", generic_code), info)
     return index
 
 
@@ -202,14 +217,18 @@ def _refine_nfi_records(
 
         registry_code = _base.normalize_text(record.get("brandRegistryCode"))
         detail_id = _record_detail_id(record)
+        generic_code = _normalized_generic_code(record.get("genericRegistryCode"))
         info = index.get(("irc", registry_code)) if registry_code else None
         if info is None and detail_id:
             info = index.get(("detail", detail_id))
+        if info is None and generic_code:
+            info = index.get(("generic_code", generic_code))
         if not info:
             continue
 
         if record.get("genericName") != info["canonicalName"]:
             record["genericName"] = info["canonicalName"]
+            record["clinicalDomains"] = info.get("clinicalDomains") or record.get("clinicalDomains")
             corrected += 1
         previous_confidence = float(record.get("matchConfidence") or 0)
         if previous_confidence < float(info["confidence"]):
@@ -234,7 +253,7 @@ def _insurance_scope_code_index(
             continue
         for row in rows:
             raw_name = str(_base.provider_value(row, headers, provider, "generic_name") or "").strip()
-            generic_code = str(_base.provider_value(row, headers, provider, "generic_code") or "").strip()
+            generic_code = _normalized_generic_code(_base.provider_value(row, headers, provider, "generic_code"))
             if not raw_name or not generic_code:
                 continue
             scope_entry = _base.match_scope(raw_name, scope)
@@ -243,9 +262,105 @@ def _insurance_scope_code_index(
             info = {
                 "canonicalName": scope_entry["canonicalName"],
                 "confidence": _scope_match_confidence(raw_name, scope_entry),
+                "clinicalDomains": scope_entry.get("clinicalDomains", []),
             }
             _unique_put(index, (provider, generic_code), info)
     return index
+
+
+def _insurance_generic_code_consensus(
+    insurance_path: Path,
+    scope: list[dict[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    """Return only cross-insurer generic-code identities with no name conflict.
+
+    Numeric codes are canonicalized so 01523 and 1523 are treated as the same
+    code. A code is considered authoritative for correcting an NFI seed-query
+    mismatch only when at least two independent insurer sources resolve it to
+    the same canonical drug. This avoids using one fuzzy name as truth.
+    """
+    observations: dict[str, dict[str, Any]] = {}
+    for provider, meta in _base.SOURCE_META.items():
+        try:
+            rows, headers, _ = _base.workbook_rows(insurance_path, meta["sheet"])
+        except Exception:
+            continue
+        seen_in_provider: set[tuple[str, str]] = set()
+        for row in rows:
+            raw_name = str(_base.provider_value(row, headers, provider, "generic_name") or "").strip()
+            code = _normalized_generic_code(_base.provider_value(row, headers, provider, "generic_code"))
+            if not raw_name or not code:
+                continue
+            scope_entry = _base.match_scope(raw_name, scope)
+            if not scope_entry:
+                continue
+            canonical = scope_entry["canonicalName"]
+            provider_key = (code, canonical)
+            if provider_key in seen_in_provider:
+                continue
+            seen_in_provider.add(provider_key)
+            bucket = observations.setdefault(code, {"names": {}, "providers": set()})
+            bucket["providers"].add(provider)
+            name_bucket = bucket["names"].setdefault(canonical, {
+                "providers": set(),
+                "confidence": 0.0,
+                "clinicalDomains": scope_entry.get("clinicalDomains", []),
+            })
+            name_bucket["providers"].add(provider)
+            name_bucket["confidence"] = max(
+                float(name_bucket["confidence"]),
+                _scope_match_confidence(raw_name, scope_entry),
+            )
+
+    consensus: dict[str, dict[str, Any]] = {}
+    for code, bucket in observations.items():
+        names = bucket["names"]
+        if len(names) != 1:
+            continue
+        canonical, info = next(iter(names.items()))
+        providers = set(info["providers"])
+        if len(providers) < 2:
+            continue
+        consensus[code] = {
+            "canonicalName": canonical,
+            "confidence": max(0.98, float(info["confidence"])),
+            "clinicalDomains": info.get("clinicalDomains", []),
+            "providers": sorted(providers),
+        }
+    return consensus
+
+
+def _refine_nfi_from_insurance_codes(
+    bundle: dict[str, Any],
+    insurance_path: Path,
+    scope: list[dict[str, Any]],
+) -> tuple[int, int]:
+    """Correct NFI records when two+ insurers agree on the same generic code."""
+    consensus = _insurance_generic_code_consensus(insurance_path, scope)
+    corrected = 0
+    upgraded = 0
+    for record in bundle.get("records", []):
+        if record.get("insuranceCoverages"):
+            continue
+        if NFI_SOURCE_HOST not in str(record.get("sourceUrl") or ""):
+            continue
+        code = _normalized_generic_code(record.get("genericRegistryCode"))
+        info = consensus.get(code)
+        if not info:
+            continue
+        if record.get("genericName") != info["canonicalName"]:
+            record["genericName"] = info["canonicalName"]
+            record["clinicalDomains"] = info.get("clinicalDomains") or record.get("clinicalDomains")
+            corrected += 1
+        confidence = float(info["confidence"])
+        if float(record.get("matchConfidence") or 0) < confidence:
+            record["matchConfidence"] = confidence
+            upgraded += 1
+        evidence = f"insurer generic-code consensus {code} ({', '.join(info['providers'])})"
+        reference = str(record.get("sourceReference") or "").strip()
+        if evidence not in reference:
+            record["sourceReference"] = " · ".join(filter(None, [reference, evidence]))
+    return corrected, upgraded
 
 
 def _refine_insurance_records(
@@ -263,7 +378,7 @@ def _refine_insurance_records(
             continue
         coverage = coverages[0]
         provider = str(coverage.get("provider") or "")
-        generic_code = str(coverage.get("genericCode") or "").strip()
+        generic_code = _normalized_generic_code(coverage.get("genericCode"))
         if not provider or not generic_code:
             continue
         info = index.get((provider, generic_code))
@@ -271,6 +386,7 @@ def _refine_insurance_records(
             continue
         if record.get("genericName") != info["canonicalName"]:
             record["genericName"] = info["canonicalName"]
+            record["clinicalDomains"] = info.get("clinicalDomains") or record.get("clinicalDomains")
             corrected += 1
         previous_confidence = float(record.get("matchConfidence") or 0)
         confidence = float(info["confidence"])
@@ -336,10 +452,13 @@ def build_bundle(
     try:
         scope = _base.load_scope(scope_path)
         nfi_corrected, nfi_upgraded = _refine_nfi_records(bundle, nfi_path, scope)
+        code_corrected, code_upgraded = _refine_nfi_from_insurance_codes(bundle, insurance_path, scope)
         insurance_corrected, insurance_upgraded = _refine_insurance_records(bundle, insurance_path, scope)
         bundle.setdefault("diagnostics", []).append(
-            f"Identity refinement: {nfi_corrected} NFI and {insurance_corrected} insurance generic labels corrected; "
-            f"{nfi_upgraded} NFI and {insurance_upgraded} insurance confidence values upgraded from authoritative source identity."
+            f"Identity refinement: {nfi_corrected} NFI labels corrected from NFI identity; "
+            f"{code_corrected} NFI labels corrected from cross-insurer generic-code consensus; "
+            f"{insurance_corrected} insurance labels corrected; "
+            f"confidence upgrades NFI={nfi_upgraded}, code-consensus={code_upgraded}, insurance={insurance_upgraded}."
         )
     except Exception as exc:
         bundle.setdefault("diagnostics", []).append(f"Identity refinement warning: {exc}")
