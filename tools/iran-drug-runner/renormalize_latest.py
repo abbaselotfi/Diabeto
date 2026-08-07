@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from normalize_bundle_runtime import write_bundle
+from consensus_pipeline import write_bundle
 
 
 ROOT = Path(__file__).resolve().parent
@@ -45,6 +45,7 @@ def main() -> None:
         )
     print()
     print(f"SUMMARY: {bundle['run']['summary']}")
+    print(f"CONSENSUS AUDIT: {len(bundle.get('standardizationAudit', []))}")
     print(f"OUTPUT: {output_path}")
 
 
