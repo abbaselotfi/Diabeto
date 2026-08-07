@@ -137,6 +137,17 @@ class FinalizeLatestForImportTests(unittest.TestCase):
             ["global-gliclazide-1", "global-gliclazide-2"],
         )
 
+    def test_semaglutide_total_pen_content_resolves_to_injectable_presentation(self) -> None:
+        records = [
+            self.record("Semaglutide", "INJECTION, SOLUTION", "4 mg/3 mL"),
+            self.record("Semaglutide", "INJECTION, SOLUTION", "8 mg/3 mL"),
+        ]
+        finalized = finalize_bundle(self.bundle_with_records(records))
+        self.assertEqual(
+            [record["referencePresentationId"] for record in finalized["records"]],
+            ["global-semaglutide-2", "global-semaglutide-2"],
+        )
+
     def test_internal_slash_in_generic_name_is_not_split_as_language_separator(self) -> None:
         record = self.record(
             "Human insulin isophane/regular",
