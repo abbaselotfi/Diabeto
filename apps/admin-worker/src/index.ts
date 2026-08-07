@@ -102,7 +102,7 @@ async function open<T extends OAuthState | AdminSession>(token: string, secret: 
     const iv = encoded.slice(0, 12);
     const encrypted = encoded.slice(12);
     const key = await sessionKey(secret);
-    const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, encrypted);
+    const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, encrypted);
     return JSON.parse(new TextDecoder().decode(decrypted)) as T;
   } catch {
     return null;
