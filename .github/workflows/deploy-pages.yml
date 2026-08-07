@@ -22,6 +22,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Test Iran drug normalizer
+        run: |
+          python -m pip install "openpyxl>=3.1.5,<4"
+          python tools/iran-drug-runner/test_normalize_bundle.py
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
