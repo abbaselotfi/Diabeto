@@ -1,8 +1,13 @@
 from __future__ import annotations
 
+import json
+import tempfile
 import unittest
+from pathlib import Path
 
-from normalize_bundle_runtime import coverage_payload
+from openpyxl import Workbook
+
+from normalize_bundle_runtime import build_bundle, coverage_payload
 
 
 class RuntimeCoverageFallbackTests(unittest.TestCase):
@@ -95,6 +100,96 @@ class RuntimeCoverageFallbackTests(unittest.TestCase):
         )
         self.assertIsNone(coverage)
         self.assertIsNotNone(warning)
+        assert warning is not None
+        self.assertIn("nonblocking-ihio-missing-percent", warning)
+
+    def test_missing_health_percent_does_not_mark_entire_source_incomplete(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            scope_path = root / "scope.json"
+            scope_path.write_text(
+                json.dumps({
+                    "schemaVersion": 1,
+                    "entries": [
+                        {
+                            "canonicalName": "Acarbose",
+                            "aliases": ["Acarbose", "ACARBOSE"],
+                            "clinicalDomains": ["diabetes"],
+                        }
+                    ],
+                }),
+                encoding="utf-8",
+            )
+
+            nfi_path = root / "nfi.xlsx"
+            nfi = Workbook()
+            sheet = nfi.active
+            sheet.title = "NFI_Products_1"
+            sheet.append([
+                "Generic_INN",
+                "NFI_Detail_ID",
+                "NFI_Title_FA",
+                "NFI_Generic_Code",
+                "NFI_IRC_Code",
+                "Dosage_Form",
+                "Strength",
+                "Match_Confidence_0_100",
+            ])
+            sheet.append([
+                "Acarbose",
+                "1",
+                "ACARBOSE TEST TABLET 100 mg",
+                "02015",
+                "6260001",
+                "TABLET",
+                "100 mg",
+                99,
+            ])
+            nfi.save(nfi_path)
+
+            insurance_path = root / "insurance.xlsx"
+            insurance = Workbook()
+            health = insurance.active
+            health.title = "بیمه سلامت"
+            health.append([
+                "کد ژنريک",
+                "کد برند",
+                "عنوان",
+                " درصد سهم سازمان با احتساب يارانه ارزي",
+                " مبلغ سهم سازمان با احتساب يارانه ارزي",
+                "قيمت کل مورد درتعهد با احتساب يارانه ارزي",
+                "سهم سازمان",
+            ])
+            health.append(["02015", "02015", "ACARBOSE", None, None, None, "70000"])
+
+            armed = insurance.create_sheet("ساتا")
+            armed.append([
+                "کد ژنريک",
+                "نام ژنريك دارو",
+                "درصد سهم بيمار عادي با احتساب يارانه",
+            ])
+            armed.append(["02015", "ACARBOSE 100 MG TABLET ORAL", 0.13])
+
+            social = insurance.create_sheet("تامین اجتماعی")
+            social.append([
+                "کد دارو",
+                "نام دارو",
+                "درصد سازمان از قیمت بدون یارانه",
+            ])
+            social.append(["02015", "ACARBOSE 100 MG TABLET ORAL", "70%"])
+            insurance.save(insurance_path)
+
+            bundle = build_bundle(nfi_path, insurance_path, None, scope_path)
+            sources = {item["sourceId"]: item for item in bundle["run"]["sources"]}
+
+            self.assertEqual(sources["health_insurance"]["status"], "succeeded")
+            self.assertEqual(sources["health_insurance"]["warningCount"], 1)
+            self.assertEqual(sources["health_insurance"]["skippedCoverageRowCount"], 1)
+            self.assertIsNone(sources["health_insurance"]["error"])
+            self.assertIn("کنار گذاشته شد", sources["health_insurance"]["warning"])
+            self.assertEqual(bundle["run"]["summary"]["errorCount"], 0)
+            self.assertEqual(bundle["run"]["summary"]["warningCount"], 1)
+            self.assertEqual(bundle["run"]["status"], "ready_to_publish")
 
 
 if __name__ == "__main__":
