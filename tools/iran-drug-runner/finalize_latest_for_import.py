@@ -6,6 +6,8 @@ import re
 from pathlib import Path
 from typing import Any
 
+from source_consensus import apply_reference_consensus
+
 ROOT = Path(__file__).resolve().parent
 REPO_ROOT = ROOT.parent.parent
 RUNS_DIR = ROOT / "runs"
@@ -98,8 +100,10 @@ def _u_concentrations(value: Any) -> set[float]:
     result: set[float] = set()
     for match in re.findall(r"\bu\s*[- ]\s*(\d+(?:\.\d+)?)", text, flags=re.IGNORECASE):
         result.add(round(float(match), 6))
+    # Iranian NFI commonly writes insulin strengths as `300 [iU]/1mL` or
+    # `100 [iU]/1 mL`; square brackets must not prevent U-300/U-100 matching.
     for match in re.findall(
-        r"(\d+(?:\.\d+)?)\s*(?:i\.?u\.?|units?|unit|واحد)\s*(?:/|per\s*)?\s*(?:m\s*l|ml|میلی\s*لیتر)?",
+        r"(\d+(?:\.\d+)?)\s*\[?\s*(?:i\.?\s*u\.?|iu|units?|unit|واحد)\s*\]?\s*(?:/|per\s*)?\s*(?:\d+(?:\.\d+)?\s*)?(?:m\s*l|ml|میلی\s*لیتر)?",
         text,
         flags=re.IGNORECASE,
     ):
@@ -204,9 +208,7 @@ def _resolve_reference_presentation(
     # Dosage-form family is stronger than raw numeric strength when the source
     # and reference describe the same product at different presentation levels.
     # Example: NFI Semaglutide pens are recorded as total pen content such as
-    # 4 mg/3 mL or 8 mg/3 mL, while the reference row lists delivered doses
-    # (0.25/0.5/1/2 mg). If only one exact-generic candidate is injectable and
-    # the other is oral, the route/form family safely resolves the presentation.
+    # 4 mg/3 mL or 8 mg/3 mL, while the reference row lists delivered doses.
     record_family = _form_family(record.get("dosageForm"))
     if record_family:
         family_matches = [
@@ -239,6 +241,7 @@ def _attach_reference_presentations(
     for record in records:
         reference_id = _resolve_reference_presentation(record, catalogue)
         if not reference_id:
+            record.pop("referencePresentationId", None)
             unresolved.append(record)
             continue
         record["referencePresentationId"] = reference_id
@@ -327,9 +330,17 @@ def finalize_bundle(
         )
 
     catalogue = reference_catalogue if reference_catalogue is not None else _load_reference_catalogue()
-    resolved, unresolved = _attach_reference_presentations(result.get("records", []), catalogue)
+    direct_resolved, _ = _attach_reference_presentations(result.get("records", []), catalogue)
+    consensus = apply_reference_consensus(result.get("records", []))
+    unresolved = [
+        record for record in result.get("records", [])
+        if not record.get("referencePresentationId")
+    ]
+    resolved = len(result.get("records", [])) - len(unresolved)
     result.setdefault("diagnostics", []).append(
-        f"Reference presentation resolution: {resolved} رکورد به شناسه ارائه مرجع یکتا متصل شد."
+        f"Reference presentation resolution: direct={direct_resolved}; total={resolved}; "
+        f"consensus groups={consensus['presentationConsensusGroups']}; "
+        f"filled={consensus['presentationIdsFilled']}; corrected={consensus['presentationIdsCorrected']}."
     )
     if unresolved:
         counts: dict[str, int] = {}
