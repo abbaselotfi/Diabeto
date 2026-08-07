@@ -191,6 +191,61 @@ class RuntimeCoverageFallbackTests(unittest.TestCase):
             self.assertEqual(bundle["run"]["summary"]["warningCount"], 1)
             self.assertEqual(bundle["run"]["status"], "ready_to_publish")
 
+    def test_authoritative_nfi_generic_overrides_seed_query_and_upgrades_insurance_identity(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            scope_path = root / "scope.json"
+            scope_path.write_text(
+                json.dumps({
+                    "schemaVersion": 1,
+                    "entries": [
+                        {"canonicalName": "Gliclazide", "aliases": ["Gliclazide"], "clinicalDomains": ["diabetes"]},
+                        {"canonicalName": "Metformin + gliclazide", "aliases": ["Metformin + gliclazide"], "clinicalDomains": ["diabetes"]},
+                    ],
+                }),
+                encoding="utf-8",
+            )
+
+            nfi_path = root / "nfi.xlsx"
+            nfi = Workbook()
+            sheet = nfi.active
+            sheet.title = "NFI_Products_1"
+            sheet.append([
+                "Generic_INN", "NFI_Generic_Name", "NFI_Detail_ID", "NFI_Title_FA",
+                "NFI_Generic_Code", "NFI_IRC_Code", "Dosage_Form", "Strength",
+                "Match_Confidence_0_100",
+            ])
+            sheet.append([
+                "Metformin + gliclazide", "GLICLAZIDE", "101", "گلی کلازید قرص 80 mg",
+                "1523", "6857265833682812", "TABLET", "80 mg", 73,
+            ])
+            nfi.save(nfi_path)
+
+            insurance_path = root / "insurance.xlsx"
+            insurance = Workbook()
+            health = insurance.active
+            health.title = "بیمه سلامت"
+            health.append(["کد ژنريک", "کد برند", "عنوان", " درصد سهم سازمان با احتساب يارانه ارزي"])
+            health.append(["01523", "01523", "GLICLAZIDE", "70%"])
+            armed = insurance.create_sheet("ساتا")
+            armed.append(["کد ژنريک", "نام ژنريك دارو", "درصد سهم بيمار عادي با احتساب يارانه"])
+            armed.append(["01523", "GLICLAZIDE 80 MG TABLET ORAL", 0.3])
+            social = insurance.create_sheet("تامین اجتماعی")
+            social.append(["کد دارو", "نام دارو", "درصد سازمان از قیمت بدون یارانه"])
+            social.append(["01523", "GLICLAZIDE 80 MG TABLET ORAL", "70%"])
+            insurance.save(insurance_path)
+
+            bundle = build_bundle(nfi_path, insurance_path, None, scope_path)
+            nfi_record = next(record for record in bundle["records"] if record.get("brandRegistryCode") == "6857265833682812")
+            self.assertEqual(nfi_record["genericName"], "Gliclazide")
+            self.assertGreaterEqual(nfi_record["matchConfidence"], 0.99)
+            insurer_records = [record for record in bundle["records"] if record["insuranceCoverages"]]
+            self.assertEqual(len(insurer_records), 3)
+            self.assertTrue(all(record["genericName"] == "Gliclazide" for record in insurer_records))
+            self.assertTrue(all(record["matchConfidence"] >= 0.9 for record in insurer_records))
+            self.assertEqual(bundle["run"]["summary"]["ambiguousMatchCount"], 0)
+            self.assertEqual(bundle["run"]["status"], "ready_to_publish")
+
 
 if __name__ == "__main__":
     unittest.main()
