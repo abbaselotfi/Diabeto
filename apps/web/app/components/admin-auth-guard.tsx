@@ -13,6 +13,7 @@ import {
 
 type AuthState =
   | { status: "checking" }
+  | { status: "local_preview" }
   | { status: "signed_out" }
   | { status: "misconfigured" }
   | { status: "signed_in"; identity: AdminIdentity };
@@ -27,6 +28,13 @@ export default function AdminAuthGuard({ children }: Readonly<{ children: React.
   const [publishMessage, setPublishMessage] = useState("");
 
   useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      // Local preview is intentionally disconnected from the production GitHub
+      // admin session so testing UI changes can never publish centrally.
+      clearAdminSession();
+      setAuth({ status: "local_preview" });
+      return;
+    }
     if (!isAdminApiConfigured()) {
       setAuth({ status: "misconfigured" });
       return;
@@ -51,6 +59,16 @@ export default function AdminAuthGuard({ children }: Readonly<{ children: React.
 
   if (auth.status === "checking") {
     return <main className="admin-auth-page"><section className="admin-auth-card"><p>در حال بررسی دسترسی مدیریت…</p></section></main>;
+  }
+
+  if (auth.status === "local_preview") {
+    return <>
+      <section className="admin-session-bar">
+        <span><b>Local Admin Preview</b> — فقط برای تست روی این دستگاه</span>
+        <span>انتشار مرکزی و نشست GitHub در حالت development غیرفعال است.</span>
+      </section>
+      {children}
+    </>;
   }
 
   if (auth.status === "misconfigured") {
