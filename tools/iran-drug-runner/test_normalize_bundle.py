@@ -28,8 +28,9 @@ class NormalizeBundleTests(unittest.TestCase):
         )
 
     @staticmethod
-    def write_realistic_insurance_workbook(path: Path) -> None:
+    def write_realistic_insurance_workbook(path: Path, generic_name: str = "Acarbose", generic_code: str = "02015") -> None:
         insurance = Workbook()
+        generic_upper = generic_name.upper()
 
         health = insurance.active
         health.title = "بیمه سلامت"
@@ -38,7 +39,7 @@ class NormalizeBundleTests(unittest.TestCase):
             "يارانه ارزي", " مبلغ سهم سازمان با احتساب يارانه ارزي",
             " درصد سهم سازمان با احتساب يارانه ارزي", "قيمت",
         ])
-        health.append([1, "02015", "02015", "ACARBOSE", "توليد داخل ديابت", "TAB", "100 mg", "48700", "69,910", "88.493", "30,300"])
+        health.append([1, generic_code, generic_code, generic_upper, "توليد داخل ديابت", "TAB", "100 mg", "48700", "69,910", "88.493", "30,300"])
 
         armed = insurance.create_sheet("ساتا")
         armed.append([
@@ -46,14 +47,14 @@ class NormalizeBundleTests(unittest.TestCase):
             "يارانه ارزی دولت (دارویار)", "قيمت بدون احتساب يارانه",
             "درصد سهم بيمار عادي با احتساب يارانه",
         ])
-        armed.append(["02015", "ACARBOSE 100 MG TABLET ORAL  TABLET  02015", 27100, 3793, 23307, 0.1290055350553505])
+        armed.append([generic_code, f"{generic_upper} 100 MG TABLET ORAL  TABLET  {generic_code}", 27100, 3793, 23307, 0.1290055350553505])
 
         social = insurance.create_sheet("تامین اجتماعی")
         social.append([
             "کد دارو", "نام دارو", "بیمه", "قیمت دارو بدون یارانه",
             "درصد سازمان از قیمت بدون یارانه", "یارانه دولت", "جمع مورد قبول سازمان",
         ])
-        social.append(["02015", "ACARBOSE 100 MG TABLET ORAL 100MG TABLET", "است", "30300", "70%", "48700", "79000"])
+        social.append([generic_code, f"{generic_upper} 100 MG TABLET ORAL 100MG TABLET", "است", "30300", "70%", "48700", "79000"])
         insurance.save(path)
 
     def test_number_parser_preserves_decimals_and_thousands(self) -> None:
@@ -186,7 +187,7 @@ class NormalizeBundleTests(unittest.TestCase):
                 "TABLET", "1000 mg", 2_000_000, None, "",
             ])
             nfi.save(nfi_path)
-            self.write_realistic_insurance_workbook(insurance_path)
+            self.write_realistic_insurance_workbook(insurance_path, "Metformin", "00001")
 
             bundle = build_bundle(nfi_path, insurance_path, None, scope_path)
             nfi_records = [record for record in bundle["records"] if not record["insuranceCoverages"]]
