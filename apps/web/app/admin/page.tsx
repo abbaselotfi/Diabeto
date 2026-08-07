@@ -5,7 +5,7 @@ import type { ClinicalProtocolBundle, GenericMedication, GuidelineSource, Medica
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { apiFetch } from "../../lib/api-client";
 
-const groupLabels: Record<MedicationTherapyGroup, string> = {
+const groupLabels: Partial<Record<MedicationTherapyGroup, string>> = {
   oral_glucose_lowering: "داروهای خوراکی",
   glp_1_receptor_agonist: "GLP-1 RA",
   dual_gip_glp_1_receptor_agonist: "GLP-1/GIP",
