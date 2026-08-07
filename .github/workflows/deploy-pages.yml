@@ -31,6 +31,7 @@ jobs:
         run: |
           python -m pip install "openpyxl>=3.1.5,<4"
           python tools/iran-drug-runner/test_normalize_bundle.py
+          python tools/iran-drug-runner/test_normalize_bundle_runtime.py
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
