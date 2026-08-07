@@ -10,7 +10,7 @@ import { useGlymizeLocale } from "./use-glymize-locale";
 
 const NAVIGATION = [
   {
-    href: "/",
+    href: "/dashboard",
     icon: "⌂",
     fa: "داشبورد",
     en: "Dashboard",
@@ -32,6 +32,18 @@ const NAVIGATION = [
     icon: "◇",
     fa: "دیابت بارداری",
     en: "Gestational diabetes",
+  },
+  {
+    href: "/insulin-tools",
+    icon: "IU",
+    fa: "ابزارهای انسولین",
+    en: "Insulin tools",
+  },
+  {
+    href: "/care-team",
+    icon: "RN",
+    fa: "دستیار / پرستار",
+    en: "Assistant / nurse",
   },
 ] as const;
 
@@ -78,7 +90,7 @@ export default function AppShell({
       >
         <Link
           className="brand"
-          href="/"
+          href="/dashboard"
           onClick={() => setMenuOpen(false)}
         >
           <span className="brand-mark" aria-hidden="true">
@@ -92,10 +104,7 @@ export default function AppShell({
 
         <nav className="main-nav">
           {NAVIGATION.map((item) => {
-            const active =
-              item.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(item.href);
+            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
                 className={active ? "nav-item active" : "nav-item"}
