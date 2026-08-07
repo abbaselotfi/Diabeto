@@ -22,6 +22,7 @@ HEALTH_FALLBACK_PERCENT_HEADERS = [
 ]
 HEALTH_NONBLOCKING_PREFIX = "[nonblocking-ihio-missing-percent]"
 HEALTH_DIAGNOSTIC_PREFIX = "بیمه سلامت: "
+HEALTH_ROW_ERROR_PREFIX = "بیمه سلامت: ردیف "
 
 
 def _coverage_record(
@@ -124,15 +125,11 @@ def coverage_payload(
     )
 
 
-# build_bundle resolves coverage_payload from normalize_bundle's module globals at
-# runtime. Replacing it here keeps one canonical implementation for all other
-# normalization rules while applying the IHIO compatibility layer everywhere the
-# local runner calls build_bundle/write_bundle.
 _base.coverage_payload = coverage_payload
 
 
 def _is_nonblocking_health_diagnostic(message: str) -> bool:
-    return message.startswith(HEALTH_DIAGNOSTIC_PREFIX) and HEALTH_NONBLOCKING_PREFIX in message
+    return message.startswith(HEALTH_ROW_ERROR_PREFIX) and HEALTH_NONBLOCKING_PREFIX in message
 
 
 def _clean_nonblocking_message(message: str) -> str:
@@ -145,19 +142,12 @@ def build_bundle(
     default_currency: str | None = None,
     scope_path: Path = _base.DEFAULT_SCOPE_PATH,
 ) -> dict[str, Any]:
-    """Build a bundle and downgrade only known IHIO missing-percent rows to warnings.
-
-    The base normalizer correctly skips a row whenever coverage cannot be
-    calculated. Historically that row-level condition also marked the entire
-    IHIO source as ``needs_review``. Here we preserve the skipped row and its
-    audit trail, but do not block the complete source when *all* IHIO row errors
-    are exactly this known missing-percent condition.
-    """
+    """Build a bundle and downgrade only known IHIO missing-percent rows to warnings."""
     bundle = _base.build_bundle(nfi_path, insurance_path, default_currency, scope_path)
     diagnostics = [str(item) for item in bundle.get("diagnostics", [])]
     nonblocking = [item for item in diagnostics if _is_nonblocking_health_diagnostic(item)]
-    health_diagnostics = [item for item in diagnostics if item.startswith(HEALTH_DIAGNOSTIC_PREFIX)]
-    blocking_health = [item for item in health_diagnostics if not _is_nonblocking_health_diagnostic(item)]
+    health_row_errors = [item for item in diagnostics if item.startswith(HEALTH_ROW_ERROR_PREFIX)]
+    blocking_health = [item for item in health_row_errors if not _is_nonblocking_health_diagnostic(item)]
 
     if nonblocking and not blocking_health:
         for source in bundle.get("run", {}).get("sources", []):
