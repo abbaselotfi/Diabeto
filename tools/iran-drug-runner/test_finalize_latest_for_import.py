@@ -69,13 +69,11 @@ class FinalizeLatestForImportTests(unittest.TestCase):
         return bundle
 
     @staticmethod
-    def record(generic: str, form: str, strength: str) -> dict:
-        return {
+    def record(generic: str, form: str | None, strength: str | None) -> dict:
+        record = {
             "genericName": generic,
             "brandName": f"TEST {generic}",
             "brandRegistryCode": "1234567890123456",
-            "dosageForm": form,
-            "strengthPresentation": strength,
             "clinicalDomains": ["diabetes"],
             "insuranceCoverages": [],
             "sourceUrl": "https://irc.fda.gov.ir/nfi",
@@ -83,6 +81,33 @@ class FinalizeLatestForImportTests(unittest.TestCase):
             "observedAt": "2026-08-07T00:00:00+00:00",
             "matchConfidence": 0.99,
         }
+        if form is not None:
+            record["dosageForm"] = form
+        if strength is not None:
+            record["strengthPresentation"] = strength
+        return record
+
+    @staticmethod
+    def insurer_record(provider: str, generic: str, code: str, form: str | None, strength: str | None) -> dict:
+        urls = {
+            "health_insurance": "https://mdp.ihio.gov.ir/",
+            "armed_forces": "https://esata.ir/web/sakhad/drug/",
+            "social_security": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
+        }
+        record = {
+            "genericName": generic,
+            "clinicalDomains": ["diabetes"],
+            "insuranceCoverages": [{"provider": provider, "percent": 70, "genericCode": code}],
+            "sourceUrl": urls[provider],
+            "sourceReference": provider,
+            "observedAt": "2026-08-07T00:00:00+00:00",
+            "matchConfidence": 0.99,
+        }
+        if form is not None:
+            record["dosageForm"] = form
+        if strength is not None:
+            record["strengthPresentation"] = strength
+        return record
 
     def test_known_bromocriptine_identity_conflict_is_preserved_as_master_candidate(self) -> None:
         finalized = finalize_bundle(self.base_bundle())
@@ -115,6 +140,18 @@ class FinalizeLatestForImportTests(unittest.TestCase):
             ["global-regular-human-insulin-1", "global-regular-human-insulin-2"],
         )
 
+    def test_bracketed_iu_notation_resolves_insulin_presentations(self) -> None:
+        records = [
+            self.record("Insulin glargine", "INJ", "300 [iU]/1mL 1.5 mL"),
+            self.record("Insulin glargine", "PEN", "100 [iU]/1mL 3 mL"),
+            self.record("Insulin lispro", "INJ", "100 [iU]/1 mL, 3 mL PARENTERAL"),
+        ]
+        finalized = finalize_bundle(self.bundle_with_records(records))
+        self.assertEqual(
+            [record["referencePresentationId"] for record in finalized["records"]],
+            ["global-insulin-glargine-2", "global-insulin-glargine-1", "global-insulin-lispro-1"],
+        )
+
     def test_metformin_release_form_resolves_ir_vs_er(self) -> None:
         records = [
             self.record("Metformin", "TABLET", "500 mg"),
@@ -136,6 +173,18 @@ class FinalizeLatestForImportTests(unittest.TestCase):
             [record["referencePresentationId"] for record in finalized["records"]],
             ["global-gliclazide-1", "global-gliclazide-2"],
         )
+
+    def test_two_independent_sources_fill_missing_presentation_by_generic_code(self) -> None:
+        nfi = self.record("Metformin", "TABLET", "500 mg")
+        nfi["genericRegistryCode"] = "00100"
+        health = self.insurer_record("health_insurance", "Metformin", "100", "TAB", "500 mg")
+        armed = self.insurer_record("armed_forces", "Metformin", "0100", None, None)
+        social = self.insurer_record("social_security", "Metformin", "100", None, None)
+        finalized = finalize_bundle(self.bundle_with_records([nfi, health, armed, social]))
+        self.assertTrue(all(
+            record["referencePresentationId"] == "global-metformin-1"
+            for record in finalized["records"]
+        ))
 
     def test_semaglutide_total_pen_content_resolves_to_injectable_presentation(self) -> None:
         records = [
