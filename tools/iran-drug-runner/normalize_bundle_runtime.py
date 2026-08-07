@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
 from typing import Any
 
 import normalize_bundle as _base
@@ -18,6 +20,8 @@ HEALTH_ACCEPTED_TOTAL_HEADERS = [
 HEALTH_FALLBACK_PERCENT_HEADERS = [
     "سهم سازمان",
 ]
+HEALTH_NONBLOCKING_PREFIX = "[nonblocking-ihio-missing-percent]"
+HEALTH_DIAGNOSTIC_PREFIX = "بیمه سلامت: "
 
 
 def _coverage_record(
@@ -66,6 +70,11 @@ def coverage_payload(
     A final fallback accepts the separate ``سهم سازمان`` field only when the
     cell explicitly contains a percent sign, avoiding accidental treatment of
     monetary amounts as percentages.
+
+    If none of the official fields can produce a percentage, the row is not
+    assigned an invented 0/70/100 percent value. It is skipped as an explicit
+    non-blocking warning so a single incomplete IHIO row does not make the whole
+    successfully downloaded source look unavailable.
     """
     coverage, error = _ORIGINAL_COVERAGE_PAYLOAD(
         row,
@@ -109,8 +118,9 @@ def coverage_payload(
         ), None
 
     return None, (
-        "درصد پوشش بیمه سلامت نه در ستون درصد موجود بود و نه از مبلغ سهم سازمان/"
-        "قیمت کل مورد تعهد قابل محاسبه بود."
+        f"{HEALTH_NONBLOCKING_PREFIX} درصد پوشش بیمه سلامت نه در ستون درصد موجود بود "
+        "و نه از مبلغ سهم سازمان/قیمت کل مورد تعهد قابل محاسبه بود؛ این ردیف بدون "
+        "اختراع درصد پوشش از ورود پوشش بیمه‌ای کنار گذاشته شد."
     )
 
 
@@ -120,7 +130,81 @@ def coverage_payload(
 # local runner calls build_bundle/write_bundle.
 _base.coverage_payload = coverage_payload
 
-build_bundle = _base.build_bundle
-write_bundle = _base.write_bundle
+
+def _is_nonblocking_health_diagnostic(message: str) -> bool:
+    return message.startswith(HEALTH_DIAGNOSTIC_PREFIX) and HEALTH_NONBLOCKING_PREFIX in message
+
+
+def _clean_nonblocking_message(message: str) -> str:
+    return message.replace(HEALTH_NONBLOCKING_PREFIX, "").strip()
+
+
+def build_bundle(
+    nfi_path: Path,
+    insurance_path: Path,
+    default_currency: str | None = None,
+    scope_path: Path = _base.DEFAULT_SCOPE_PATH,
+) -> dict[str, Any]:
+    """Build a bundle and downgrade only known IHIO missing-percent rows to warnings.
+
+    The base normalizer correctly skips a row whenever coverage cannot be
+    calculated. Historically that row-level condition also marked the entire
+    IHIO source as ``needs_review``. Here we preserve the skipped row and its
+    audit trail, but do not block the complete source when *all* IHIO row errors
+    are exactly this known missing-percent condition.
+    """
+    bundle = _base.build_bundle(nfi_path, insurance_path, default_currency, scope_path)
+    diagnostics = [str(item) for item in bundle.get("diagnostics", [])]
+    nonblocking = [item for item in diagnostics if _is_nonblocking_health_diagnostic(item)]
+    health_diagnostics = [item for item in diagnostics if item.startswith(HEALTH_DIAGNOSTIC_PREFIX)]
+    blocking_health = [item for item in health_diagnostics if not _is_nonblocking_health_diagnostic(item)]
+
+    if nonblocking and not blocking_health:
+        for source in bundle.get("run", {}).get("sources", []):
+            if source.get("sourceId") != "health_insurance":
+                continue
+            source["status"] = "succeeded"
+            source["warningCount"] = len(nonblocking)
+            source["skippedCoverageRowCount"] = len(nonblocking)
+            source["warning"] = _clean_nonblocking_message(nonblocking[0])
+            source["error"] = None
+            break
+
+        bundle["diagnostics"] = [
+            f"هشدار غیرمسدودکننده · {_clean_nonblocking_message(item)}"
+            if _is_nonblocking_health_diagnostic(item)
+            else item
+            for item in diagnostics
+        ]
+
+        summary = bundle.get("run", {}).get("summary", {})
+        current_error_count = int(summary.get("errorCount", 0) or 0)
+        summary["errorCount"] = max(0, current_error_count - len(nonblocking))
+        summary["warningCount"] = int(summary.get("warningCount", 0) or 0) + len(nonblocking)
+
+        sources = bundle.get("run", {}).get("sources", [])
+        ambiguous = int(summary.get("ambiguousMatchCount", 0) or 0)
+        bundle["run"]["status"] = (
+            "ready_to_publish"
+            if all(source.get("status") == "succeeded" for source in sources) and ambiguous == 0
+            else "needs_review"
+        )
+
+    return bundle
+
+
+def write_bundle(
+    nfi_path: Path,
+    insurance_path: Path,
+    output_path: Path,
+    default_currency: str | None = None,
+    scope_path: Path = _base.DEFAULT_SCOPE_PATH,
+) -> dict[str, Any]:
+    bundle = build_bundle(nfi_path, insurance_path, default_currency, scope_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(bundle, ensure_ascii=False, indent=2), encoding="utf-8")
+    return bundle
+
+
 number = _base.number
 normalize_percent = _base.normalize_percent
