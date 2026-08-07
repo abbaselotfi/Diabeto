@@ -1,20 +1,134 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap");
 
 :root {
+  --glymize-accent-700: #075e58;
+  --glymize-accent-650: #086c65;
+  --glymize-accent-600: #0c766e;
+  --glymize-accent-500: #14968b;
+  --glymize-accent-soft: #e6f3f1;
+  --glymize-accent-soft-strong: #d8ece8;
+  --glymize-focus: rgba(12, 118, 110, 0.4);
+
+  --glymize-ink: #173a3d;
+  --glymize-muted: #536f72;
+  --glymize-line: #dbe7e5;
+  --glymize-surface: #ffffff;
+  --glymize-surface-soft: #fbfdfd;
+  --glymize-canvas: #f4f8f7;
+  --glymize-topbar: rgba(255, 255, 255, 0.94);
+  --glymize-shadow: 0 14px 40px rgba(24, 61, 62, 0.08);
+
+  /* Backward-compatible brand aliases. */
   --glymize-navy-950: #06294a;
   --glymize-navy-900: #0a3156;
   --glymize-navy-800: #123e67;
-  --glymize-teal-700: #008f8d;
-  --glymize-teal-650: #009f99;
-  --glymize-teal-600: #00aa9d;
-  --glymize-teal-500: #00b7a5;
+  --glymize-teal-700: var(--glymize-accent-700);
+  --glymize-teal-650: var(--glymize-accent-650);
+  --glymize-teal-600: var(--glymize-accent-600);
+  --glymize-teal-500: var(--glymize-accent-500);
   --glymize-slate-700: #425d76;
   --glymize-slate-650: #536b82;
   --glymize-slate-600: #667a8f;
-  --glymize-surface: #ffffff;
-  --glymize-background: #fbfdff;
+  --glymize-background: var(--glymize-canvas);
   --glymize-border: rgba(6, 41, 74, 0.13);
-  --glymize-focus: rgba(0, 183, 165, 0.45);
+}
+
+html[data-glymize-theme="ocean"] {
+  --glymize-accent-700: #185f8f;
+  --glymize-accent-650: #1c6fa6;
+  --glymize-accent-600: #237fb8;
+  --glymize-accent-500: #3b97c8;
+  --glymize-accent-soft: #e7f2f9;
+  --glymize-accent-soft-strong: #d5e9f5;
+  --glymize-focus: rgba(35, 127, 184, 0.4);
+}
+
+html[data-glymize-theme="indigo"] {
+  --glymize-accent-700: #454d9a;
+  --glymize-accent-650: #5059aa;
+  --glymize-accent-600: #5b65b7;
+  --glymize-accent-500: #717bd0;
+  --glymize-accent-soft: #eeeffa;
+  --glymize-accent-soft-strong: #e1e3f7;
+  --glymize-focus: rgba(91, 101, 183, 0.4);
+}
+
+html[data-glymize-theme="emerald"] {
+  --glymize-accent-700: #277055;
+  --glymize-accent-650: #2f8162;
+  --glymize-accent-600: #38936f;
+  --glymize-accent-500: #4baa82;
+  --glymize-accent-soft: #eaf5ef;
+  --glymize-accent-soft-strong: #d9eee3;
+  --glymize-focus: rgba(56, 147, 111, 0.4);
+}
+
+html[data-glymize-theme="violet"] {
+  --glymize-accent-700: #6b4d91;
+  --glymize-accent-650: #7959a0;
+  --glymize-accent-600: #8765ad;
+  --glymize-accent-500: #9a79bd;
+  --glymize-accent-soft: #f2edf7;
+  --glymize-accent-soft-strong: #e7def1;
+  --glymize-focus: rgba(135, 101, 173, 0.4);
+}
+
+html[data-glymize-mode="dark"] {
+  color-scheme: dark;
+  --glymize-ink: #e8f0f1;
+  --glymize-muted: #a9bbbd;
+  --glymize-line: #2a3d40;
+  --glymize-surface: #142225;
+  --glymize-surface-soft: #18282b;
+  --glymize-canvas: #0d1719;
+  --glymize-topbar: rgba(15, 27, 30, 0.94);
+  --glymize-shadow: 0 16px 44px rgba(0, 0, 0, 0.28);
+  --glymize-border: rgba(214, 234, 236, 0.14);
+}
+
+html[data-glymize-mode="dark"][data-glymize-theme="clinical"] {
+  --glymize-accent-700: #42c5b9;
+  --glymize-accent-650: #35b8ad;
+  --glymize-accent-600: #29aa9f;
+  --glymize-accent-500: #5dd4c9;
+  --glymize-accent-soft: #173835;
+  --glymize-accent-soft-strong: #1b4641;
+}
+
+html[data-glymize-mode="dark"][data-glymize-theme="ocean"] {
+  --glymize-accent-700: #69b7e3;
+  --glymize-accent-650: #58a9d7;
+  --glymize-accent-600: #499dce;
+  --glymize-accent-500: #7cc8ed;
+  --glymize-accent-soft: #173143;
+  --glymize-accent-soft-strong: #1b3e55;
+}
+
+html[data-glymize-mode="dark"][data-glymize-theme="indigo"] {
+  --glymize-accent-700: #a8aff4;
+  --glymize-accent-650: #969ee7;
+  --glymize-accent-600: #858edc;
+  --glymize-accent-500: #b8bef7;
+  --glymize-accent-soft: #292c4c;
+  --glymize-accent-soft-strong: #35395e;
+}
+
+html[data-glymize-mode="dark"][data-glymize-theme="emerald"] {
+  --glymize-accent-700: #78d3a7;
+  --glymize-accent-650: #66c699;
+  --glymize-accent-600: #55b98b;
+  --glymize-accent-500: #8ce0b7;
+  --glymize-accent-soft: #18372b;
+  --glymize-accent-soft-strong: #1d4535;
+}
+
+html[data-glymize-mode="dark"][data-glymize-theme="violet"] {
+  --glymize-accent-700: #c0a4df;
+  --glymize-accent-650: #b495d5;
+  --glymize-accent-600: #a887c8;
+  --glymize-accent-500: #ceb6e6;
+  --glymize-accent-soft: #342a40;
+  --glymize-accent-soft-strong: #433551;
 }
 
 *,
@@ -31,7 +145,7 @@ html {
 
 body {
   margin: 0;
-  color: var(--glymize-navy-950);
+  color: var(--glymize-ink);
   background: var(--glymize-background);
   font-family: Manrope, Arial, Helvetica, sans-serif;
   font-synthesis: none;
@@ -67,6 +181,6 @@ a {
 }
 
 ::selection {
-  color: var(--glymize-navy-950);
-  background: rgba(0, 183, 165, 0.22);
+  color: var(--glymize-ink);
+  background: var(--glymize-accent-soft-strong);
 }
