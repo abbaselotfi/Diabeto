@@ -201,6 +201,23 @@ def _resolve_reference_presentation(
     if not candidates:
         return None
 
+    # Dosage-form family is stronger than raw numeric strength when the source
+    # and reference describe the same product at different presentation levels.
+    # Example: NFI Semaglutide pens are recorded as total pen content such as
+    # 4 mg/3 mL or 8 mg/3 mL, while the reference row lists delivered doses
+    # (0.25/0.5/1/2 mg). If only one exact-generic candidate is injectable and
+    # the other is oral, the route/form family safely resolves the presentation.
+    record_family = _form_family(record.get("dosageForm"))
+    if record_family:
+        family_matches = [
+            candidate for candidate in candidates
+            if _form_family(candidate.get("dosageForm")) == record_family
+        ]
+        if len(family_matches) == 1:
+            return str(family_matches[0]["id"])
+        if family_matches:
+            candidates = family_matches
+
     ranked = sorted(
         [(*_presentation_score(record, candidate), candidate) for candidate in candidates],
         key=lambda item: (item[0], item[1]),
@@ -315,12 +332,21 @@ def finalize_bundle(
         f"Reference presentation resolution: {resolved} رکورد به شناسه ارائه مرجع یکتا متصل شد."
     )
     if unresolved:
+        counts: dict[str, int] = {}
+        for record in unresolved:
+            name = str(record.get("genericName") or "?")
+            counts[name] = counts.get(name, 0) + 1
+        grouped = ", ".join(
+            f"{name}={count}"
+            for name, count in sorted(counts.items(), key=lambda item: (-item[1], item[0]))[:12]
+        )
         sample = ", ".join(
-            f"{record.get('genericName', '?')} / {record.get('strengthPresentation', '?')}"
+            f"{record.get('genericName', '?')} / {record.get('dosageForm', '?')} / {record.get('strengthPresentation', '?')}"
             for record in unresolved[:8]
         )
         raise ValueError(
-            f"{len(unresolved)} رکورد هنوز به ارائه مرجع یکتا متصل نشد ({sample}). "
+            f"{len(unresolved)} رکورد هنوز به ارائه مرجع یکتا متصل نشد. "
+            f"گروه‌ها: {grouped}. نمونه‌ها: {sample}. "
             "انتشار تا رفع تطبیق presentation متوقف شد."
         )
 
