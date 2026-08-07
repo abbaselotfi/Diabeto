@@ -248,12 +248,14 @@ def _insurance_scope_code_index(
     return index
 
 
-def _refine_insurance_confidence(
+def _refine_insurance_records(
     bundle: dict[str, Any],
     insurance_path: Path,
     scope: list[dict[str, Any]],
-) -> int:
+) -> tuple[int, int]:
+    """Use insurer generic code + source name to undo unsafe component/combination inheritance."""
     index = _insurance_scope_code_index(insurance_path, scope)
+    corrected = 0
     upgraded = 0
     for record in bundle.get("records", []):
         coverages = record.get("insuranceCoverages") or []
@@ -265,14 +267,17 @@ def _refine_insurance_confidence(
         if not provider or not generic_code:
             continue
         info = index.get((provider, generic_code))
-        if not info or info.get("canonicalName") != record.get("genericName"):
+        if not info:
             continue
+        if record.get("genericName") != info["canonicalName"]:
+            record["genericName"] = info["canonicalName"]
+            corrected += 1
         previous_confidence = float(record.get("matchConfidence") or 0)
         confidence = float(info["confidence"])
         if previous_confidence < confidence:
             record["matchConfidence"] = confidence
             upgraded += 1
-    return upgraded
+    return corrected, upgraded
 
 
 def _recompute_bundle_summary(bundle: dict[str, Any]) -> None:
@@ -330,10 +335,10 @@ def build_bundle(
 
     try:
         scope = _base.load_scope(scope_path)
-        corrected, nfi_upgraded = _refine_nfi_records(bundle, nfi_path, scope)
-        insurance_upgraded = _refine_insurance_confidence(bundle, insurance_path, scope)
+        nfi_corrected, nfi_upgraded = _refine_nfi_records(bundle, nfi_path, scope)
+        insurance_corrected, insurance_upgraded = _refine_insurance_records(bundle, insurance_path, scope)
         bundle.setdefault("diagnostics", []).append(
-            f"Identity refinement: {corrected} NFI generic labels corrected; "
+            f"Identity refinement: {nfi_corrected} NFI and {insurance_corrected} insurance generic labels corrected; "
             f"{nfi_upgraded} NFI and {insurance_upgraded} insurance confidence values upgraded from authoritative source identity."
         )
     except Exception as exc:
