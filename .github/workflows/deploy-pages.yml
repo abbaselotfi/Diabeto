@@ -32,6 +32,8 @@ jobs:
           python -m pip install "openpyxl>=3.1.5,<4"
           python tools/iran-drug-runner/test_normalize_bundle.py
           python tools/iran-drug-runner/test_normalize_bundle_runtime.py
+          python tools/iran-drug-runner/test_source_consensus.py
+          python tools/iran-drug-runner/test_consensus_pipeline.py
           python tools/iran-drug-runner/test_finalize_latest_for_import.py
 
       - name: Install pnpm
