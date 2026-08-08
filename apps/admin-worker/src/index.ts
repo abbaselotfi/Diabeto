@@ -55,6 +55,8 @@ interface CatalogState {
   notifications?: unknown[];
   updateRuns?: unknown[];
   masterCandidates?: unknown[];
+  masterRegistry?: unknown[];
+  customPresentations?: unknown[];
 }
 
 const githubHeaders = {
@@ -246,6 +248,8 @@ function validCatalog(value: unknown): value is CatalogState {
   if (catalog.notifications !== undefined && (!Array.isArray(catalog.notifications) || catalog.notifications.length > 200 || catalog.notifications.some((item) => !validNotification(item)))) return false;
   if (catalog.updateRuns !== undefined && (!Array.isArray(catalog.updateRuns) || catalog.updateRuns.length > 24 || catalog.updateRuns.some((item) => !validUpdateRun(item)))) return false;
   if (catalog.masterCandidates !== undefined && !Array.isArray(catalog.masterCandidates)) return false;
+  if (catalog.masterRegistry !== undefined && !Array.isArray(catalog.masterRegistry)) return false;
+  if (catalog.customPresentations !== undefined && !Array.isArray(catalog.customPresentations)) return false;
   if (Object.values(catalog.visibility).some((visible) => typeof visible !== "boolean")) return false;
   if (Object.values(catalog.insurance).some((coverages) => !Array.isArray(coverages) || coverages.some((coverage) => !validCoverage(coverage)))) return false;
   return !Object.values(catalog.brands).some((brands) => !Array.isArray(brands) || brands.some((brand) =>
@@ -348,6 +352,11 @@ async function publishCatalog(request: Request, env: Env, session: AdminSession)
 
   const publishedCatalog = {
     ...payload.catalog,
+    updateRuns: (payload.catalog.updateRuns ?? []).map((run) => {
+      if (!run || typeof run !== "object") return run;
+      const typed = run as Record<string, unknown>;
+      return typed.status === "ready_to_publish" ? { ...typed, status: "published" } : run;
+    }),
     schemaVersion: 2,
     revision: crypto.randomUUID(),
     updatedAt: new Date().toISOString(),

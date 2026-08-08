@@ -99,7 +99,7 @@ export default function MedicationSelectionPage() {
 
   const grouped = useMemo(() => {
     const term = query.trim().toLocaleLowerCase();
-    const visible = term ? items.filter((item) => `${item.genericName} ${item.therapeuticClass} ${item.dosageForm}`.toLocaleLowerCase().includes(term)) : items;
+    const visible = term ? items.filter((item) => `${item.genericName} ${item.therapeuticClass} ${item.dosageForm} ${item.brands.map((brand) => brand.name).join(" ")}`.toLocaleLowerCase().includes(term)) : items;
     return visible.reduce<Record<string, MedicationChecklistItem[]>>((groups, item) => ((groups[item.therapeuticClass] ??= []).push(item), groups), {});
   }, [items, query]);
 

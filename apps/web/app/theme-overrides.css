@@ -262,3 +262,30 @@ html[data-glymize-mode="dark"] .glymize-internal-shell [class*="consider"] {
   .glymize-palette-toggle { width: 34px; min-width: 34px; height: 34px; }
   .glymize-theme-menu { width: min(230px, calc(100vw - 28px)); }
 }
+
+
+/* Admin action hierarchy: secondary actions stay neutral instead of inheriting the global solid accent button. */
+.glymize-internal-shell button[class*="refreshButton"],
+.glymize-internal-shell button[class*="sectionAction"],
+.glymize-internal-shell [class*="evidenceActions"] button {
+  border: 1px solid var(--glymize-line) !important;
+  background: var(--glymize-surface) !important;
+  color: var(--glymize-accent-700) !important;
+  box-shadow: none !important;
+}
+.glymize-internal-shell button[class*="refreshButton"]:hover,
+.glymize-internal-shell button[class*="sectionAction"]:hover,
+.glymize-internal-shell [class*="evidenceActions"] button:hover {
+  border-color: var(--glymize-accent-500) !important;
+  background: var(--glymize-accent-soft) !important;
+  color: var(--glymize-accent-700) !important;
+}
+.glymize-internal-shell [class*="evidenceActions"] button {
+  flex: 0 0 auto;
+  min-width: 104px;
+}
+
+/* The legacy six-column Excel importer is superseded by the WorldDrug Clinical Catalog workflow. */
+.glymize-internal-shell .import-card {
+  display: none !important;
+}

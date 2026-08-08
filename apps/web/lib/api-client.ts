@@ -8,12 +8,17 @@ import type {
   GenericMedicationInput,
   GuidelineUpdateCheckResult,
   InsuranceCoverage,
+  MasterDrugRegistryEntry,
+  MedicationAdministrationRoute,
   MedicationBrand,
   MedicationChecklistItem,
+  MedicationClinicalDomain,
   MedicationMarketData,
   MedicationMarketDataInput,
+  MedicationTherapyGroup,
   NormalizedDrugImportBundle,
   NormalizedDrugImportRecord,
+  ReferenceMedicationPresentation,
   Type2AssessmentResult,
   Type2ConsiderationRequest
 } from "@glymize/contracts";
@@ -46,6 +51,8 @@ export interface BrowserCatalogState {
   notifications: AdminNotification[];
   updateRuns: DrugDataUpdateRun[];
   masterCandidates: MasterDrugCandidate[];
+  masterRegistry: MasterDrugRegistryEntry[];
+  customPresentations: ReferenceMedicationPresentation[];
 }
 
 interface PublishedCatalogState extends BrowserCatalogState {
@@ -71,7 +78,9 @@ function emptyState(): BrowserCatalogState {
     marketData: {},
     notifications: [],
     updateRuns: [],
-    masterCandidates: []
+    masterCandidates: [],
+    masterRegistry: [],
+    customPresentations: []
   };
 }
 
@@ -86,7 +95,9 @@ function parseStoredState(value: string | null): { state: BrowserCatalogState; s
       marketData: parsed.marketData ?? {},
       notifications: Array.isArray(parsed.notifications) ? parsed.notifications : [],
       updateRuns: Array.isArray(parsed.updateRuns) ? parsed.updateRuns : [],
-      masterCandidates: Array.isArray(parsed.masterCandidates) ? parsed.masterCandidates : []
+      masterCandidates: Array.isArray(parsed.masterCandidates) ? parsed.masterCandidates : [],
+      masterRegistry: Array.isArray(parsed.masterRegistry) ? parsed.masterRegistry : [],
+      customPresentations: Array.isArray(parsed.customPresentations) ? parsed.customPresentations : []
     }, savedAt: raw.savedAt };
   } catch {
     return null;
@@ -110,7 +121,9 @@ async function ensureState() {
         marketData: published.marketData ?? {},
         notifications: published.notifications ?? [],
         updateRuns: published.updateRuns ?? [],
-        masterCandidates: Array.isArray(published.masterCandidates) ? published.masterCandidates : []
+        masterCandidates: Array.isArray(published.masterCandidates) ? published.masterCandidates : [],
+        masterRegistry: Array.isArray(published.masterRegistry) ? published.masterRegistry : [],
+        customPresentations: Array.isArray(published.customPresentations) ? published.customPresentations : []
       };
       const localIsNewer = Boolean(localDraft?.savedAt && Date.parse(localDraft.savedAt) > Date.parse(published.updatedAt));
       stateCache = localIsNewer ? localDraft!.state : publishedState;
@@ -144,7 +157,14 @@ function schedulePublish(state: BrowserCatalogState) {
     if (!catalog) return;
     notifyPublish("publishing", "در حال ثبت در GitHub و انتشار نسخهٔ جدید…");
     void publishAdminCatalog(catalog)
-      .then((result) => notifyPublish("success", `انتشار ثبت شد؛ نسخهٔ ${result.commitSha.slice(0, 7)} در حال آماده‌سازی است.`))
+      .then((result) => {
+        const current = readState();
+        const updateRuns = current.updateRuns.map((run) => run.status === "ready_to_publish" ? { ...run, status: "published" as const } : run);
+        stateCache = { ...current, updateRuns };
+        window.localStorage.setItem(storageKey, JSON.stringify({ schemaVersion: 2, savedAt: new Date().toISOString(), state: stateCache }));
+        window.dispatchEvent(new CustomEvent("glymize-catalog-change"));
+        notifyPublish("success", `انتشار ثبت شد؛ نسخهٔ ${result.commitSha.slice(0, 7)} منتشر شد.`);
+      })
       .catch(() => notifyPublish("error", "انتشار مرکزی ناموفق بود؛ دوباره وارد مدیریت شوید و تغییر را تکرار کنید."));
   }, 700);
 }
@@ -176,7 +196,8 @@ function listGenerics() {
 
 function listMedicationChecklist(): MedicationChecklistItem[] {
   const state = readState();
-  return globalReferenceCatalogue.map((presentation) => {
+  const presentations = [...globalReferenceCatalogue, ...state.customPresentations];
+  return presentations.map((presentation) => {
     const market = state.marketData[presentation.id] ?? {};
     return {
       referencePresentationId: presentation.id,
@@ -276,7 +297,9 @@ function resolveMedicationDisplays(medication: GenericMedication) {
 }
 
 function type2Assessment(request: Type2ConsiderationRequest): Type2AssessmentResult {
-  const visible = listGenerics().filter((medication) => matchingReferences(medication).some((item) => item.showInApp));
+  const visible = listGenerics()
+    .filter((medication) => medication.catalogStatus !== "admin_added" || medication.clinicalEngineEnabled === true)
+    .filter((medication) => matchingReferences(medication).some((item) => item.showInApp));
   const presentations = Object.fromEntries(visible.map((medication) => [medication.id, resolveMedicationDisplays(medication)]));
   const insuranceCoverageByMedicationId = Object.fromEntries(visible.map((medication) => [
     medication.id,
@@ -432,6 +455,193 @@ function mergeMasterCandidates(current: MasterDrugCandidate[], incoming: MasterD
   for (const candidate of current) merged.set(masterCandidateKey(candidate), candidate);
   for (const candidate of incoming) merged.set(masterCandidateKey(candidate), candidate);
   return [...merged.values()];
+}
+
+function masterEntryMatchesCandidate(entry: MasterDrugRegistryEntry, candidate: MasterDrugCandidate) {
+  const candidateName = normalizedName(candidate.genericName);
+  const names = [entry.canonicalName, ...(entry.searchSynonyms ?? [])].map(normalizedName).filter(Boolean);
+  return names.some((name) => name === candidateName || (candidateName.length >= 7 && (name.startsWith(candidateName) || candidateName.startsWith(name))));
+}
+
+function inferAdministrationRoute(candidate: MasterDrugCandidate): MedicationAdministrationRoute {
+  const text = normalizedName(`${candidate.dosageForm ?? ""} ${candidate.genericName}`);
+  if (/tablet|capsule|syrup|solution oral|قرص|کپسول|شربت/.test(text)) return "oral";
+  if (/ophthalm|eye|چشم/.test(text)) return "ophthalmic";
+  if (/topical|cream|ointment|gel|موضع/.test(text)) return "topical";
+  if (/inhal|استنشاق/.test(text)) return "inhaled";
+  if (/nasal|بینی/.test(text)) return "intranasal";
+  if (/inject|pen|vial|insulin|تزریق/.test(text)) return "subcutaneous";
+  return "other";
+}
+
+function inferTherapyGroup(entry: MasterDrugRegistryEntry | undefined): MedicationTherapyGroup {
+  const text = normalizedName(`${entry?.drugClass ?? ""} ${(entry?.therapeuticAreas ?? []).join(" ")} ${entry?.canonicalName ?? ""}`);
+  if (text.includes("insulin")) {
+    if (/premix|mix/.test(text)) return "premixed_insulin";
+    if (/prandial|rapid|short/.test(text)) return "prandial_insulin_analog";
+    if (/basal|glargine|degludec|detemir|nph/.test(text)) return "basal_insulin_analog";
+    return "human_insulin";
+  }
+  if (/glp 1|glp1/.test(text)) return /gip/.test(text) ? "dual_gip_glp_1_receptor_agonist" : "glp_1_receptor_agonist";
+  if (/lipid|statin|pcsk9|ezetimibe/.test(text)) return "lipid_lowering";
+  if (/antiplatelet/.test(text)) return "antiplatelet";
+  if (/anticoag/.test(text)) return "anticoagulant";
+  if (/heart failure/.test(text)) return "heart_failure_therapy";
+  if (/raas|ace inhibitor|arb/.test(text)) return "raas_blocker";
+  if (/mineralocorticoid|mra/.test(text)) return "mineralocorticoid_receptor_antagonist";
+  if (/hypertension|antihypertensive/.test(text)) return "antihypertensive";
+  if (/obesity|weight/.test(text)) return "weight_management";
+  if (/liver|mash|masld/.test(text)) return "liver_directed_therapy";
+  if (/vitamin|mineral/.test(text)) return "vitamin_or_mineral";
+  if (/diabetes|glucose|dpp|sglt|sulfonyl|biguanide|glinide|glucosidase|dopamine d2/.test(text)) return "oral_glucose_lowering";
+  return "other";
+}
+
+function clinicalDomainsFromMaster(entry: MasterDrugRegistryEntry | undefined): MedicationClinicalDomain[] {
+  const text = normalizedName((entry?.therapeuticAreas ?? []).join(" "));
+  const domains: MedicationClinicalDomain[] = [];
+  if (/diabetes|glucose/.test(text)) domains.push("diabetes");
+  if (/cardio|ascvd|cvd/.test(text)) domains.push("cardiovascular");
+  if (/kidney|ckd|renal/.test(text)) domains.push("kidney");
+  if (/liver|mash|masld|hepatic/.test(text)) domains.push("liver");
+  if (/obesity|weight/.test(text)) domains.push("obesity");
+  return domains.length ? domains : ["diabetes"];
+}
+
+function presentationIdForCandidate(candidate: MasterDrugCandidate) {
+  const registry = String(candidate.brandRegistryCode ?? candidate.genericRegistryCode ?? "").replace(/[^a-zA-Z0-9]+/g, "-");
+  const label = normalizedName(`${candidate.genericName}-${candidate.dosageForm ?? ""}-${candidate.strengthPresentation ?? ""}`)
+    .replace(/[^a-z0-9آ-ی]+/gi, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 80);
+  return `iran-master-${registry || label || crypto.randomUUID()}`;
+}
+
+function promoteMasterCandidateInState(
+  state: BrowserCatalogState,
+  candidate: MasterDrugCandidate,
+  input: Partial<{
+    persianName: string;
+    className: string;
+    therapyGroup: MedicationTherapyGroup;
+    administrationRoute: MedicationAdministrationRoute;
+    clinicalDomains: MedicationClinicalDomain[];
+  }> = {}
+) {
+  const master = state.masterRegistry.find((entry) => entry.reviewState === "approved" && masterEntryMatchesCandidate(entry, candidate));
+  const canonicalName = master?.canonicalName ?? candidate.genericName;
+  const persianName = input.persianName?.trim() || master?.persianName?.trim() || candidate.genericName;
+  const className = input.className?.trim() || master?.drugClass?.trim() || "Needs clinical classification";
+  const therapyGroup = input.therapyGroup ?? inferTherapyGroup(master);
+  const administrationRoute = input.administrationRoute ?? inferAdministrationRoute(candidate);
+  const clinicalDomains = input.clinicalDomains?.length ? input.clinicalDomains : clinicalDomainsFromMaster(master);
+  const existingGeneric = [...ada2026Type2GenericSeed, ...state.customGenerics].find((item) => normalizedName(item.canonicalName) === normalizedName(canonicalName));
+  const id = existingGeneric?.id ?? `master-${canonicalName.toLocaleLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || crypto.randomUUID()}`;
+  if (!existingGeneric) {
+    state.customGenerics = [...state.customGenerics, {
+      id,
+      canonicalName,
+      persianName,
+      className,
+      therapyGroup,
+      administrationRoute,
+      catalogStatus: "admin_added",
+      clinicalEngineEnabled: false,
+      masterRegistryId: master?.id
+    }];
+  }
+
+  let referencePresentationId = state.customPresentations.find((item) =>
+    normalizedName(item.genericName).includes(normalizedName(candidate.genericName)) &&
+    normalizedName(item.dosageForm) === normalizedName(candidate.dosageForm ?? "") &&
+    normalizedName(item.strengthPresentation) === normalizedName(candidate.strengthPresentation ?? "")
+  )?.id;
+  if (!referencePresentationId) {
+    referencePresentationId = presentationIdForCandidate(candidate);
+    state.customPresentations = [...state.customPresentations, {
+      id: referencePresentationId,
+      therapeuticClass: className,
+      mechanismOrSubclass: master?.guidelineRole ?? "Master Registry classified",
+      genericName: `${candidate.genericName}${persianName && normalizedName(persianName) !== normalizedName(candidate.genericName) ? ` / ${persianName}` : ""}`,
+      administrationRoute,
+      dosageForm: candidate.dosageForm ?? "نامشخص",
+      strengthPresentation: candidate.strengthPresentation ?? "نامشخص",
+      indicationScope: master?.primaryIndications?.join("؛ "),
+      marketStatus: "Iran NFI verified",
+      sourceUrl: candidate.sourceUrl,
+      coverageNotes: "Market identity verified from Iran NFI; clinical-engine activation remains separate.",
+      sourceFile: "Iran FDA NFI / Master Registry",
+      sourceObservedAt: candidate.observedAt,
+      reviewState: "validated_for_iran"
+    }];
+  }
+
+  state.visibility[referencePresentationId] = true;
+  state.insurance[referencePresentationId] = candidate.insuranceCoverages ?? [];
+  state.marketData[referencePresentationId] = {
+    ...(state.marketData[referencePresentationId] ?? {}),
+    genericRegistryCode: candidate.genericRegistryCode,
+    clinicalDomains,
+    price: candidate.price,
+    sourceUrl: candidate.sourceUrl,
+    sourceObservedAt: candidate.observedAt,
+    updatedAt: new Date().toISOString()
+  };
+  if (candidate.brandName) {
+    const current = state.brands[referencePresentationId] ?? [];
+    const existing = current.find((brand) => normalizedName(brand.name) === normalizedName(candidate.brandName!));
+    const brand: MedicationBrand = {
+      id: existing?.id ?? `source-${candidate.brandRegistryCode ?? crypto.randomUUID()}`,
+      name: candidate.brandName,
+      showInsteadOfGeneric: existing?.showInsteadOfGeneric ?? false,
+      priority: existing?.priority ?? current.length + 1,
+      customInsurance: existing?.customInsurance ?? false,
+      insuranceCoverages: candidate.insuranceCoverages ?? [],
+      genericRegistryCode: candidate.genericRegistryCode,
+      brandRegistryCode: candidate.brandRegistryCode,
+      price: candidate.price,
+      sourceDiscovered: true,
+      sourceUrl: candidate.sourceUrl,
+      sourceObservedAt: candidate.observedAt,
+      hiddenFromSource: false
+    };
+    state.brands[referencePresentationId] = existing ? current.map((item) => item.id === existing.id ? brand : item) : [...current, brand];
+  }
+  return { referencePresentationId, genericMedicationId: id, matchedMasterRegistryId: master?.id };
+}
+
+function promoteMatchingMasterCandidates(state: BrowserCatalogState) {
+  const promotable = state.masterCandidates.filter((candidate) => state.masterRegistry.some((entry) => entry.reviewState === "approved" && masterEntryMatchesCandidate(entry, candidate)));
+  for (const candidate of promotable) promoteMasterCandidateInState(state, candidate);
+  const keys = new Set(promotable.map(masterCandidateKey));
+  state.masterCandidates = state.masterCandidates.filter((candidate) => !keys.has(masterCandidateKey(candidate)));
+  return promotable.length;
+}
+
+function importMasterRegistry(entries: MasterDrugRegistryEntry[]) {
+  const state = readState();
+  const merged = new Map(state.masterRegistry.map((entry) => [entry.id, entry]));
+  for (const entry of entries) merged.set(entry.id, { ...entry, reviewState: "approved" });
+  state.masterRegistry = [...merged.values()];
+  const autoPromoted = promoteMatchingMasterCandidates(state);
+  saveState(state);
+  return { imported: entries.length, total: state.masterRegistry.length, autoPromoted };
+}
+
+function promoteMasterCandidate(candidateKey: string, body: Record<string, unknown>) {
+  const state = readState();
+  const candidate = state.masterCandidates.find((item) => masterCandidateKey(item) === candidateKey);
+  if (!candidate) return undefined;
+  const result = promoteMasterCandidateInState(state, candidate, {
+    persianName: String(body.persianName ?? "").trim() || undefined,
+    className: String(body.className ?? "").trim() || undefined,
+    therapyGroup: body.therapyGroup as MedicationTherapyGroup | undefined,
+    administrationRoute: body.administrationRoute as MedicationAdministrationRoute | undefined,
+    clinicalDomains: Array.isArray(body.clinicalDomains) ? body.clinicalDomains as MedicationClinicalDomain[] : undefined
+  });
+  state.masterCandidates = state.masterCandidates.filter((item) => masterCandidateKey(item) !== candidateKey);
+  saveState(state);
+  return result;
 }
 
 function validateNormalizedBundle(bundle: NormalizedDrugImportBundle | null | undefined) {
@@ -685,6 +895,8 @@ function applyNormalizedBundle(bundle: NormalizedDrugImportBundle) {
     ? bundleWithMasterCandidates.masterCandidates
     : [];
   state.masterCandidates = mergeMasterCandidates(state.masterCandidates, incomingMasterCandidates);
+  const autoPromoted = promoteMatchingMasterCandidates(state);
+  if (autoPromoted) addNotification({ severity: "info", title: "داروهای جدید از Master Registry طبقه‌بندی شدند", message: `${autoPromoted} رکورد NFI با Clinical Catalog تأییدشده تطبیق یافت و بدون فعال‌سازی خودکار موتور وارد فهرست دارو شد.`, actionHref: "/admin/medications", actionLabel: "مشاهده داروها", sourceRunId: bundle.run.id });
   const completedRun: DrugDataUpdateRun = {
     ...bundle.run,
     status: "ready_to_publish",
@@ -692,7 +904,7 @@ function applyNormalizedBundle(bundle: NormalizedDrugImportBundle) {
   };
   state.updateRuns = [completedRun, ...state.updateRuns.filter((run) => run.id !== bundle.run.id)].slice(0, 24);
   saveState(state);
-  return { applied: true, errors: [], matched, ambiguous, masterCandidatesStored: incomingMasterCandidates.length };
+  return { applied: true, errors: [], matched, ambiguous, masterCandidatesStored: state.masterCandidates.length, autoPromoted };
 }
 
 function addBrand(referencePresentationId: string, body: Record<string, unknown>) {
@@ -745,7 +957,7 @@ function addGeneric(body: GenericMedicationInput) {
   if (existing) return existing;
   if (!canonicalName || !body.persianName || !body.className || !body.therapyGroup || !body.administrationRoute) return undefined;
   const id = canonicalName.toLocaleLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-  const medication: GenericMedication = { ...body, id, canonicalName, catalogStatus: "admin_added" };
+  const medication: GenericMedication = { ...body, id, canonicalName, catalogStatus: "admin_added", clinicalEngineEnabled: false };
   state.customGenerics = [...state.customGenerics, medication];
   saveState(state);
   return medication;
@@ -762,7 +974,18 @@ async function browserApiFetch(path: string, init?: RequestInit): Promise<Respon
   if (method === "GET" && pathname === "/v1/admin/guidelines") return json(guidelineSources);
   if (method === "GET" && pathname === "/v1/admin/catalog/medication-checklist") return json(listMedicationChecklist());
   if (method === "GET" && pathname === "/v1/admin/catalog/reference-sources") return json(globalReferenceCatalogueSources);
-  if (method === "GET" && pathname === "/v1/admin/catalog/master-candidates") return json(readState().masterCandidates);
+  if (method === "GET" && pathname === "/v1/admin/catalog/master-candidates") return json(readState().masterCandidates.map((candidate) => ({ ...candidate, candidateKey: masterCandidateKey(candidate) })));
+  if (method === "GET" && pathname === "/v1/admin/catalog/master-registry") return json(readState().masterRegistry);
+  if (method === "POST" && pathname === "/v1/admin/catalog/master-registry/import") {
+    const entries = Array.isArray(body.entries) ? body.entries as MasterDrugRegistryEntry[] : [];
+    if (!entries.length || entries.some((entry) => !entry?.id || !entry?.canonicalName || !Array.isArray(entry.sourceCodes) || !Array.isArray(entry.sourceUrls))) return json({ message: "WorldDrug Clinical Catalog معتبر نیست." }, 422);
+    return json(importMasterRegistry(entries));
+  }
+  const masterPromoteMatch = pathname.match(/^\/v1\/admin\/catalog\/master-candidates\/(.+)\/promote$/);
+  if (method === "POST" && masterPromoteMatch) {
+    const result = promoteMasterCandidate(decodeURIComponent(masterPromoteMatch[1]!), body);
+    return result ? json(result) : json({ message: "رکورد Master Candidate پیدا نشد." }, 404);
+  }
   if (method === "GET" && pathname === "/v1/admin/notifications") return json(readState().notifications);
   if (method === "POST" && pathname === "/v1/admin/notifications") {
     const created = createNotification(body as unknown as CreateAdminNotificationInput);

@@ -150,9 +150,9 @@ export default function AdminPage() {
           <span className={styles.actionIcon}>DB</span>
           <span><strong>داده و بازار ایران</strong><small>استخراج، Import، قیمت، بیمه و اجرای به‌روزرسانی‌ها</small></span>
         </Link>
-        <Link className={styles.quickAction} href="/admin/medications">
+        <Link className={styles.quickAction} href="/admin/master-registry">
           <span className={styles.actionIcon}>Rx</span>
-          <span><strong>کاتالوگ و نمایش دارو</strong><small>نمایش ژنریک/برند، ترتیب برندها و داده بازار</small></span>
+          <span><strong>Master Registry و داروها</strong><small>WorldDrug، طبقه‌بندی ژنریک‌های جدید و ورود کنترل‌شده به فهرست بازار</small></span>
         </Link>
         <Link className={styles.quickAction} href="/type-2/preview">
           <span className={styles.actionIcon}>T2</span>

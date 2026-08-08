@@ -85,6 +85,9 @@ export interface GenericMedication {
   therapyGroup?: MedicationTherapyGroup;
   administrationRoute?: MedicationAdministrationRoute;
   catalogStatus?: "seeded_from_guideline" | "admin_added" | "retired";
+  /** Imported/market-listed medicines stay outside the recommendation engine until an approved rule explicitly enables them. */
+  clinicalEngineEnabled?: boolean;
+  masterRegistryId?: string;
 }
 
 export const medicationTherapyGroups = [
