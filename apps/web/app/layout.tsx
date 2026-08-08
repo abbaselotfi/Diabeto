@@ -5,6 +5,7 @@ import AppShell from "./components/app-shell";
 import "./globals.css";
 import "./internal-shell.css";
 import "./theme-overrides.css";
+import "./dark-readability.css";
 
 export const metadata: Metadata = {
   title: "GLYMIZE | Diabetes Prescribing Intelligence",
