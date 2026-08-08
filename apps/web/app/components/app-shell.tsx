@@ -79,9 +79,10 @@ export default function AppShell({
   const { locale, isRtl } = useGlymizeLocale();
   const copy = COPY[locale];
 
-  if (pathname === "/") {
-    return <><div className="home-pwa-control"><PwaInstall /></div>{children}</>;
-  }
+  // The welcome page is a fixed brand surface. Do not place workspace/PWA
+  // controls over it; install controls remain available once the user enters
+  // the clinical workspace.
+  if (pathname === "/") return <>{children}</>;
 
   return (
     <div className="app-shell glymize-internal-shell" dir={isRtl ? "rtl" : "ltr"}>
