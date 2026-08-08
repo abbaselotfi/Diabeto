@@ -1,9 +1,12 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Inject, Post } from "@nestjs/common";
 import { EvidenceAssistantService } from "./evidence-assistant.service.js";
 
 @Controller("v1/evidence-assistant")
 export class EvidenceAssistantController {
-  constructor(private readonly assistant: EvidenceAssistantService) {}
+  constructor(
+    @Inject(EvidenceAssistantService)
+    private readonly assistant: EvidenceAssistantService,
+  ) {}
 
   @Get("status")
   status() {
