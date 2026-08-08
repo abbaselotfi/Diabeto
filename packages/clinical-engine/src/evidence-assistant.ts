@@ -33,7 +33,9 @@ export interface EvidenceAssistantRetrievalResult {
 
 const STOPWORDS = new Set([
   "the", "a", "an", "and", "or", "of", "to", "in", "for", "with", "is", "are", "be", "on", "by", "from",
+  "treatment", "therapy", "patient", "clinical", "recommendation", "program", "about", "what", "which",
   "در", "از", "به", "با", "برای", "و", "یا", "که", "این", "آن", "است", "هست", "شود", "می", "را", "یک",
+  "درمان", "بیمار", "بالینی", "توصیه", "برنامه", "درباره", "چه", "کدام",
 ]);
 
 const QUERY_ALIASES: Record<string, string[]> = {
