@@ -173,13 +173,9 @@ export default function PwaInstall() {
     return <span className="install-status">✓ نصب شده</span>;
   }
 
-  if (!installPrompt) {
-    return (
-      <span className="avatar" aria-label="پزشک">
-        د
-      </span>
-    );
-  }
+  // No install prompt means there is nothing actionable to show. The old
+  // circular "د" avatar was a prototype fallback and had no product meaning.
+  if (!installPrompt) return null;
 
   return (
     <button

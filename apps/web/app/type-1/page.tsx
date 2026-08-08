@@ -5,7 +5,7 @@ import ClinicalDomainMedications from "../components/clinical-domain-medications
 export default function Type1Page() {
   return (
     <main>
-      <Link className="back-button" href="/">→ بازگشت به داشبورد</Link>
+      <Link className="back-button" href="/dashboard">→ بازگشت به داشبورد</Link>
       <header className="page-heading">
         <div><span className="eyebrow">Type 1 workspace</span><h1>دیابت نوع ۱</h1><p>فضای اختصاصی مرور درمان انسولین؛ این نسخه هیچ دوز یا تغییر خودکار رژیم تولید نمی‌کند.</p></div>
         <span className="version-badge">فعال</span>

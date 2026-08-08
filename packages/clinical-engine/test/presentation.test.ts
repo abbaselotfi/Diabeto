@@ -62,7 +62,8 @@ describe("type 2 consideration layer", () => {
     ], { currentHba1c: 8, targetHba1c: 7, workflow: "initiation", eGfr: 25, factors: [] });
 
     expect(result.outputStatus).toBe("information_only");
-    expect(result.blockedBy?.[0]).toContain("eGFR کمتر از ۳۰");
+    expect(result.blockedBy?.[0]).toContain("eGFR کمتر از");
+    expect(result.blockedBy?.[0]).toContain("KDIGO-CKD 2024");
   });
 
   it("flags TZD for physician review when heart failure is selected", () => {
@@ -70,7 +71,8 @@ describe("type 2 consideration layer", () => {
       { id: "pioglitazone", canonicalName: "Pioglitazone", persianName: "پیوگلیتازون", className: "Thiazolidinedione", therapyGroup: "oral_glucose_lowering", administrationRoute: "oral" }
     ], { currentHba1c: 8, targetHba1c: 7, workflow: "intensification", factors: ["heart_failure"] });
 
-    expect(result.blockedBy?.[0]).toContain("نارسایی قلبی");
+    expect(result.blockedBy?.[0]).toContain("پیشنهاد خودکار مسدود");
+    expect(result.blockedBy?.[0]).toContain("ESC-DM-CVD 2023");
   });
 
   it("prioritizes insulin review above the ADA severe hyperglycemia threshold", () => {

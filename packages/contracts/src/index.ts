@@ -1,12 +1,68 @@
 /**
- * Shared, non-clinical contracts. Medication presentation must never change a
- * clinical rule outcome; it is deliberately modelled separately from rules.
+ * Shared contracts. Clinical evidence, local-market data, patient context and
+ * presentation preferences are kept as separate layers so that display or
+ * commercial choices cannot silently alter clinical rule outcomes.
  */
 export const diabetesTypes = ["type_1", "type_2", "pregnancy"] as const;
 export type DiabetesType = (typeof diabetesTypes)[number];
 
-export const medicationClinicalDomains = ["diabetes", "cardiovascular", "kidney", "liver", "obesity"] as const;
+export const medicationClinicalDomains = [
+  "diabetes",
+  "cardiovascular",
+  "kidney",
+  "liver",
+  "obesity",
+  "hypertension",
+  "lipids",
+  "heart_failure",
+  "ascvd",
+  "masld_mash",
+  "neuropathy",
+  "retinopathy",
+  "diabetic_foot",
+  "nutrition_support",
+  "pregnancy"
+] as const;
 export type MedicationClinicalDomain = (typeof medicationClinicalDomains)[number];
+
+export const clinicalEffectDomains = [
+  "glycemic_control",
+  "ascvd",
+  "heart_failure",
+  "ckd",
+  "weight",
+  "masld_mash",
+  "hypertension",
+  "lipids",
+  "hypoglycemia",
+  "retinopathy",
+  "neuropathy",
+  "diabetic_foot"
+] as const;
+export type ClinicalEffectDomain = (typeof clinicalEffectDomains)[number];
+export type ClinicalEffectDirection =
+  | "strong_benefit"
+  | "benefit"
+  | "neutral"
+  | "risk"
+  | "avoid"
+  | "not_established";
+export type ClinicalEvidenceStrength =
+  | "guideline_recommended"
+  | "outcome_evidence"
+  | "label_indication"
+  | "supportive"
+  | "insufficient";
+
+export interface MedicationClinicalEffect {
+  domain: ClinicalEffectDomain;
+  direction: ClinicalEffectDirection;
+  evidenceStrength: ClinicalEvidenceStrength;
+  phenotype?: string;
+  practicalNote?: string;
+  sourceCodes?: string[];
+  sourceUrls?: string[];
+}
 
 export const medicationDisplayModes = ["generic_or_primary_brand", "generic_with_selected_brands"] as const;
 export type MedicationDisplayMode = (typeof medicationDisplayModes)[number];
@@ -39,11 +95,37 @@ export const medicationTherapyGroups = [
   "basal_insulin_analog",
   "prandial_insulin_analog",
   "premixed_insulin",
-  "fixed_ratio_combination"
+  "fixed_ratio_combination",
+  "antihypertensive",
+  "raas_blocker",
+  "mineralocorticoid_receptor_antagonist",
+  "heart_failure_therapy",
+  "lipid_lowering",
+  "antiplatelet",
+  "anticoagulant",
+  "antianginal",
+  "antiarrhythmic",
+  "liver_directed_therapy",
+  "weight_management",
+  "vitamin_or_mineral",
+  "other"
 ] as const;
 export type MedicationTherapyGroup = (typeof medicationTherapyGroups)[number];
 
-export const medicationAdministrationRoutes = ["oral", "subcutaneous"] as const;
+export const medicationAdministrationRoutes = [
+  "oral",
+  "subcutaneous",
+  "intravenous",
+  "intramuscular",
+  "inhaled",
+  "topical",
+  "ophthalmic",
+  "transdermal",
+  "intranasal",
+  "rectal",
+  "vaginal",
+  "other"
+] as const;
 export type MedicationAdministrationRoute = (typeof medicationAdministrationRoutes)[number];
 
 export interface GenericMedicationInput {
@@ -54,6 +136,94 @@ export interface GenericMedicationInput {
   administrationRoute: MedicationAdministrationRoute;
   sourceUrl: string;
   sourceReference: string;
+}
+
+/** Guideline-facing generic knowledge. Market availability is deliberately absent. */
+export interface MasterDrugRegistryEntry {
+  id: string;
+  canonicalName: string;
+  persianName?: string;
+  searchSynonyms?: string[];
+  combination: boolean;
+  therapeuticAreas: string[];
+  drugClass?: string;
+  primaryIndications?: string[];
+  guidelineRole?: string;
+  diabetesOrPhenotype?: string;
+  clinicalEffects: MedicationClinicalEffect[];
+  renalNotes?: string;
+  hepaticNotes?: string;
+  safetyMonitoring?: string;
+  specialPopulationNotes?: string;
+  regulatoryStatus?: string;
+  sourceCodes: string[];
+  sourceUrls: string[];
+  sourceFile?: string;
+  sourceObservedAt?: string;
+  reviewState: "candidate" | "in_review" | "approved" | "rejected" | "retired";
+}
+
+/** Product-level Iranian market record suitable for the clinician detail drawer. */
+export interface IranMarketDrugProduct {
+  id: string;
+  masterDrugId?: string;
+  genericName: string;
+  genericRegistryCode?: string;
+  brandName?: string;
+  brandRegistryCode?: string;
+  nfiDetailId?: string;
+  ircCode?: string;
+  gtin?: string;
+  atcCode?: string;
+  dosageForm?: string;
+  strengthPresentation?: string;
+  route?: string;
+  packagePresentation?: string;
+  manufacturerName?: string;
+  brandOwnerName?: string;
+  licenseStatus?: string;
+  licenseValidUntilJalali?: string;
+  price?: MedicationPrice;
+  insuranceCoverages: InsuranceCoverage[];
+  sourceUrl: string;
+  sourceReference: string;
+  observedAt: string;
+  matchConfidence?: number;
+}
+
+export interface DoseAdjustmentRule {
+  condition: string;
+  action: string;
+  threshold?: string;
+}
+
+/**
+ * Versioned dosing knowledge. A rule is informational until its reviewState is
+ * approved; the recommendation engine must never execute draft dose text.
+ */
+export interface MedicationDoseRule {
+  id: string;
+  masterDrugId: string;
+  indication: string;
+  formulation?: string;
+  route?: string;
+  startingDose?: string;
+  targetDose?: string;
+  maximumDose?: string;
+  frequency?: string;
+  titrationStep?: string;
+  titrationInterval?: string;
+  renalAdjustments?: DoseAdjustmentRule[];
+  hepaticAdjustments?: DoseAdjustmentRule[];
+  weightAdjustments?: DoseAdjustmentRule[];
+  holdRules?: DoseAdjustmentRule[];
+  stopRules?: DoseAdjustmentRule[];
+  monitoring?: string[];
+  sourceUrl: string;
+  sourceReference: string;
+  guidelineVersion?: string;
+  productLabelVersion?: string;
+  reviewState: "draft" | "in_review" | "approved" | "retired";
 }
 
 export const protocolStatuses = ["draft", "in_review", "approved", "retired"] as const;
@@ -119,7 +289,7 @@ export interface OrganizationBrandPreference {
 }
 
 export interface CatalogImportRequest {
-  sourceKind: "official_registry" | "approved_export" | "manual_csv";
+  sourceKind: "official_registry" | "approved_export" | "manual_csv" | "clinical_knowledge_workbook";
   sourceUrl?: string;
   requestedBy: string;
 }
@@ -179,6 +349,7 @@ export interface MedicationChecklistItem {
   brands: MedicationBrand[];
   displayMode?: MedicationDisplayMode;
   clinicalDomains?: MedicationClinicalDomain[];
+  clinicalEffects?: MedicationClinicalEffect[];
   genericRegistryCode?: string;
   price?: MedicationPrice;
   marketBadge?: MedicationMarketBadge;
@@ -282,6 +453,7 @@ export interface UpdateMedicationBrandInput {
 export interface MedicationMarketDataInput {
   displayMode?: MedicationDisplayMode;
   clinicalDomains?: MedicationClinicalDomain[];
+  clinicalEffects?: MedicationClinicalEffect[];
   genericRegistryCode?: string;
   price?: MedicationPrice;
   marketBadge?: MedicationMarketBadge;
@@ -351,6 +523,7 @@ export interface NormalizedDrugImportRecord {
   dosageForm?: string;
   strengthPresentation?: string;
   clinicalDomains?: MedicationClinicalDomain[];
+  clinicalEffects?: MedicationClinicalEffect[];
   price?: MedicationPrice;
   insuranceCoverages: InsuranceCoverage[];
   sourceUrl: string;
@@ -365,12 +538,109 @@ export interface NormalizedDrugImportBundle {
   records: NormalizedDrugImportRecord[];
 }
 
-export type Type2DecisionFactor = "ascvd" | "heart_failure" | "ckd" | "hypoglycemia_risk" | "weight_priority" | "insulin_pathway";
+export interface MedicationAdministrationScheduleEntry {
+  amount: number;
+  unit: string;
+  timing?: string;
+  mealRelation?: "before_meal" | "with_meal" | "after_meal" | "bedtime" | "other";
+}
+
+export type MedicationAdherence = "good" | "partial" | "poor" | "unknown";
+export type MedicationTolerance = "good" | "limited" | "intolerant" | "unknown";
+export type CurrentMedicationStatus = "active" | "held" | "stopped";
+
+/** Current patient therapy is required to distinguish initiation from optimization. */
+export interface CurrentMedicationInput {
+  genericMedicationId?: string;
+  referencePresentationId?: string;
+  genericName: string;
+  brandName?: string;
+  dosageForm?: string;
+  strengthPresentation?: string;
+  route?: string;
+  doseAmount?: number;
+  doseUnit?: string;
+  frequencyPerDay?: number;
+  totalDailyDose?: number;
+  totalDailyDoseUnit?: string;
+  schedule?: MedicationAdministrationScheduleEntry[];
+  durationDays?: number;
+  adherence?: MedicationAdherence;
+  tolerance?: MedicationTolerance;
+  status?: CurrentMedicationStatus;
+  note?: string;
+}
+
+export interface CardiovascularClinicalContext {
+  ascvd?: boolean;
+  priorMi?: boolean;
+  priorStrokeTia?: boolean;
+  peripheralArteryDisease?: boolean;
+  priorRevascularization?: boolean;
+  heartFailure?: boolean;
+  lvefPercent?: number;
+  nyhaClass?: "I" | "II" | "III" | "IV";
+  systolicBloodPressure?: number;
+  diastolicBloodPressure?: number;
+}
+
+export interface KidneyClinicalContext {
+  ckd?: boolean;
+  eGfr?: number;
+  uacrMgG?: number;
+  potassiumMmolL?: number;
+  dialysis?: boolean;
+  kidneyTransplant?: boolean;
+  recentAki?: boolean;
+}
+
+export interface LiverClinicalContext {
+  masldMash?: boolean;
+  astUeL?: number;
+  altUeL?: number;
+  plateletCount10e9L?: number;
+  liverStiffnessKpa?: number;
+  fibrosisStage?: "F0" | "F1" | "F2" | "F3" | "F4" | "unknown";
+  cirrhosis?: boolean;
+  decompensatedCirrhosis?: boolean;
+}
+
+export interface AnthropometricClinicalContext {
+  weightKg?: number;
+  heightCm?: number;
+  bmi?: number;
+  waistCircumferenceCm?: number;
+}
+
+/** Anonymous clinical context for the current encounter; identity storage is a separate future module. */
+export interface PatientClinicalContext {
+  ageYears?: number;
+  sexAtBirth?: "female" | "male" | "other_or_unknown";
+  pregnancy?: boolean;
+  cardiovascular?: CardiovascularClinicalContext;
+  kidney?: KidneyClinicalContext;
+  liver?: LiverClinicalContext;
+  anthropometrics?: AnthropometricClinicalContext;
+}
+
+export type Type2DecisionFactor =
+  | "ascvd"
+  | "heart_failure"
+  | "ckd"
+  | "hypoglycemia_risk"
+  | "weight_priority"
+  | "insulin_pathway"
+  | "masld_mash"
+  | "frailty"
+  | "pregnancy"
+  | "diabetic_foot";
 export type Type2Workflow = "initiation" | "intensification";
 export type Type2CostPreference = "no_constraint" | "moderate" | "low_cost_only" | "insured_only";
 export type Type2RoutePreference = "oral_only" | "oral_and_injectable";
 export type MedicationRelativeCost = "low" | "medium" | "high";
+export type MedicationCostBand = "low" | "reasonable" | "high" | "very_high";
 export type MedicationPriorityTier = "recommended" | "preferred" | "consider";
+export type Type2TherapyAction = "consider_initiation" | "consider_addition" | "review_current_therapy" | "consider_switch";
 
 export type Type2PathwayPriority =
   | "maintain_and_monitor"
@@ -406,6 +676,8 @@ export interface Type2MedicationConsideration {
   rankingReasons: string[];
   risks: string[];
   insuranceCoverages: InsuranceCoverage[];
+  therapyAction?: Type2TherapyAction;
+  currentMedication?: boolean;
   cardId?: string;
   displayName?: string;
   selectedBrandName?: string;
@@ -423,7 +695,10 @@ export interface Type2ConsiderationRequest {
   eGfr?: number;
   currentHba1c: number;
   targetHba1c: number;
-  workflow: Type2Workflow;
+  /** Optional for compatibility; the engine infers it from currentMedications when omitted. */
+  workflow?: Type2Workflow;
+  currentMedications?: CurrentMedicationInput[];
+  clinicalContext?: PatientClinicalContext;
   costPreference?: Type2CostPreference;
   routePreference?: Type2RoutePreference;
   insuranceCoverageByMedicationId?: Record<string, InsuranceCoverage[]>;

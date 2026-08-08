@@ -1,0 +1,135 @@
+/* Final dark-mode readability pass for the clinical workspace. */
+
+.glymize-internal-shell {
+  --muted: var(--glymize-muted);
+}
+
+.glymize-internal-shell .topbar-title strong {
+  color: var(--glymize-ink);
+}
+
+.glymize-internal-shell .topbar-title span,
+.glymize-internal-shell .page-content small,
+.glymize-internal-shell .page-content article p,
+.glymize-internal-shell .page-content section > p,
+.glymize-internal-shell .page-content section > div > p {
+  color: var(--glymize-muted);
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="heading"] p,
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="sectionHeader"] small,
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="workflowBanner"] small,
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="radioCard"] small,
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="factorButton"] small,
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="medRowHeader"] small,
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="meta"],
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="formMessage"],
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="resultEmpty"] p {
+  color: var(--glymize-muted) !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="field"] {
+  color: var(--glymize-ink) !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="factorCard"] {
+  border-color: var(--glymize-line) !important;
+  background: var(--glymize-surface) !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="factorButton"] {
+  background: transparent !important;
+  color: var(--glymize-ink) !important;
+  box-shadow: none !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="factorButton"]:hover {
+  background: var(--glymize-accent-soft) !important;
+  color: var(--glymize-ink) !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="factorCardActive"] {
+  border-color: var(--glymize-accent-500) !important;
+  background: var(--glymize-accent-soft) !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="factorCardActive"] [class*="factorButton"] {
+  background: var(--glymize-accent-soft) !important;
+  color: var(--glymize-ink) !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="factorCardActive"] [class*="factorButton"] small {
+  color: #c0d0d1 !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="factorCheck"] {
+  border-color: #587174 !important;
+  background: var(--glymize-surface-soft) !important;
+  color: transparent !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="factorCardActive"] [class*="factorCheck"] {
+  border-color: var(--glymize-accent-500) !important;
+  background: var(--glymize-accent-600) !important;
+  color: #071b1c !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="addButton"] {
+  border-color: var(--glymize-accent-500) !important;
+  background: var(--glymize-accent-soft) !important;
+  color: var(--glymize-accent-700) !important;
+  box-shadow: none !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="addButton"]:hover {
+  background: var(--glymize-accent-soft-strong) !important;
+  color: var(--glymize-accent-700) !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="removeButton"] {
+  border-color: #7b4647 !important;
+  background: #351f20 !important;
+  color: #f0b9b6 !important;
+  box-shadow: none !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="radioCard"] {
+  border-color: var(--glymize-line) !important;
+  background: var(--glymize-surface-soft) !important;
+  color: var(--glymize-ink) !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="radioCard"]:has(input:checked) {
+  border-color: var(--glymize-accent-500) !important;
+  background: var(--glymize-accent-soft) !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="workflowBadge"],
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="versionBadge"],
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="countBadge"],
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="actionBadge"] {
+  background: #213236 !important;
+  color: #d7e3e4 !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="check"] {
+  color: var(--glymize-ink) !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="urgentBox"] [class*="check"] {
+  border-color: #66553c !important;
+  background: #28231c !important;
+  color: #f1e5d0 !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="bmiNote"] {
+  color: #d4e3e6 !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="ranking"] {
+  color: #a9d4ce !important;
+}
+
+html[data-glymize-mode="dark"] .glymize-internal-shell [class*="sourceLink"] {
+  color: var(--glymize-accent-700) !important;
+}

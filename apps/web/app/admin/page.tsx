@@ -1,71 +1,78 @@
 "use client";
 
+import type { ClinicalEvidenceSource } from "@glymize/clinical-engine";
+import type {
+  ClinicalProtocolBundle,
+  GenericMedication,
+  MedicationChecklistItem,
+  MedicationTherapyGroup,
+} from "@glymize/contracts";
 import Link from "next/link";
-import type { ClinicalProtocolBundle, GenericMedication, GuidelineSource, MedicationChecklistItem, MedicationTherapyGroup, ReferenceCatalogSource } from "@glymize/contracts";
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { apiFetch } from "../../lib/api-client";
+import styles from "./admin.module.css";
 
-const groupLabels: Record<MedicationTherapyGroup, string> = {
-  oral_glucose_lowering: "داروهای خوراکی",
+const groupLabels: Partial<Record<MedicationTherapyGroup, string>> = {
+  oral_glucose_lowering: "داروهای خوراکی کاهنده قند",
   glp_1_receptor_agonist: "GLP-1 RA",
-  dual_gip_glp_1_receptor_agonist: "GLP-1/GIP",
+  dual_gip_glp_1_receptor_agonist: "Dual GIP/GLP-1",
   human_insulin: "انسولین انسانی",
-  basal_insulin_analog: "انسولین پایه (بازال)",
+  basal_insulin_analog: "انسولین بازال",
   prandial_insulin_analog: "انسولین پراندیال",
   premixed_insulin: "انسولین میکس",
-  fixed_ratio_combination: "ترکیب ثابت انسولین/GLP-1"
+  fixed_ratio_combination: "FRC انسولین/GLP-1",
+  antihypertensive: "ضدفشارخون",
+  raas_blocker: "RAAS blocker",
+  mineralocorticoid_receptor_antagonist: "MRA",
+  heart_failure_therapy: "درمان نارسایی قلبی",
+  lipid_lowering: "کاهنده چربی",
+  antiplatelet: "ضدپلاکت",
+  anticoagulant: "ضدانعقاد",
+  antianginal: "ضدآنژین",
+  antiarrhythmic: "ضدآریتمی",
+  liver_directed_therapy: "درمان اختصاصی کبد",
+  weight_management: "مدیریت وزن",
+  vitamin_or_mineral: "ویتامین/مینرال",
+  other: "سایر",
+};
+
+const sourceKindLabel: Record<ClinicalEvidenceSource["sourceKind"], string> = {
+  guideline: "Guideline",
+  consensus: "Consensus",
+  regulatory: "Regulatory",
 };
 
 export default function AdminPage() {
-  const [message, setMessage] = useState("در حال دریافت کاتالوگ و وضعیت پروتکل‌ها…");
+  const [message, setMessage] = useState("در حال دریافت وضعیت سامانه…");
+  const [guidelineMessage, setGuidelineMessage] = useState("آخرین بررسی منبع در همین نشست نمایش داده می‌شود.");
   const [generics, setGenerics] = useState<GenericMedication[]>([]);
   const [protocols, setProtocols] = useState<ClinicalProtocolBundle[]>([]);
-  const [guidelines, setGuidelines] = useState<GuidelineSource[]>([]);
+  const [guidelines, setGuidelines] = useState<ClinicalEvidenceSource[]>([]);
   const [medicationChecklist, setMedicationChecklist] = useState<MedicationChecklistItem[]>([]);
-  const [referenceSources, setReferenceSources] = useState<ReferenceCatalogSource[]>([]);
-  const [guidelineMessage, setGuidelineMessage] = useState("هنوز بررسی جدیدی درخواست نشده است.");
+  const [checkingAll, setCheckingAll] = useState(false);
 
   async function refresh() {
     try {
-      const [genericResponse, protocolResponse, guidelineResponse, checklistResponse, sourceResponse] = await Promise.all([
+      const [genericResponse, protocolResponse, guidelineResponse, checklistResponse] = await Promise.all([
         apiFetch("/v1/catalog/generics"),
         apiFetch("/v1/protocols/type-2"),
         apiFetch("/v1/admin/guidelines"),
         apiFetch("/v1/admin/catalog/medication-checklist"),
-        apiFetch("/v1/admin/catalog/reference-sources")
       ]);
-      if (!genericResponse.ok || !protocolResponse.ok || !guidelineResponse.ok || !checklistResponse.ok || !sourceResponse.ok) throw new Error("API unavailable");
+      if (!genericResponse.ok || !protocolResponse.ok || !guidelineResponse.ok || !checklistResponse.ok) {
+        throw new Error("API unavailable");
+      }
       setGenerics(await genericResponse.json() as GenericMedication[]);
       setProtocols(await protocolResponse.json() as ClinicalProtocolBundle[]);
-      setGuidelines(await guidelineResponse.json() as GuidelineSource[]);
+      setGuidelines(await guidelineResponse.json() as ClinicalEvidenceSource[]);
       setMedicationChecklist(await checklistResponse.json() as MedicationChecklistItem[]);
-      setReferenceSources(await sourceResponse.json() as ReferenceCatalogSource[]);
-      setMessage("کاتالوگ اولیه، منبع جهانی و وضعیت پروتکل‌ها بارگذاری شد.");
+      setMessage("اطلاعات کاتالوگ، پروتکل‌ها و منابع علمی با موفقیت بازخوانی شد.");
     } catch {
-      setMessage("داده‌های کاتالوگ خوانده نشد؛ صفحه را بازخوانی کنید.");
+      setMessage("داده‌های مدیریت خوانده نشد؛ اتصال API را بررسی و دوباره بازخوانی کنید.");
     }
   }
 
   useEffect(() => { void refresh(); }, []);
-
-  const groupedGenerics = useMemo(() => generics.reduce<Record<string, GenericMedication[]>>((groups, medication) => {
-    const key = medication.therapyGroup ?? "oral_glucose_lowering";
-    (groups[key] ??= []).push(medication);
-    return groups;
-  }, {}), [generics]);
-
-  async function requestCatalogUpdate(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const sourceUrl = String(form.get("sourceUrl") ?? "").trim();
-    const response = await apiFetch("/v1/admin/catalog/imports", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ sourceKind: sourceUrl ? "approved_export" : "manual_csv", sourceUrl: sourceUrl || undefined, requestedBy: "admin-demo" })
-    });
-    const result = (await response.json()) as { message: string };
-    setMessage(result.message);
-  }
 
   async function addGeneric(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -80,17 +87,17 @@ export default function AdminPage() {
         therapyGroup: String(form.get("therapyGroup") ?? "oral_glucose_lowering"),
         administrationRoute: String(form.get("administrationRoute") ?? "oral"),
         sourceUrl: String(form.get("sourceUrl") ?? ""),
-        sourceReference: String(form.get("sourceReference") ?? "ورود دستی ادمین")
-      })
+        sourceReference: String(form.get("sourceReference") ?? "ورود دستی ادمین"),
+      }),
     });
     if (!response.ok) {
-      setMessage("ثبت ژنریک ناموفق بود؛ تمام فیلدهای الزامی را بررسی کنید.");
+      setMessage("ثبت ژنریک ناموفق بود؛ فیلدهای الزامی و منبع را بررسی کنید.");
       return;
     }
     const created = await response.json() as GenericMedication;
     setGenerics((current) => current.some((item) => item.id === created.id) ? current : [...current, created]);
     event.currentTarget.reset();
-    setMessage(`ژنریک «${created.persianName}» در حالت بازبینی ادمین اضافه شد.`);
+    setMessage(`ژنریک «${created.persianName}» برای بازبینی اضافه شد.`);
   }
 
   async function checkGuideline(sourceId: string) {
@@ -101,153 +108,193 @@ export default function AdminPage() {
       setGuidelineMessage(result.message);
       await refresh();
     } catch {
-      setGuidelineMessage("بررسی guideline انجام نشد؛ صفحه را بازخوانی و دوباره تلاش کنید.");
+      setGuidelineMessage("بررسی منبع انجام نشد؛ اتصال API را بررسی کنید.");
     }
   }
 
-  async function updateMedicationVisibility(item: MedicationChecklistItem, showInApp: boolean) {
-    const previous = medicationChecklist;
-    setMedicationChecklist((current) => current.map((entry) => entry.referencePresentationId === item.referencePresentationId ? { ...entry, showInApp } : entry));
+  async function checkAllGuidelines() {
+    setCheckingAll(true);
     try {
-      const response = await apiFetch(`/v1/admin/catalog/medication-checklist/${item.referencePresentationId}`, {
-        method: "PATCH",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ showInApp })
-      });
-      if (!response.ok) throw new Error("update failed");
-      const updated = await response.json() as MedicationChecklistItem;
-      setMedicationChecklist((current) => current.map((entry) => entry.referencePresentationId === updated.referencePresentationId ? updated : entry));
-      setMessage(`نمایش «${item.genericName}» ${showInApp ? "فعال" : "غیرفعال"} شد.`);
+      const results = await Promise.all(guidelines.map(async (guideline) => {
+        const response = await apiFetch(`/v1/admin/guidelines/${guideline.id}/check`, { method: "POST" });
+        if (!response.ok) throw new Error(guideline.id);
+        return response.json() as Promise<{ message: string }>;
+      }));
+      setGuidelineMessage(`${results.length} منبع برای بررسی نسخه جدید وارد صف بازبینی شد؛ هیچ Rule بالینی خودکار تغییر نکرد.`);
+      await refresh();
     } catch {
-      setMedicationChecklist(previous);
-      setMessage("تغییر چک‌لیست ذخیره نشد؛ دوباره تلاش کنید.");
+      setGuidelineMessage("بررسی همه منابع کامل نشد؛ منابع را به‌صورت جداگانه بررسی کنید.");
+    } finally {
+      setCheckingAll(false);
     }
   }
+
+  const activeMedicationCount = medicationChecklist.filter((item) => item.showInApp).length;
+  const activeEvidenceCount = guidelines.filter((item) => item.engineInfluence).length;
 
   return (
-    <main className="shell admin-shell">
-      <header className="topbar">
-        <div>
-          <p className="eyebrow">پنل مدیریت / دسترسی مستقیم</p>
-          <h1>کاتالوگ نوع ۲، پروتکل‌ها و نمایش دارو</h1>
+    <main className={styles.page}>
+      <header className={styles.hero}>
+        <div className={styles.heroCopy}>
+          <span className={styles.eyebrow}>GLYMIZE Administration</span>
+          <h1>مرکز مدیریت GLYMIZE</h1>
+          <p>
+            مدیریت داده دارویی، نمایش فرآورده‌ها و حاکمیت منابع علمی از یک صفحه انجام می‌شود. عملیات تخصصی در صفحات جداگانه قرار گرفته‌اند تا کنترل‌های تکراری و شلوغی حذف شوند.
+          </p>
         </div>
-        <div className="topbar-actions">
-          <Link className="admin-link" href="/admin/data-updates">استخراج و به‌روزرسانی</Link>
-          <Link className="admin-link" href="/admin/notifications">اعلان‌ها</Link>
-          <Link className="admin-link" href="/admin/medications">انتخاب داروهای قابل نمایش</Link>
-          <Link className="admin-link" href="/type-2/preview">پیش‌نمایش کامل Type 2</Link>
-          <button className="secondary" onClick={() => void refresh()} type="button">بازخوانی</button>
-        </div>
+        <button className={styles.refreshButton} onClick={() => void refresh()} type="button">↻ بازخوانی وضعیت</button>
       </header>
 
-      <section className="metric-grid" aria-label="شاخص‌های استفاده">
-        <article><span>ژنریک‌های آمادهٔ بازبینی</span><strong>{generics.length || "—"}</strong><small>seed راهنما + ورود دستی ادمین</small></article>
-        <article><span>فرآورده‌های فعال در چک‌لیست</span><strong>{medicationChecklist.filter((item) => item.showInApp).length || "—"}</strong><small>نمایش/عدم‌نمایش فقط با انتخاب Admin</small></article>
-        <article><span>پروتکل‌های Type 2</span><strong>{protocols.length || "—"}</strong><small>در نسخهٔ وب فعلی قابل مشاهده‌اند</small></article>
+      <nav className={styles.quickActions} aria-label="دسترسی سریع مدیریت">
+        <Link className={styles.quickAction} href="/admin/data-updates">
+          <span className={styles.actionIcon}>DB</span>
+          <span><strong>داده و بازار ایران</strong><small>استخراج، Import، قیمت، بیمه و اجرای به‌روزرسانی‌ها</small></span>
+        </Link>
+        <Link className={styles.quickAction} href="/admin/medications">
+          <span className={styles.actionIcon}>Rx</span>
+          <span><strong>کاتالوگ و نمایش دارو</strong><small>نمایش ژنریک/برند، ترتیب برندها و داده بازار</small></span>
+        </Link>
+        <Link className={styles.quickAction} href="/type-2/preview">
+          <span className={styles.actionIcon}>T2</span>
+          <span><strong>پیش‌نمایش خروجی Type 2</strong><small>کنترل نتیجه بالینی پیش از انتشار تغییرات</small></span>
+        </Link>
+      </nav>
+
+      <section className={styles.metrics} aria-label="شاخص‌های مدیریت">
+        <article className={styles.metric}>
+          <span>ژنریک‌های شناخته‌شده</span>
+          <strong>{generics.length || "—"}</strong>
+          <small>کاتالوگ راهنما و ورودی‌های بازبینی‌شده</small>
+        </article>
+        <article className={styles.metric}>
+          <span>فرآورده‌های قابل نمایش</span>
+          <strong>{activeMedicationCount || "—"}</strong>
+          <small>فعال‌شده توسط Admin</small>
+        </article>
+        <article className={styles.metric}>
+          <span>پروتکل‌های Type 2</span>
+          <strong>{protocols.length || "—"}</strong>
+          <small>نسخه‌های مسیر بالینی موجود</small>
+        </article>
+        <article className={styles.metric}>
+          <span>منابع علمی فعال در موتور</span>
+          <strong>{activeEvidenceCount || "—"}</strong>
+          <small>Guideline / consensus / regulatory source</small>
+        </article>
       </section>
 
-      <div className="admin-grid">
-        <section className="panel">
-          <p className="eyebrow">نمایش دارو</p>
-          <h2>حالت نمایش مستقل برای هر دارو</h2>
-          <p>منطق بالینی همیشه با ژنریک اجرا می‌شود. ادمین برای هر دارو یکی از دو حالت «ژنریک یا یک برند» و «ژنریک با برندهای منتخب» را انتخاب می‌کند.</p>
-          <Link className="admin-link" href="/admin/medications">تنظیم حالت نمایش و ترتیب برندها</Link>
-        </section>
+      <section className={styles.section}>
+        <div className={styles.sectionHeading}>
+          <div><h2>مدیریت اصلی</h2><p>هر کار فقط در یک محل انجام می‌شود؛ صفحه اصلی Admin خلاصه و مسیر ورود به ابزارهای تخصصی است.</p></div>
+        </div>
+        <div className={styles.managementGrid}>
+          <article className={styles.managementCard}>
+            <span className={styles.cardBadge}>Market data</span>
+            <h3>استخراج و به‌روزرسانی داده دارویی</h3>
+            <p>منابع رسمی ایران، Import staging، خطاها، تطبیق و انتشار نسخه تاییدشده در مرکز Data Updates مدیریت می‌شوند.</p>
+            <Link href="/admin/data-updates">رفتن به مرکز به‌روزرسانی <span>←</span></Link>
+          </article>
+          <article className={styles.managementCard}>
+            <span className={styles.cardBadge}>Catalog</span>
+            <h3>انتخاب دارو و برندهای قابل نمایش</h3>
+            <p>نمایش در برنامه، برندهای منتخب، اولویت، قیمت، بیمه و اطلاعات بازار فقط در صفحه Medication Management ویرایش می‌شوند.</p>
+            <Link href="/admin/medications">مدیریت داروها <span>←</span></Link>
+          </article>
+          <article className={styles.managementCard}>
+            <span className={styles.cardBadge}>Clinical governance</span>
+            <h3>منابع علمی و Ruleهای بالینی</h3>
+            <p>منبع جدید ابتدا پایش و بازبینی می‌شود. هیچ Update اینترنتی اجازه ندارد مستقیماً Rule موتور یا دوز را تغییر دهد.</p>
+            <a href="#clinical-evidence">مشاهده منابع فعال <span>↓</span></a>
+          </article>
+        </div>
+      </section>
 
-        <section className="panel">
-          <p className="eyebrow">به‌روزرسانی بازار ایران</p>
-          <h2>استخراج از منابع رسمی</h2>
-          <p>استخراج خودکار روی کامپیوتر ادمین داخل ایران انجام می‌شود و نسخه ناقص منتشر نخواهد شد.</p>
-          <Link className="admin-link" href="/admin/data-updates">باز کردن مرکز به‌روزرسانی داروها</Link>
-          <details><summary>ورود URL یا فایل قدیمی</summary>
-          <form onSubmit={requestCatalogUpdate}>
-            <label htmlFor="catalogSourceUrl">نشانی API یا export مجاز</label>
-            <input id="catalogSourceUrl" name="sourceUrl" placeholder="https://…" type="url" />
-            <button type="submit">بازخوانی و ورود به صف</button>
-          </form>
-          </details>
-        </section>
-      </div>
-
-      <section className="panel">
-        <p className="eyebrow">افزودن ژنریک</p>
-        <h2>ورود دستی با منبع</h2>
-        <form onSubmit={addGeneric}>
-          <div className="form-grid">
-            <label>نام انگلیسی<input name="canonicalName" required /></label>
-            <label>نام فارسی<input name="persianName" required /></label>
-            <label>کلاس دارویی<input name="className" required /></label>
-            <label>دسته<input defaultValue="oral_glucose_lowering" name="therapyGroup" required list="therapy-groups" /></label>
-            <label>راه مصرف<select defaultValue="oral" name="administrationRoute"><option value="oral">خوراکی</option><option value="subcutaneous">زیرجلدی</option></select></label>
-            <label>مرجع/نشانی<input name="sourceUrl" required type="url" placeholder="https://…" /></label>
+      <section className={styles.section} id="clinical-evidence">
+        <div className={styles.sectionHeading}>
+          <div>
+            <h2>منابع علمی فعال در موتور</h2>
+            <p>این فهرست همان منبعی است که Dashboard پزشک نیز نمایش می‌دهد؛ بنابراین نامی که اینجا دیده می‌شود باید Rule یا مسیر مشخصی در موتور داشته باشد.</p>
           </div>
-          <input name="sourceReference" type="hidden" value="ورود دستی ادمین" readOnly />
-          <datalist id="therapy-groups">{Object.keys(groupLabels).map((key) => <option key={key} value={key} />)}</datalist>
-          <button type="submit">افزودن به کاتالوگ بازبینی</button>
-        </form>
+          <button className={styles.sectionAction} disabled={checkingAll || !guidelines.length} onClick={() => void checkAllGuidelines()} type="button">
+            {checkingAll ? "در حال بررسی…" : "بررسی نسخه جدید همه منابع"}
+          </button>
+        </div>
+
+        <div className={styles.evidencePanel}>
+          <div className={styles.evidenceNotice}>
+            <span aria-hidden="true">✓</span>
+            <span><b>قاعده حاکمیت:</b> بررسی Update فقط یک مورد بازبینی ایجاد می‌کند. اعمال نسخه جدید نیازمند بازبینی بالینی، تست و Rule version جدید است.</span>
+          </div>
+          <div className={styles.evidenceGrid}>
+            {guidelines.map((source) => (
+              <article className={styles.evidenceCard} key={source.id}>
+                <div className={styles.evidenceTop}>
+                  <span className={styles.evidenceCode}>{source.shortCode}</span>
+                  <span className={styles.sourceKind}>{sourceKindLabel[source.sourceKind]}</span>
+                </div>
+                <h3>{source.title}</h3>
+                <p>{source.engineRoleFa}</p>
+                <p className={styles.evidenceVersion}>نسخه فعال: {source.activeVersion}</p>
+                <div className={styles.evidenceActions}>
+                  <a href={source.sourceUrl} rel="noreferrer" target="_blank">منبع رسمی</a>
+                  <button onClick={() => void checkGuideline(source.id)} type="button">بررسی Update</button>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div className={styles.statusBar}>{guidelineMessage}</div>
+        </div>
       </section>
 
-      <section className="panel">
-        <p className="eyebrow">چک‌لیست داروها</p>
-        <h2>کنترل نمایش فرآورده‌ها در برنامه</h2>
-        <Link className="admin-link" href="/admin/medications">باز کردن صفحهٔ کامل انتخاب داروها</Link>
-        <p className="muted">این داده‌ها از فایل ارسالی شما وارد شده‌اند. تیک‌زدن فقط نمایش کاتالوگ را کنترل می‌کند و به‌تنهایی ثبت، عرضه یا تأیید بالینی/بازاری ایران محسوب نمی‌شود. برای نمایش برند در خروجی پزشک، رکورد بازار ایران و بازبینی جداگانه لازم است.</p>
-        <div className="reference-source-list">
-          {referenceSources.map((source) => <a href={source.sourceUrl} key={source.id} rel="noreferrer" target="_blank">{source.title}</a>)}
+      <section className={styles.section}>
+        <div className={styles.sectionHeading}>
+          <div><h2>وضعیت پروتکل‌های Type 2</h2><p>پروتکل فعال باید منبع مشخص، وضعیت بازبینی و مرز ایمنی قابل ردیابی داشته باشد.</p></div>
         </div>
-        <div className="reference-table-wrap">
-          <table className="reference-table">
-            <thead><tr><th>نمایش</th><th>ژنریک</th><th>کلاس</th><th>راه/شکل</th><th>قدرت یا عرضه</th><th>وضعیت بازبینی</th></tr></thead>
-            <tbody>{medicationChecklist.map((item) => <tr key={item.referencePresentationId}>
-              <td><input aria-label={`نمایش ${item.genericName}`} checked={item.showInApp} onChange={(event) => void updateMedicationVisibility(item, event.target.checked)} type="checkbox" /></td>
-              <td><a href={item.sourceUrl} rel="noreferrer" target="_blank">{item.genericName}</a></td>
-              <td>{item.therapeuticClass}</td>
-              <td>{item.administrationRoute} / {item.dosageForm}</td>
-              <td>{item.strengthPresentation}</td>
-              <td>{item.reviewState === "needs_iran_validation" ? "نیازمند اعتبارسنجی ایران" : item.reviewState}</td>
-            </tr>)}</tbody>
-          </table>
-        </div>
-      </section>
-
-      <section className="panel">
-        <p className="eyebrow">کاتالوگ راهنما</p>
-        <h2>ژنریک‌های Type 2 و انسولین</h2>
-        <div className="catalog-grid">
-          {Object.entries(groupedGenerics).map(([group, medicines]) => (
-            <article className="catalog-group" key={group}>
-              <h3>{groupLabels[group as MedicationTherapyGroup] ?? group}</h3>
-              <p>{medicines.map((medication) => medication.persianName).join("، ")}</p>
+        <div className={styles.protocolGrid}>
+          {protocols.map((protocol) => (
+            <article className={styles.protocolCard} key={protocol.id}>
+              <strong>{protocol.title}</strong>
+              <small>{protocol.sourceReference}</small>
+              <span className={styles.protocolStatus}>{protocol.status === "approved" ? "تاییدشده" : protocol.status}</span>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="panel">
-        <p className="eyebrow">حاکمیت بالینی</p>
-        <h2>وضعیت نسخه‌های پروتکل Type 2</h2>
-        <div className="protocol-list">
-          {protocols.map((protocol) => <article className="protocol-card" key={protocol.id}><strong>{protocol.title}</strong><span className="badge">{protocol.status === "draft" ? "در انتظار تأیید پزشک" : protocol.status}</span><small>{protocol.sourceReference}</small></article>)}
-        </div>
-        <p className="muted">{message}</p>
+      <section className={styles.section}>
+        <details className={styles.advanced}>
+          <summary>ابزار پیشرفته: افزودن دستی ژنریک با منبع</summary>
+          <div className={styles.advancedBody}>
+            <p>ورود دستی مسیر اصلی به‌روزرسانی نیست و فقط برای موارد استثنایی استفاده می‌شود. ثبت این فرم به معنی تایید بازار یا تایید بالینی نیست.</p>
+            <form onSubmit={addGeneric}>
+              <div className={styles.formGrid}>
+                <label>نام انگلیسی<input name="canonicalName" required /></label>
+                <label>نام فارسی<input name="persianName" required /></label>
+                <label>کلاس دارویی<input name="className" required /></label>
+                <label>دسته
+                  <input defaultValue="oral_glucose_lowering" list="therapy-groups" name="therapyGroup" required />
+                </label>
+                <label>راه مصرف
+                  <select defaultValue="oral" name="administrationRoute">
+                    <option value="oral">خوراکی</option>
+                    <option value="subcutaneous">زیرجلدی</option>
+                    <option value="intravenous">وریدی</option>
+                    <option value="other">سایر</option>
+                  </select>
+                </label>
+                <label>مرجع/نشانی<input name="sourceUrl" placeholder="https://…" required type="url" /></label>
+              </div>
+              <input name="sourceReference" readOnly type="hidden" value="ورود دستی ادمین" />
+              <datalist id="therapy-groups">
+                {Object.entries(groupLabels).map(([key, label]) => <option key={key} label={label} value={key} />)}
+              </datalist>
+              <button className={styles.submitButton} type="submit">افزودن برای بازبینی</button>
+            </form>
+          </div>
+        </details>
       </section>
 
-      <section className="panel">
-        <p className="eyebrow">به‌روزرسانی guideline</p>
-        <h2>بررسی نسخهٔ جدید ADA و EASD</h2>
-        <p className="muted">این دکمه فقط بررسی و ایجاد صف بازبینی را انجام می‌دهد؛ هیچ قاعده یا توصیه‌ای خودکار تغییر نمی‌کند.</p>
-        <div className="protocol-list">
-          {guidelines.map((guideline) => (
-            <article className="protocol-card" key={guideline.id}>
-              <strong>{guideline.publisher} — {guideline.title}</strong>
-              <small>نسخهٔ فعال: {guideline.activeVersion}</small>
-              <a href={guideline.sourceUrl} rel="noreferrer" target="_blank">مشاهدهٔ منبع رسمی</a>
-              <button onClick={() => void checkGuideline(guideline.id)} type="button">بررسی به‌روزرسانی</button>
-            </article>
-          ))}
-        </div>
-        <p className="muted">{guidelineMessage}</p>
-      </section>
+      <div className={styles.statusBar}>{message}</div>
     </main>
   );
 }

@@ -4,6 +4,8 @@ import { withBasePath } from "../lib/base-path";
 import AppShell from "./components/app-shell";
 import "./globals.css";
 import "./internal-shell.css";
+import "./theme-overrides.css";
+import "./dark-readability.css";
 
 export const metadata: Metadata = {
   title: "GLYMIZE | Diabetes Prescribing Intelligence",
@@ -26,7 +28,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fa" dir="rtl">
+    <html lang="fa" dir="rtl" data-glymize-theme="clinical" data-glymize-mode="light">
       <body>
         <AppShell>{children}</AppShell>
       </body>

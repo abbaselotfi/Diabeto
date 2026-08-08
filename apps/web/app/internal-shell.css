@@ -1,5 +1,10 @@
 /* GLYMIZE structural i18n v9 */
 
+.glymize-internal-shell {
+  /* Readability pass: keep secondary clinical copy clearly subordinate without making it faint. */
+  --muted: #526e71;
+}
+
 .glymize-internal-shell .global-topbar.glymize-shared-topbar {
   height: 64px;
   min-height: 64px;
@@ -22,7 +27,7 @@
 
 .glymize-internal-shell .topbar-title span {
   margin-top: 3px;
-  color: #6b8298;
+  color: #526d82;
   font-size: 11px;
 }
 
@@ -72,6 +77,21 @@
   padding-top: 34px;
 }
 
+/* Secondary descriptions and clinical details should remain comfortably readable on desktop and mobile. */
+.glymize-internal-shell .page-content small {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.75;
+}
+
+.glymize-internal-shell .page-content article p,
+.glymize-internal-shell .page-content section > p,
+.glymize-internal-shell .page-content section > div > p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.85;
+}
+
 .type2-page {
   direction: inherit;
 }
@@ -105,8 +125,8 @@
   inset-inline-start: auto !important;
   inset-inline-end: auto !important;
   transform: translateY(-50%);
-  color: #698184;
-  font-size: 9px;
+  color: #526e71;
+  font-size: 10px;
   white-space: nowrap;
   pointer-events: none;
 }
@@ -136,6 +156,49 @@
   text-align: right;
 }
 
+/* Keep top-bar popovers above the clinical canvas instead of letting them fall behind it. */
+.glymize-internal-shell .global-topbar.glymize-shared-topbar {
+  z-index: 90;
+  overflow: visible;
+}
+
+.glymize-internal-shell .topbar-actions,
+.glymize-internal-shell .glymize-theme-controls,
+.glymize-internal-shell .glymize-theme-menu-wrap {
+  position: relative;
+  z-index: 110;
+  overflow: visible;
+}
+
+.glymize-internal-shell .glymize-theme-menu {
+  z-index: 9999;
+}
+
+/* Restore the original language switch: neutral buttons, active language indicated by text only. */
+.glymize-internal-shell .glymize-language-switch {
+  background: var(--glymize-surface) !important;
+  color: var(--glymize-ink) !important;
+}
+
+.glymize-internal-shell .glymize-language-switch button,
+.glymize-internal-shell .glymize-language-switch button.active {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.glymize-internal-shell .glymize-language-switch button {
+  color: var(--glymize-ink) !important;
+}
+
+.glymize-internal-shell .glymize-language-switch button.active {
+  color: var(--glymize-accent-600) !important;
+}
+
+.glymize-internal-shell .glymize-language-switch button:hover {
+  background: var(--glymize-accent-soft) !important;
+  color: var(--glymize-accent-700) !important;
+}
+
 @media (max-width: 760px) {
   .glymize-internal-shell .global-topbar.glymize-shared-topbar {
     height: 60px;
@@ -150,5 +213,12 @@
   .glymize-language-switch {
     min-height: 36px;
     padding: 4px 7px;
+  }
+
+  .glymize-internal-shell .page-content small,
+  .glymize-internal-shell .page-content article p,
+  .glymize-internal-shell .page-content section > p,
+  .glymize-internal-shell .page-content section > div > p {
+    font-size: 11.5px;
   }
 }

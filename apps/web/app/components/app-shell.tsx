@@ -6,11 +6,12 @@ import { useState } from "react";
 
 import GlymizeLanguageSwitch from "./glymize-language-switch";
 import PwaInstall from "./pwa-install";
+import ThemeControls from "./theme-controls";
 import { useGlymizeLocale } from "./use-glymize-locale";
 
 const NAVIGATION = [
   {
-    href: "/",
+    href: "/dashboard",
     icon: "⌂",
     fa: "داشبورد",
     en: "Dashboard",
@@ -32,6 +33,24 @@ const NAVIGATION = [
     icon: "◇",
     fa: "دیابت بارداری",
     en: "Gestational diabetes",
+  },
+  {
+    href: "/insulin-tools",
+    icon: "IU",
+    fa: "ابزارهای انسولین",
+    en: "Insulin tools",
+  },
+  {
+    href: "/evidence-assistant",
+    icon: "AI",
+    fa: "دستیار علمی AI",
+    en: "Evidence AI",
+  },
+  {
+    href: "/care-team",
+    icon: "RN",
+    fa: "دستیار / پرستار",
+    en: "Assistant / nurse",
   },
 ] as const;
 
@@ -66,9 +85,10 @@ export default function AppShell({
   const { locale, isRtl } = useGlymizeLocale();
   const copy = COPY[locale];
 
-  if (pathname === "/") {
-    return <><div className="home-pwa-control"><PwaInstall /></div>{children}</>;
-  }
+  // The welcome page is a fixed brand surface. Do not place workspace/PWA
+  // controls over it; install controls remain available once the user enters
+  // the clinical workspace.
+  if (pathname === "/") return <>{children}</>;
 
   return (
     <div className="app-shell glymize-internal-shell" dir={isRtl ? "rtl" : "ltr"}>
@@ -78,7 +98,7 @@ export default function AppShell({
       >
         <Link
           className="brand"
-          href="/"
+          href="/dashboard"
           onClick={() => setMenuOpen(false)}
         >
           <span className="brand-mark" aria-hidden="true">
@@ -92,10 +112,7 @@ export default function AppShell({
 
         <nav className="main-nav">
           {NAVIGATION.map((item) => {
-            const active =
-              item.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(item.href);
+            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
                 className={active ? "nav-item active" : "nav-item"}
@@ -136,7 +153,7 @@ export default function AppShell({
             <span>{copy.subtitle}</span>
           </div>
 
-          <div className="topbar-actions"><PwaInstall /><GlymizeLanguageSwitch /></div>
+          <div className="topbar-actions"><ThemeControls /><PwaInstall /><GlymizeLanguageSwitch /></div>
         </header>
 
         <div className="page-content">{children}</div>

@@ -5,7 +5,7 @@ import ClinicalDomainMedications from "../components/clinical-domain-medications
 export default function PregnancyPage() {
   return (
     <main>
-      <Link className="back-button" href="/">→ بازگشت به داشبورد</Link>
+      <Link className="back-button" href="/dashboard">→ بازگشت به داشبورد</Link>
       <header className="page-heading">
         <div><span className="eyebrow">Pregnancy workspace</span><h1>دیابت و بارداری</h1><p>نمای پرخطر برای مرور درمان پیش از بارداری، دوران بارداری و پس از زایمان.</p></div>
         <span className="version-badge">فعال</span>
