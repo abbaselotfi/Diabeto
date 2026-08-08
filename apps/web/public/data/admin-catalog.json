@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "revision": "7be3a331-1e38-46ba-b08f-1335f16bec5c",
-  "updatedAt": "2026-08-07T20:56:13.453Z",
+  "revision": "cab26d96-a4c9-4822-b14e-15b5bde09fca",
+  "updatedAt": "2026-08-08T03:25:34.851Z",
   "updatedBy": "abbaselotfi",
   "visibility": {},
   "insurance": {
@@ -3039,7 +3039,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-gliclazide-1": {
       "genericRegistryCode": "19418",
@@ -3048,7 +3048,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-gliclazide-2": {
       "genericRegistryCode": "19418",
@@ -3057,7 +3057,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-insulin-aspart-1": {
       "clinicalDomains": [
@@ -3065,7 +3065,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.898Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-insulin-detemir-1": {
       "genericRegistryCode": "12837",
@@ -3074,7 +3074,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-insulin-glargine-2": {
       "clinicalDomains": [
@@ -3082,7 +3082,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-insulin-glargine-1": {
       "clinicalDomains": [
@@ -3090,7 +3090,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-insulin-glulisine-1": {
       "clinicalDomains": [
@@ -3098,7 +3098,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-regular-human-insulin-1": {
       "clinicalDomains": [
@@ -3106,7 +3106,7 @@
       ],
       "sourceUrl": "https://mdp.ihio.gov.ir/",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.531Z"
     },
     "global-metformin-1": {
       "genericRegistryCode": "10915",
@@ -3115,7 +3115,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-pioglitazone-1": {
       "genericRegistryCode": "8828",
@@ -3124,7 +3124,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-repaglinide-1": {
       "genericRegistryCode": "4903",
@@ -3133,7 +3133,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-dapagliflozin-1": {
       "clinicalDomains": [
@@ -3141,7 +3141,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.898Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-insulin-lispro-1": {
       "genericRegistryCode": "52206",
@@ -3150,7 +3150,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-metformin-3": {
       "genericRegistryCode": "10915",
@@ -3159,7 +3159,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.898Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-empagliflozin-1": {
       "clinicalDomains": [
@@ -3167,7 +3167,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-linagliptin-1": {
       "clinicalDomains": [
@@ -3175,7 +3175,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.898Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-metformin-2": {
       "genericRegistryCode": "10915",
@@ -3184,7 +3184,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.898Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-sitagliptin-1": {
       "clinicalDomains": [
@@ -3192,7 +3192,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-glimepiride-1": {
       "clinicalDomains": [
@@ -3200,7 +3200,7 @@
       ],
       "sourceUrl": "https://esata.ir/web/sakhad/drug/",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     },
     "global-liraglutide-1": {
       "genericRegistryCode": "22666",
@@ -3209,7 +3209,7 @@
       ],
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
-      "updatedAt": "2026-08-07T20:56:09.897Z"
+      "updatedAt": "2026-08-08T03:25:29.532Z"
     }
   },
   "notifications": [
