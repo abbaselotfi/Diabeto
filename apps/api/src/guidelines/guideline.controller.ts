@@ -10,6 +10,11 @@ export class GuidelineController {
     return this.guidelineService.listSources();
   }
 
+  @Get("rule-pack")
+  rulePack() {
+    return this.guidelineService.activeRulePack();
+  }
+
   @Post(":sourceId/check")
   check(@Param("sourceId") sourceId: string) {
     return this.guidelineService.checkForUpdate(sourceId);
