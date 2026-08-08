@@ -51,6 +51,13 @@ jobs:
               text = text.replace(old2, new2, 1)
           elif new2 not in text:
               raise SystemExit('Type2 evidence safeguard anchor missing')
+
+          old_effect = '''  for (const effect of entry.clinicalEffects) {\n    if (effect.domain === "glycemic_control") domains.add("diabetes");\n    if (effect.domain === "ascvd") { domains.add("ascvd"); domains.add("cardiovascular"); }\n    if (effect.domain === "heart_failure") { domains.add("heart_failure"); domains.add("cardiovascular"); }\n    if (effect.domain === "ckd") domains.add("kidney");\n    if (effect.domain === "weight") domains.add("obesity");\n    if (effect.domain === "masld_mash") { domains.add("masld_mash"); domains.add("liver"); }\n    if (effect.domain === "hypertension") domains.add("hypertension");\n    if (effect.domain === "lipids") domains.add("lipids");\n    if (effect.domain === "retinopathy") domains.add("retinopathy");\n    if (effect.domain === "neuropathy") domains.add("neuropathy");\n    if (effect.domain === "diabetic_foot") domains.add("diabetic_foot");\n  }'''
+          new_effect = '''  for (const effect of entry.clinicalEffects) {\n    if (["neutral", "not_established"].includes(effect.direction)) continue;\n    if (effect.domain === "glycemic_control") domains.add("diabetes");\n    if (effect.domain === "ascvd") { domains.add("ascvd"); domains.add("cardiovascular"); }\n    if (effect.domain === "heart_failure") { domains.add("heart_failure"); domains.add("cardiovascular"); }\n    if (effect.domain === "ckd") domains.add("kidney");\n    if (effect.domain === "weight") domains.add("obesity");\n    if (effect.domain === "masld_mash") { domains.add("masld_mash"); domains.add("liver"); }\n    if (effect.domain === "hypertension") domains.add("hypertension");\n    if (effect.domain === "lipids") domains.add("lipids");\n    if (effect.domain === "retinopathy") domains.add("retinopathy");\n    if (effect.domain === "neuropathy") domains.add("neuropathy");\n    if (effect.domain === "diabetic_foot") domains.add("diabetic_foot");\n  }'''
+          if old_effect in text:
+              text = text.replace(old_effect, new_effect, 1)
+          elif new_effect not in text:
+              raise SystemExit('Clinical domain effect anchor missing')
           api.write_text(text, encoding='utf-8')
 
           theme = Path('apps/web/app/glymize-theme.css')
@@ -89,5 +96,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add apps/web/lib/api-client.ts apps/web/app/glymize-theme.css
-          git commit -m "Harden WorldDrug clinical eligibility and neutral UI canvas"
+          git commit -m "Refine WorldDrug clinical domain mapping"
           git push origin HEAD:fix/worlddrug-ui-integration
