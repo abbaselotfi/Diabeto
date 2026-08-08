@@ -11,10 +11,10 @@
 
   --glymize-ink: #173a3d;
   --glymize-muted: #536f72;
-  --glymize-line: #dfe7e6;
+  --glymize-line: #e1e6e8;
   --glymize-surface: #ffffff;
-  --glymize-surface-soft: #fafcfc;
-  --glymize-canvas: #f8faf9;
+  --glymize-surface-soft: #fafbfc;
+  --glymize-canvas: #f7f8fa;
   --glymize-topbar: rgba(255, 255, 255, 0.94);
   --glymize-shadow: 0 14px 40px rgba(24, 61, 62, 0.08);
 

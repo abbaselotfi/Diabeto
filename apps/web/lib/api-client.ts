@@ -211,9 +211,11 @@ function isType2EngineEligible(entry: MasterDrugRegistryEntry, therapyGroup: Med
     "oral_glucose_lowering", "glp_1_receptor_agonist", "dual_gip_glp_1_receptor_agonist",
     "human_insulin", "basal_insulin_analog", "prandial_insulin_analog", "premixed_insulin", "fixed_ratio_combination"
   ];
-  if (!allowedGroups.includes(therapyGroup)) return false;
+  const explicitlyHandledNonGlycemic = normalizedName(entry.canonicalName).includes("resmetirom");
+  if (!allowedGroups.includes(therapyGroup) && !explicitlyHandledNonGlycemic) return false;
   const text = normalizedName(`${entry.therapeuticAreas.join(" ")} ${entry.diabetesOrPhenotype ?? ""} ${(entry.primaryIndications ?? []).join(" ")} ${entry.guidelineRole ?? ""}`);
   if (/stage 2 t1d|delay onset.*type 1|type 1 diabetes prevention/.test(text)) return false;
+  if (explicitlyHandledNonGlycemic) return entry.sourceCodes.some((code) => /EASL|EMA|ADA/i.test(code));
   return /diabetes|t2d|type 2|hyperglyc|glucose/.test(text);
 }
 
