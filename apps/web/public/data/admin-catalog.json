@@ -3,7 +3,9 @@
   "revision": "cab26d96-a4c9-4822-b14e-15b5bde09fca",
   "updatedAt": "2026-08-08T03:25:34.851Z",
   "updatedBy": "abbaselotfi",
-  "visibility": {},
+  "visibility": {
+    "iran-master-7928395533134065": true
+  },
   "insurance": {
     "global-metformin-1": [
       {
@@ -626,7 +628,8 @@
         "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
         "sourceReference": "درصد سازمان از قیمت بدون یارانه"
       }
-    ]
+    ],
+    "iran-master-7928395533134065": []
   },
   "brands": {
     "global-metformin-1": [
@@ -3028,9 +3031,46 @@
         "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
         "hiddenFromSource": false
       }
+    ],
+    "iran-master-7928395533134065": [
+      {
+        "id": "source-7928395533134065",
+        "name": "بروموزیت-آی اچ",
+        "showInsteadOfGeneric": false,
+        "priority": 1,
+        "customInsurance": false,
+        "insuranceCoverages": [],
+        "genericRegistryCode": "179",
+        "brandRegistryCode": "7928395533134065",
+        "price": {
+          "amountToman": 87000,
+          "priceKind": "consumer_retail",
+          "sourceAmount": 870000,
+          "sourceCurrency": "IRR",
+          "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+          "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/29621",
+          "sourceReference": "Price_Per_Pack_IRR"
+        },
+        "sourceDiscovered": true,
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/29621",
+        "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+        "hiddenFromSource": false
+      }
     ]
   },
-  "customGenerics": [],
+  "customGenerics": [
+    {
+      "id": "master-bromocriptine-qr",
+      "canonicalName": "Bromocriptine-QR",
+      "persianName": "بروموکریپتین سریع‌رهش",
+      "className": "Dopamine D2 agonist",
+      "therapyGroup": "oral_glucose_lowering",
+      "administrationRoute": "oral",
+      "catalogStatus": "admin_added",
+      "clinicalEngineEnabled": false,
+      "masterRegistryId": "WD-0060"
+    }
+  ],
   "marketData": {
     "global-acarbose-1": {
       "genericRegistryCode": "2015",
@@ -3210,6 +3250,24 @@
       "sourceUrl": "https://darman.tamin.ir/Forms/Public/Druglist.aspx?pagename=hdpDrugList",
       "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
       "updatedAt": "2026-08-08T03:25:29.532Z"
+    },
+    "iran-master-7928395533134065": {
+      "genericRegistryCode": "179",
+      "clinicalDomains": [
+        "diabetes"
+      ],
+      "price": {
+        "amountToman": 87000,
+        "priceKind": "consumer_retail",
+        "sourceAmount": 870000,
+        "sourceCurrency": "IRR",
+        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
+        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/29621",
+        "sourceReference": "Price_Per_Pack_IRR"
+      },
+      "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/29621",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "updatedAt": "2026-08-08T04:00:00.000Z"
     }
   },
   "notifications": [
@@ -3228,7 +3286,7 @@
     {
       "id": "f30fad6a-3e60-4ab0-b0b0-578506f4f4e5",
       "schemaVersion": 1,
-      "status": "ready_to_publish",
+      "status": "published",
       "startedAt": "2026-08-07T20:49:40.432578+00:00",
       "completedAt": "2026-08-07T20:50:14.758024+00:00",
       "sources": [
@@ -3287,33 +3345,55 @@
       }
     }
   ],
-  "masterCandidates": [
+  "masterCandidates": [],
+  "masterRegistry": [
     {
-      "genericName": "Bromocriptine",
-      "genericRegistryCode": "179",
-      "brandName": "بروموزیت-آی اچ",
-      "brandRegistryCode": "7928395533134065",
+      "id": "WD-0060",
+      "canonicalName": "Bromocriptine-QR",
+      "persianName": "بروموکریپتین سریع‌رهش",
+      "searchSynonyms": [
+        "Cycloset",
+        "bromocriptine QR"
+      ],
+      "combination": false,
+      "therapeuticAreas": [
+        "Diabetes"
+      ],
+      "drugClass": "Dopamine D2 agonist",
+      "primaryIndications": [
+        "Type 2 diabetes"
+      ],
+      "guidelineRole": "Alternative low-efficacy agent",
+      "diabetesOrPhenotype": "T2D",
+      "clinicalEffects": [],
+      "safetyMonitoring": "Nausea; orthostatic hypotension; syncope; psychiatric cautions",
+      "sourceCodes": [
+        "ADA9-2026"
+      ],
+      "sourceUrls": [
+        "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
+      ],
+      "sourceFile": "WorldDrug.xlsx",
+      "sourceObservedAt": "2026-08-05",
+      "reviewState": "approved"
+    }
+  ],
+  "customPresentations": [
+    {
+      "id": "iran-master-7928395533134065",
+      "therapeuticClass": "Dopamine D2 agonist",
+      "mechanismOrSubclass": "Alternative low-efficacy agent",
+      "genericName": "Bromocriptine-QR / بروموکریپتین سریع‌رهش",
+      "administrationRoute": "oral",
       "dosageForm": "TABLET",
       "strengthPresentation": "2.5 mg",
-      "clinicalDomains": [],
-      "insuranceCoverages": [],
+      "indicationScope": "Type 2 diabetes",
+      "marketStatus": "Iran NFI verified",
       "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/29621",
-      "sourceReference": "Iran FDA NFI · Bromocriptine-QR · Detail 29621 · GTIN 06260155201842",
-      "observedAt": "2026-08-07T20:49:40.432578+00:00",
-      "matchConfidence": 0.89,
-      "price": {
-        "amountToman": 87000,
-        "priceKind": "consumer_retail",
-        "sourceAmount": 870000,
-        "sourceCurrency": "IRR",
-        "effectiveAt": "2026-08-07T20:49:40.432578+00:00",
-        "sourceUrl": "https://irc.fda.gov.ir/nfi/Detail/29621",
-        "sourceReference": "Price_Per_Pack_IRR"
-      },
-      "originalGenericName": "Bromocriptine-QR",
-      "classificationStatus": "needs_domain_classification",
-      "identityDisposition": "preserved_for_master_registry",
-      "reviewReason": "NFI محصول 2.5 mg را نشان می‌دهد، اما Scope قدیمی آن را Bromocriptine-QR نام‌گذاری کرده بود. رکورد حذف نشده و برای Master Drug Registry با هویت ماده‌ای Bromocriptine نگهداری شد."
+      "coverageNotes": "Market identity verified from Iran FDA NFI. Clinical-engine activation is intentionally separate.",
+      "sourceFile": "Iran FDA NFI / WorldDrug.xlsx",
+      "sourceObservedAt": "2026-08-07T20:49:40.432578+00:00",
+      "reviewState": "validated_for_iran"
     }
   ]
 }
