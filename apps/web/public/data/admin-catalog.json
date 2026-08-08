@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "revision": "0a68da3e-0c34-49e7-8e58-d934514d3020",
-  "updatedAt": "2026-08-08T04:14:45.315Z",
+  "revision": "cfabba07-41c2-47b1-bd6f-a12136856622",
+  "updatedAt": "2026-08-08T04:16:32.223Z",
   "updatedBy": "abbaselotfi",
   "visibility": {
     "iran-master-7928395533134065": true
@@ -3297,7 +3297,7 @@
     {
       "id": "f30fad6a-3e60-4ab0-b0b0-578506f4f4e5",
       "schemaVersion": 1,
-      "status": "ready_to_publish",
+      "status": "published",
       "startedAt": "2026-08-07T20:49:40.432578+00:00",
       "completedAt": "2026-08-07T20:50:14.758024+00:00",
       "sources": [
@@ -3416,7 +3416,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -3478,7 +3478,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -3539,7 +3539,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -3601,7 +3601,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -3662,7 +3662,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -3723,7 +3723,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -3784,7 +3784,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -3845,7 +3845,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -3908,7 +3908,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -3969,7 +3969,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -4030,7 +4030,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -4091,7 +4091,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -4152,7 +4152,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -4212,7 +4212,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -4273,7 +4273,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -4333,7 +4333,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -4393,7 +4393,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -4454,7 +4454,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -4516,7 +4516,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -4577,7 +4577,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.736Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -4638,7 +4638,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -4701,7 +4701,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.700Z",
       "reviewState": "approved"
     },
     {
@@ -4762,7 +4762,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -4823,7 +4823,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -4884,7 +4884,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -4953,7 +4953,7 @@
         "https://kdigo.org/wp-content/uploads/2022/10/KDIGO-2022-Clinical-Practice-Guideline-for-Diabetes-Management-in-CKD.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -5028,7 +5028,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -5104,7 +5104,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -5179,7 +5179,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -5254,7 +5254,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -5330,7 +5330,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -5405,7 +5405,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -5482,7 +5482,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -5563,7 +5563,7 @@
         "https://www.fda.gov/drugs/news-events-human-drugs/fda-approves-treatment-serious-liver-disease-known-mash"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -5639,7 +5639,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -5714,7 +5714,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -5789,7 +5789,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -5864,7 +5864,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -5940,7 +5940,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6017,7 +6017,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6082,7 +6082,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6148,7 +6148,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6213,7 +6213,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6278,7 +6278,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6343,7 +6343,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6408,7 +6408,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6470,7 +6470,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6532,7 +6532,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6594,7 +6594,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6658,7 +6658,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6720,7 +6720,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6782,7 +6782,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.737Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6844,7 +6844,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6906,7 +6906,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -6975,7 +6975,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -7040,7 +7040,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S216/163933/10-Cardiovascular-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -7105,7 +7105,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -7169,7 +7169,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -7233,7 +7233,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -7295,7 +7295,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.701Z",
       "reviewState": "approved"
     },
     {
@@ -7362,7 +7362,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S216/163933/10-Cardiovascular-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -7428,7 +7428,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -7496,7 +7496,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -7564,7 +7564,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -7632,7 +7632,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -7700,7 +7700,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -7768,7 +7768,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -7836,7 +7836,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -7904,7 +7904,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -7972,7 +7972,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -8040,7 +8040,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -8108,7 +8108,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -8176,7 +8176,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -8243,7 +8243,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -8311,7 +8311,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -8379,7 +8379,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -8447,7 +8447,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -8514,7 +8514,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -8581,7 +8581,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S246/163914/11-Chronic-Kidney-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -8656,7 +8656,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -8731,7 +8731,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -8806,7 +8806,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -8881,7 +8881,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.738Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -8956,7 +8956,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.739Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -9031,7 +9031,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.739Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -9106,7 +9106,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.739Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -9181,7 +9181,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.739Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -9256,7 +9256,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.739Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -9331,7 +9331,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.739Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -9406,7 +9406,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.739Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -9481,7 +9481,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.748Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -9556,7 +9556,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.748Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -9631,7 +9631,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.748Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -9706,7 +9706,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.748Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -9781,7 +9781,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.748Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -9849,7 +9849,7 @@
         "https://kdigo.org/wp-content/uploads/2022/10/KDIGO-2022-Clinical-Practice-Guideline-for-Diabetes-Management-in-CKD.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.748Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -9916,7 +9916,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.748Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -9987,7 +9987,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.748Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -10058,7 +10058,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.748Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -10131,7 +10131,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -10197,7 +10197,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -10263,7 +10263,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.702Z",
       "reviewState": "approved"
     },
     {
@@ -10329,7 +10329,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -10395,7 +10395,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -10461,7 +10461,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -10527,7 +10527,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -10595,7 +10595,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -10663,7 +10663,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -10730,7 +10730,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -10799,7 +10799,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -10868,7 +10868,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -10937,7 +10937,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -11006,7 +11006,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -11075,7 +11075,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -11144,7 +11144,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -11214,7 +11214,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -11284,7 +11284,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -11354,7 +11354,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -11425,7 +11425,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -11495,7 +11495,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -11561,7 +11561,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -11626,7 +11626,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -11691,7 +11691,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -11756,7 +11756,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.749Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -11822,7 +11822,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -11887,7 +11887,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -11952,7 +11952,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -12017,7 +12017,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -12082,7 +12082,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -12147,7 +12147,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -12213,7 +12213,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -12278,7 +12278,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -12341,7 +12341,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -12405,7 +12405,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -12470,7 +12470,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -12541,7 +12541,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -12612,7 +12612,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -12682,7 +12682,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -12751,7 +12751,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -12819,7 +12819,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -12888,7 +12888,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -12957,7 +12957,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -13025,7 +13025,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -13094,7 +13094,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.703Z",
       "reviewState": "approved"
     },
     {
@@ -13161,7 +13161,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -13226,7 +13226,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -13291,7 +13291,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -13364,7 +13364,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -13437,7 +13437,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -13510,7 +13510,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -13583,7 +13583,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -13656,7 +13656,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -13729,7 +13729,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -13802,7 +13802,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -13873,7 +13873,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -13941,7 +13941,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.750Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14009,7 +14009,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14077,7 +14077,7 @@
         "https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/cvd-and-diabetes/"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14142,7 +14142,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S216/163933/10-Cardiovascular-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14206,7 +14206,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S216/163933/10-Cardiovascular-Disease-and-Risk-Management"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14273,7 +14273,7 @@
         "https://kdigo.org/wp-content/uploads/2022/10/KDIGO-2022-Clinical-Practice-Guideline-for-Diabetes-Management-in-CKD.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14340,7 +14340,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14407,7 +14407,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14473,7 +14473,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14539,7 +14539,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14605,7 +14605,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14668,7 +14668,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14731,7 +14731,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14794,7 +14794,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14857,7 +14857,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14920,7 +14920,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -14983,7 +14983,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15046,7 +15046,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15108,7 +15108,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15170,7 +15170,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15232,7 +15232,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15294,7 +15294,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15357,7 +15357,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15420,7 +15420,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15483,7 +15483,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15545,7 +15545,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15608,7 +15608,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15671,7 +15671,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15734,7 +15734,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15797,7 +15797,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15859,7 +15859,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15921,7 +15921,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -15983,7 +15983,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -16045,7 +16045,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -16107,7 +16107,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -16169,7 +16169,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -16231,7 +16231,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -16293,7 +16293,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.704Z",
       "reviewState": "approved"
     },
     {
@@ -16355,7 +16355,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -16417,7 +16417,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -16479,7 +16479,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -16542,7 +16542,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -16605,7 +16605,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -16668,7 +16668,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -16731,7 +16731,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -16796,7 +16796,7 @@
         "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -16864,7 +16864,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -16932,7 +16932,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17000,7 +17000,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.751Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17068,7 +17068,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17136,7 +17136,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17205,7 +17205,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17273,7 +17273,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17340,7 +17340,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17408,7 +17408,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17478,7 +17478,7 @@
         "https://www.ema.europa.eu/en/medicines/human/EPAR/rezdiffra"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17541,7 +17541,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17605,7 +17605,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17669,7 +17669,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17732,7 +17732,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17795,7 +17795,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17858,7 +17858,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17921,7 +17921,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -17984,7 +17984,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -18047,7 +18047,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -18110,7 +18110,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -18173,7 +18173,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -18237,7 +18237,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -18300,7 +18300,7 @@
         "https://link.springer.com/article/10.1007/s00125-024-06196-3"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -18365,7 +18365,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -18430,7 +18430,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -18495,7 +18495,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -18560,7 +18560,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -18624,7 +18624,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -18688,7 +18688,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -18752,7 +18752,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -18817,7 +18817,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -18881,7 +18881,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -18945,7 +18945,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -19008,7 +19008,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -19071,7 +19071,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -19136,7 +19136,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -19200,7 +19200,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -19264,7 +19264,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -19328,7 +19328,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -19392,7 +19392,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -19456,7 +19456,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -19520,7 +19520,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -19584,7 +19584,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -19648,7 +19648,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -19710,7 +19710,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.705Z",
       "reviewState": "approved"
     },
     {
@@ -19772,7 +19772,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -19834,7 +19834,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -19899,7 +19899,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -19964,7 +19964,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -20030,7 +20030,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -20095,7 +20095,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -20158,7 +20158,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -20221,7 +20221,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -20286,7 +20286,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.752Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -20351,7 +20351,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -20416,7 +20416,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -20481,7 +20481,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -20547,7 +20547,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -20612,7 +20612,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -20677,7 +20677,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -20742,7 +20742,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -20808,7 +20808,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -20873,7 +20873,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -20939,7 +20939,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21004,7 +21004,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21069,7 +21069,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21134,7 +21134,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21199,7 +21199,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21264,7 +21264,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21329,7 +21329,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21394,7 +21394,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21459,7 +21459,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21524,7 +21524,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21589,7 +21589,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21654,7 +21654,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21719,7 +21719,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21782,7 +21782,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21845,7 +21845,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21908,7 +21908,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -21971,7 +21971,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -22034,7 +22034,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -22097,7 +22097,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -22160,7 +22160,7 @@
         "https://diabetesjournals.org/care/article/49/Supplement_1/S261/163919/12-Retinopathy-Neuropathy-and-Foot-Care-Standards"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -22233,7 +22233,7 @@
         "https://iwgdfguidelines.org/wp-content/uploads/2023/07/IWGDF-2023-07-Wound-Healing-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -22305,7 +22305,7 @@
         "https://iwgdfguidelines.org/wp-content/uploads/2023/07/IWGDF-2023-07-Wound-Healing-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -22378,7 +22378,7 @@
         "https://iwgdfguidelines.org/wp-content/uploads/2023/07/IWGDF-2023-07-Wound-Healing-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -22450,7 +22450,7 @@
         "https://iwgdfguidelines.org/wp-content/uploads/2023/07/IWGDF-2023-07-Wound-Healing-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -22522,7 +22522,7 @@
         "https://iwgdfguidelines.org/wp-content/uploads/2023/07/IWGDF-2023-07-Wound-Healing-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -22594,7 +22594,7 @@
         "https://iwgdfguidelines.org/wp-content/uploads/2023/07/IWGDF-2023-07-Wound-Healing-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -22666,7 +22666,7 @@
         "https://iwgdfguidelines.org/wp-content/uploads/2023/07/IWGDF-2023-07-Wound-Healing-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -22738,7 +22738,7 @@
         "https://iwgdfguidelines.org/wp-content/uploads/2023/07/IWGDF-2023-07-Wound-Healing-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -22810,7 +22810,7 @@
         "https://iwgdfguidelines.org/wp-content/uploads/2023/07/IWGDF-2023-07-Wound-Healing-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -22882,7 +22882,7 @@
         "https://iwgdfguidelines.org/wp-content/uploads/2023/07/IWGDF-2023-07-Wound-Healing-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -22954,7 +22954,7 @@
         "https://iwgdfguidelines.org/wp-content/uploads/2023/07/IWGDF-2023-07-Wound-Healing-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -23026,7 +23026,7 @@
         "https://iwgdfguidelines.org/wp-content/uploads/2023/07/IWGDF-2023-07-Wound-Healing-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -23098,7 +23098,7 @@
         "https://iwgdfguidelines.org/wp-content/uploads/2023/07/IWGDF-2023-07-Wound-Healing-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.706Z",
       "reviewState": "approved"
     },
     {
@@ -23170,7 +23170,7 @@
         "https://iwgdfguidelines.org/wp-content/uploads/2023/07/IWGDF-2023-07-Wound-Healing-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.707Z",
       "reviewState": "approved"
     },
     {
@@ -23242,7 +23242,7 @@
         "https://iwgdfguidelines.org/wp-content/uploads/2023/07/IWGDF-2023-07-Wound-Healing-Guideline.pdf"
       ],
       "sourceFile": "WorldDrug.xlsx",
-      "sourceObservedAt": "2026-08-08T04:13:19.753Z",
+      "sourceObservedAt": "2026-08-08T04:16:18.707Z",
       "reviewState": "approved"
     }
   ],
