@@ -622,6 +622,7 @@ function clinicalDomainsFromMaster(entry: MasterDrugRegistryEntry | undefined): 
   if (/nutrition|protein energy|malnutrition/.test(text)) domains.add("nutrition_support");
   if (/pregnan|gestational/.test(text)) domains.add("pregnancy");
   for (const effect of entry.clinicalEffects) {
+    if (["neutral", "not_established"].includes(effect.direction)) continue;
     if (effect.domain === "glycemic_control") domains.add("diabetes");
     if (effect.domain === "ascvd") { domains.add("ascvd"); domains.add("cardiovascular"); }
     if (effect.domain === "heart_failure") { domains.add("heart_failure"); domains.add("cardiovascular"); }
