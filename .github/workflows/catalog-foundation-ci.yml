@@ -17,8 +17,10 @@ jobs:
         with:
           ref: fix/catalog-foundation
           fetch-depth: 0
-      - name: Apply catalog foundation migration
+      - name: Apply catalog foundation code migration
         run: python tools/apply_catalog_foundation_patch.py
+      - name: Migrate published catalog state
+        run: python tools/migrate_published_catalog.py
       - uses: pnpm/action-setup@v4
         with:
           version: 11.7.0
@@ -39,6 +41,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add packages/contracts/src/index.ts apps/web/lib/api-client.ts apps/web/app/admin/medications/page.tsx apps/web/app/admin/page.tsx apps/web/app/theme-overrides.css apps/admin-worker/src/index.ts
-          git commit -m "Apply validated catalog foundation migration"
+          git add packages/contracts/src/index.ts apps/web/lib/api-client.ts apps/web/app/admin/medications/page.tsx apps/web/app/admin/page.tsx apps/web/app/theme-overrides.css apps/admin-worker/src/index.ts apps/web/public/data/admin-catalog.json
+          git commit -m "Apply validated catalog and publication migration"
           git push origin HEAD:fix/catalog-foundation
