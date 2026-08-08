@@ -156,6 +156,49 @@
   text-align: right;
 }
 
+/* Keep top-bar popovers above the clinical canvas instead of letting them fall behind it. */
+.glymize-internal-shell .global-topbar.glymize-shared-topbar {
+  z-index: 90;
+  overflow: visible;
+}
+
+.glymize-internal-shell .topbar-actions,
+.glymize-internal-shell .glymize-theme-controls,
+.glymize-internal-shell .glymize-theme-menu-wrap {
+  position: relative;
+  z-index: 110;
+  overflow: visible;
+}
+
+.glymize-internal-shell .glymize-theme-menu {
+  z-index: 9999;
+}
+
+/* Restore the original language switch: neutral buttons, active language indicated by text only. */
+.glymize-internal-shell .glymize-language-switch {
+  background: var(--glymize-surface) !important;
+  color: var(--glymize-ink) !important;
+}
+
+.glymize-internal-shell .glymize-language-switch button,
+.glymize-internal-shell .glymize-language-switch button.active {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.glymize-internal-shell .glymize-language-switch button {
+  color: var(--glymize-ink) !important;
+}
+
+.glymize-internal-shell .glymize-language-switch button.active {
+  color: var(--glymize-accent-600) !important;
+}
+
+.glymize-internal-shell .glymize-language-switch button:hover {
+  background: var(--glymize-accent-soft) !important;
+  color: var(--glymize-accent-700) !important;
+}
+
 @media (max-width: 760px) {
   .glymize-internal-shell .global-topbar.glymize-shared-topbar {
     height: 60px;
