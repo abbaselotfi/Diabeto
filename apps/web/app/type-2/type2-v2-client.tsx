@@ -127,6 +127,13 @@ const FACTORS: Array<{
     enHint: "AST, ALT, platelets, stiffness, and fibrosis stage",
   },
   {
+    key: "diabetic_foot",
+    fa: "زخم یا عفونت پای دیابتی",
+    en: "Diabetes-related foot ulcer or infection",
+    faHint: "در صورت زخم فعال، عفونت یا نگرانی از ایسکمی، مسیر IWGDF/IDSA به‌صورت موازی فعال می‌شود",
+    enHint: "Activates the parallel IWGDF/IDSA foot-infection and wound pathway when ulcer, infection, or ischemia is a concern",
+  },
+  {
     key: "weight_priority",
     fa: "کاهش وزن در اولویت است",
     en: "Weight reduction is a priority",
@@ -644,7 +651,7 @@ export default function Type2V2Client() {
 
   return (
     <main className={styles.page} dir={isRtl ? "rtl" : "ltr"} lang={locale}>
-      <Link className={styles.backLink} href="/">{isRtl ? "→" : "←"} {copy.back}</Link>
+      <Link className={styles.backLink} href="/dashboard">{isRtl ? "→" : "←"} {copy.back}</Link>
 
       <header className={styles.heading}>
         <div>
@@ -652,7 +659,7 @@ export default function Type2V2Client() {
           <h1>{copy.title}</h1>
           <p>{copy.intro}</p>
         </div>
-        <span className={styles.versionBadge}>ADA 2026</span>
+        <span className={styles.versionBadge}>Evidence-linked</span>
       </header>
 
       <section className={styles.workflowBanner} aria-live="polite">
@@ -771,7 +778,7 @@ export default function Type2V2Client() {
           <div className={styles.riskBox}><strong>{copy.risks}</strong><ul>{item.risks.map((risk) => <li key={risk}>{risk}</li>)}</ul></div>
           {item.cautions.length > 0 && <div className={styles.cautionBox}><strong>{copy.cautions}</strong><ul>{item.cautions.map((note) => <li key={note}>{note}</li>)}</ul></div>}
           {item.blockedBy && item.blockedBy.length > 0 && <div className={styles.blockedBox}><strong>{copy.lowerPriority}</strong><ul>{item.blockedBy.map((note) => <li key={note}>{note}</li>)}</ul></div>}
-          <a className={styles.sourceLink} href={item.sourceUrl} rel="noreferrer" target="_blank">{copy.source}</a>
+          <a className={styles.sourceLink} href={item.sourceUrl} rel="noreferrer" target="_blank">{item.sourceReference}</a>
         </article>)}</div> : <div className={styles.medEmpty}>{copy.noCatalog}</div>}
       </section>}
 
