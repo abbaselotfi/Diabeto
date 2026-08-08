@@ -1,0 +1,283 @@
+.page {
+  display: grid;
+  gap: 18px;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 8px 0 36px;
+  color: var(--glymize-ink);
+}
+
+.hero,
+.askCard,
+.answerCard,
+.sourceCard,
+.safetyCard {
+  min-width: 0;
+  border: 1px solid var(--glymize-line);
+  border-radius: 14px;
+  background: var(--glymize-surface);
+  box-shadow: 0 10px 30px rgba(20, 45, 58, 0.055);
+}
+
+.hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 26px;
+}
+
+.heroCopy {
+  min-width: 0;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 7px;
+  color: var(--glymize-accent-700);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .04em;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.2;
+}
+
+.hero p,
+.safetyCard p,
+.answerMeta,
+.empty,
+.sourceCard p {
+  color: var(--glymize-muted);
+  line-height: 1.75;
+}
+
+.hero p {
+  max-width: 760px;
+  margin: 10px 0 0;
+  font-size: 13px;
+}
+
+.modeBadge {
+  flex: 0 0 auto;
+  border: 1px solid var(--glymize-accent-500);
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: var(--glymize-accent-700);
+  background: var(--glymize-accent-soft);
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.askCard,
+.answerCard,
+.safetyCard {
+  padding: 22px 24px;
+}
+
+.askCard label {
+  display: grid;
+  gap: 9px;
+  font-weight: 800;
+}
+
+.askCard textarea {
+  width: 100%;
+  min-height: 132px;
+  resize: vertical;
+  border: 1px solid var(--glymize-line);
+  border-radius: 11px;
+  padding: 14px;
+  color: var(--glymize-ink);
+  background: var(--glymize-surface-soft);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.8;
+  outline: none;
+}
+
+.askCard textarea:focus {
+  border-color: var(--glymize-accent-500);
+  box-shadow: 0 0 0 3px var(--glymize-accent-soft);
+}
+
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.exampleButton {
+  border: 1px solid var(--glymize-line) !important;
+  border-radius: 999px !important;
+  padding: 7px 11px !important;
+  color: var(--glymize-muted) !important;
+  background: var(--glymize-surface-soft) !important;
+  font-size: 11px !important;
+  box-shadow: none !important;
+}
+
+.exampleButton:hover {
+  border-color: var(--glymize-accent-500) !important;
+  color: var(--glymize-ink) !important;
+  background: var(--glymize-accent-soft) !important;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.askButton {
+  min-height: 44px;
+  border: 0;
+  border-radius: 10px;
+  padding: 0 18px;
+  color: #fff;
+  background: var(--glymize-accent-600);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.askButton:disabled {
+  cursor: wait;
+  opacity: .65;
+}
+
+.statusText {
+  color: var(--glymize-muted);
+  font-size: 11px;
+}
+
+.answerCard h2,
+.safetyCard h2,
+.sources h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.answerText {
+  margin-top: 14px;
+  white-space: pre-wrap;
+  color: var(--glymize-ink);
+  font-size: 14px;
+  line-height: 1.95;
+}
+
+.answerMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 13px;
+  border-top: 1px solid var(--glymize-line);
+  font-size: 11px;
+}
+
+.sources {
+  display: grid;
+  gap: 10px;
+}
+
+.sourceGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.sourceCard {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  text-decoration: none;
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+
+.sourceCard:hover {
+  transform: translateY(-1px);
+  border-color: var(--glymize-accent-500);
+}
+
+.sourceTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sourceCard strong {
+  color: var(--glymize-ink);
+}
+
+.sourceKind {
+  border-radius: 999px;
+  padding: 4px 7px;
+  color: var(--glymize-accent-700);
+  background: var(--glymize-accent-soft);
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.sourceCard p {
+  margin: 0;
+  font-size: 11px;
+}
+
+.safetyCard {
+  border-color: color-mix(in srgb, var(--glymize-accent-500) 42%, var(--glymize-line));
+  background: color-mix(in srgb, var(--glymize-accent-soft) 38%, var(--glymize-surface));
+}
+
+.safetyCard p {
+  margin: 8px 0 0;
+  font-size: 12px;
+}
+
+.empty {
+  padding: 18px 0 2px;
+  font-size: 12px;
+}
+
+.error {
+  margin-top: 12px;
+  color: #b13b43;
+  font-size: 12px;
+}
+
+@media (max-width: 760px) {
+  .hero {
+    display: grid;
+    padding: 20px;
+  }
+
+  .modeBadge {
+    justify-self: start;
+  }
+
+  .askCard,
+  .answerCard,
+  .safetyCard {
+    padding: 18px;
+  }
+
+  .sourceGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .askButton {
+    width: 100%;
+  }
+}
