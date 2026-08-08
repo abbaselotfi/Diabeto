@@ -10,6 +10,24 @@ import type {
   Type2MedicationConsideration,
   Type2Workflow
 } from "@glymize/contracts";
+import {
+  evidenceReference,
+  primaryEvidenceUrl,
+} from "./guideline-registry.js";
+
+export * from "./guideline-registry.js";
+
+const EVIDENCE = {
+  ada: "ada-2026",
+  easd: "easd-2022",
+  kdigoCkd: "kdigo-ckd-2024",
+  kdigoDmCkd: "kdigo-dmckd-2022",
+  easlMasld: "easl-masld-2024",
+  escDmCvd: "esc-dm-cvd-2023",
+  iwgdfInfection: "iwgdf-inf-2023",
+  iwgdfWound: "iwgdf-wound-2023",
+  emaResmetirom: "ema-resmetirom-2025",
+} as const;
 
 export interface ProtocolGateResult {
   enabled: boolean;
@@ -82,10 +100,17 @@ export function resolveMedicationPresentation(input: {
   };
 }
 
-const ada2026Section9 = {
-  sourceUrl: "https://diabetesjournals.org/care/article/49/Supplement_1/S183/163934/9-Pharmacologic-Approaches-to-Glycemic-Treatment",
-  sourceReference: "ADA Standards of Care in Diabetes—2026, Section 9"
-} as const;
+function uniqueEvidence(ids: readonly string[]) {
+  return [...new Set(ids)];
+}
+
+function evidenceFields(ids: readonly string[]) {
+  const unique = uniqueEvidence(ids);
+  return {
+    sourceUrl: primaryEvidenceUrl(unique),
+    sourceReference: evidenceReference(unique),
+  };
+}
 
 function roundGap(value: number) {
   return Math.round(value * 10) / 10;
@@ -131,6 +156,15 @@ function hasDecisionFactor(request: Type2ConsiderationRequest, factor: Type2Cons
   return false;
 }
 
+function contextualPathwayEvidence(request: Type2ConsiderationRequest) {
+  const ids = [EVIDENCE.ada, EVIDENCE.easd];
+  if (hasDecisionFactor(request, "ascvd") || hasDecisionFactor(request, "heart_failure")) ids.push(EVIDENCE.escDmCvd);
+  if (hasDecisionFactor(request, "ckd")) ids.push(EVIDENCE.kdigoCkd, EVIDENCE.kdigoDmCkd);
+  if (hasDecisionFactor(request, "masld_mash")) ids.push(EVIDENCE.easlMasld);
+  if (hasDecisionFactor(request, "diabetic_foot")) ids.push(EVIDENCE.iwgdfInfection, EVIDENCE.iwgdfWound);
+  return uniqueEvidence(ids);
+}
+
 function relativeCostFor(medication: GenericMedication): Type2MedicationConsideration["relativeCost"] {
   const group = medication.therapyGroup;
   const className = medication.className?.toLocaleLowerCase() ?? "";
@@ -146,6 +180,8 @@ function scoreMedication(
   relativeCost: Type2MedicationConsideration["relativeCost"]
 ) {
   const reasons: string[] = [];
+  const evidenceIds = new Set<string>([EVIDENCE.ada, EVIDENCE.easd]);
+  const addEvidence = (...ids: string[]) => ids.forEach((id) => evidenceIds.add(id));
   const group = medication.therapyGroup ?? "oral_glucose_lowering";
   const className = medication.className?.toLocaleLowerCase() ?? "";
   const name = medication.canonicalName.toLocaleLowerCase();
@@ -154,36 +190,106 @@ function scoreMedication(
   const isSglt2 = className.includes("sglt2");
   const isDpp4 = className.includes("dpp-4");
   const isMetformin = name === "metformin";
+  const isResmetirom = name.includes("resmetirom");
   const isHypoglycemiaProne = isInsulin || className.includes("sulfonylurea") || className.includes("meglitinide");
   const isTzd = className.includes("thiazolidinedione");
   const isGlargine = name.includes("glargine");
   const coverage = request.insuranceCoverageByMedicationId?.[medication.id] ?? [];
   const eGfr = effectiveEgfr(request);
+  const liver = request.clinicalContext?.liver;
   let score = 50;
 
-  if (pathway.priority === "consider_insulin" && isInsulin) { score += 30; reasons.push("هماهنگ با مسیر انسولین در هایپرگلیسمی شدید"); }
-  if (pathway.priority === "consider_insulin" && isGlargine) { score += 16; reasons.push("اولویت انسولین پایه گلارژین"); }
-  if (pathway.priority === "glp1_based_therapy" && isGlp) { score += 30; reasons.push("هماهنگ با اولویت درمان مبتنی بر GLP-1 در این مسیر"); }
+  if (pathway.priority === "consider_insulin" && isInsulin) {
+    score += 30;
+    reasons.push("هماهنگ با مسیر انسولین در هایپرگلیسمی شدید [ADA 2026]");
+  }
+  if (pathway.priority === "consider_insulin" && isGlargine) {
+    score += 16;
+    reasons.push("اولویت انسولین پایه در مسیر فعلی [ADA 2026]");
+  }
+  if (pathway.priority === "glp1_based_therapy" && isGlp) {
+    score += 30;
+    reasons.push("هماهنگ با اولویت درمان مبتنی بر GLP-1 در این مسیر [ADA 2026 / EASD]");
+  }
+
   if (hasDecisionFactor(request, "heart_failure") || hasDecisionFactor(request, "ckd")) {
-    if (isSglt2) { score += 28; reasons.push("اولویت قلبی‌ـ‌کلیوی برای HF/CKD"); }
-    if (isGlp && hasDecisionFactor(request, "ckd")) { score += 10; reasons.push("قابل بررسی با توجه به منفعت قلبی‌ـ‌کلیوی"); }
+    if (isSglt2) {
+      score += 28;
+      reasons.push("اولویت قلبی‌ـ‌کلیوی برای HF/CKD بر اساس شواهد پیامدی");
+      if (hasDecisionFactor(request, "heart_failure")) addEvidence(EVIDENCE.escDmCvd);
+      if (hasDecisionFactor(request, "ckd")) addEvidence(EVIDENCE.kdigoCkd, EVIDENCE.kdigoDmCkd);
+    }
+    if (isGlp && hasDecisionFactor(request, "ckd")) {
+      score += 10;
+      reasons.push("قابل بررسی با توجه به منفعت قلبی‌ـ‌کلیوی در دیابت همراه CKD");
+      addEvidence(EVIDENCE.kdigoDmCkd, EVIDENCE.kdigoCkd);
+    }
   }
-  if (hasDecisionFactor(request, "ascvd") && isGlp) { score += 20; reasons.push("اولویت فرآورده‌های دارای شواهد پیامد قلبی‌عروقی"); }
+
+  if (hasDecisionFactor(request, "ascvd")) {
+    addEvidence(EVIDENCE.escDmCvd);
+    if (isGlp) {
+      score += 20;
+      reasons.push("اولویت فرآورده‌های GLP-1 دارای شواهد پیامد قلبی‌عروقی [ADA / ESC]");
+    } else if (isSglt2) {
+      score += 16;
+      reasons.push("SGLT2 دارای شواهد قلبی‌ـ‌کلیوی در زمینه ASCVD قابل اولویت است [ADA / ESC]");
+    }
+  }
+
   if (hasDecisionFactor(request, "weight_priority")) {
-    if (isGlp) { score += 22; reasons.push("اثر مطلوب‌تر بر وزن"); }
-    else if (isSglt2) { score += 10; reasons.push("اثر وزن‌خنثی تا کاهنده"); }
-    else if (isInsulin || isTzd || className.includes("sulfonylurea")) score -= 12;
+    if (isGlp) {
+      score += 22;
+      reasons.push("اثر مطلوب‌تر بر وزن و تناسب با رویکرد فردمحور [ADA / EASD]");
+    } else if (isSglt2) {
+      score += 10;
+      reasons.push("اثر وزن‌خنثی تا کاهنده [ADA / EASD]");
+    } else if (isInsulin || isTzd || className.includes("sulfonylurea")) score -= 12;
   }
+
   if (hasDecisionFactor(request, "hypoglycemia_risk")) {
-    if (isMetformin || isSglt2 || isDpp4 || isGlp) { score += 14; reasons.push("ریسک ذاتی پایین‌تر هیپوگلیسمی"); }
+    if (isMetformin || isSglt2 || isDpp4 || isGlp) {
+      score += 14;
+      reasons.push("ریسک ذاتی پایین‌تر هیپوگلیسمی [ADA / EASD]");
+    }
     if (isHypoglycemiaProne) score -= 28;
   }
-  if (hasDecisionFactor(request, "heart_failure") && isTzd) score -= 45;
-  if (eGfr !== undefined && eGfr < 30 && isMetformin) score -= 60;
+
+  if (hasDecisionFactor(request, "heart_failure") && isTzd) {
+    score -= 45;
+    reasons.push("احتباس مایع/نارسایی قلبی، اولویت این کلاس را کاهش می‌دهد [ADA / ESC]");
+    addEvidence(EVIDENCE.escDmCvd);
+  }
+
+  if (eGfr !== undefined && eGfr < 30 && isMetformin) {
+    score -= 60;
+    reasons.push("محدودیت ایمنی کلیوی در eGFR پایین [ADA / KDIGO]");
+    addEvidence(EVIDENCE.kdigoCkd, EVIDENCE.kdigoDmCkd);
+  }
+
+  if (hasDecisionFactor(request, "masld_mash")) {
+    addEvidence(EVIDENCE.easlMasld);
+    if (isGlp) {
+      score += 8;
+      reasons.push("در MASLD/MASH، درمان دیابت/چاقی باید با فنوتیپ متابولیک و مرحله کبد تطبیق داده شود [EASL–EASD–EASO]");
+    }
+    if (isResmetirom) {
+      addEvidence(EVIDENCE.emaResmetirom);
+      const eligibleFibrosis = liver?.fibrosisStage === "F2" || liver?.fibrosisStage === "F3";
+      const cirrhosis = Boolean(liver?.cirrhosis || liver?.decompensatedCirrhosis || liver?.fibrosisStage === "F4");
+      if (eligibleFibrosis && !cirrhosis) {
+        score += 35;
+        reasons.push("MASH غیرسیروتیک با فیبروز F2–F3 با محدوده مجوز EMA برای resmetirom هم‌راستا است");
+      } else {
+        score -= 60;
+        reasons.push("معیارهای مرحله فیبروز/سیروز با محدوده مجوز EMA برای resmetirom هم‌راستا نیست");
+      }
+    }
+  }
 
   const costPreference = request.costPreference ?? "no_constraint";
   if (costPreference === "low_cost_only") {
-    if (relativeCost === "low") { score += 22; reasons.push("در گروه کم‌هزینه‌تر گایدلاین"); }
+    if (relativeCost === "low") { score += 22; reasons.push("در گروه گزینه‌های کم‌هزینه‌تر قرار می‌گیرد"); }
     if (relativeCost === "medium") score -= 5;
   } else if (costPreference === "moderate") {
     if (relativeCost === "low") { score += 10; reasons.push("تناسب بهتر با محدودیت هزینه"); }
@@ -194,7 +300,11 @@ function scoreMedication(
     reasons.push(`پوشش بیمه تا ${bestCoverage}٪`);
   }
 
-  return { score: Math.max(0, Math.min(100, score)), reasons };
+  return {
+    score: Math.max(0, Math.min(100, score)),
+    reasons,
+    evidenceIds: [...evidenceIds],
+  };
 }
 
 function medicationRisks(medication: GenericMedication) {
@@ -214,18 +324,31 @@ function medicationRisks(medication: GenericMedication) {
 
 /**
  * Produces a traceable pathway priority, not a prescription or dose.
- * Thresholds follow ADA Standards of Care in Diabetes—2026, Section 9.
+ * The pathway is ADA-led, while contextual branches add the relevant source
+ * only when that source actually changes or constrains the decision.
  */
 export function buildType2PathwayRecommendation(request: Type2ConsiderationRequest): Type2AssessmentResult["recommendation"] {
   const hba1cGap = roundGap(request.currentHba1c - request.targetHba1c);
   const urgentReview = Boolean(request.hyperglycemiaSymptoms || request.catabolicFeatures || request.currentHba1c > 10);
   const workflow = resolveType2Workflow(request);
   const currentTherapies = activeCurrentMedications(request);
+  const pathwayEvidence = contextualPathwayEvidence(request);
+  const sourceFields = evidenceFields(pathwayEvidence);
   const rationale = [
     `HbA1c فعلی ${request.currentHba1c.toFixed(1)}٪ و هدف فردی ${request.targetHba1c.toFixed(1)}٪ است؛ فاصله ${hba1cGap.toFixed(1)} واحد درصد.`
   ];
+
   if (currentTherapies.length) {
     rationale.push(`${currentTherapies.length} درمان فعال برای بیمار ثبت شده است؛ موتور این ارزیابی را به‌عنوان بهینه‌سازی/تشدید درمان پردازش می‌کند.`);
+  }
+  if (hasDecisionFactor(request, "ckd")) {
+    rationale.push("عامل CKD فعال است؛ eGFR/UACR و medication stewardship در انتخاب و رتبه‌بندی داروها با قواعد KDIGO لحاظ می‌شود.");
+  }
+  if (hasDecisionFactor(request, "masld_mash")) {
+    rationale.push("عامل MASLD/MASH فعال است؛ مرحله فیبروز و وجود سیروز باید پیش از نسبت‌دادن منفعت یا انتخاب درمان اختصاصی کبدی روشن باشد.");
+  }
+  if (hasDecisionFactor(request, "diabetic_foot")) {
+    rationale.push("عامل پای دیابتی فعال است؛ ارزیابی عفونت و زخم باید طبق مسیر IWGDF/IDSA به‌صورت موازی انجام شود و رتبه داروی کاهنده قند به‌تنهایی جایگزین این مسیر نیست.");
   }
 
   if (urgentReview) {
@@ -237,7 +360,7 @@ export function buildType2PathwayRecommendation(request: Type2ConsiderationReque
       rationale,
       hba1cGap,
       urgentReview,
-      ...ada2026Section9
+      ...sourceFields
     };
   }
 
@@ -250,7 +373,7 @@ export function buildType2PathwayRecommendation(request: Type2ConsiderationReque
       rationale,
       hba1cGap,
       urgentReview,
-      ...ada2026Section9
+      ...sourceFields
     };
   }
 
@@ -262,7 +385,7 @@ export function buildType2PathwayRecommendation(request: Type2ConsiderationReque
       rationale,
       hba1cGap,
       urgentReview,
-      ...ada2026Section9
+      ...sourceFields
     };
   }
 
@@ -273,7 +396,7 @@ export function buildType2PathwayRecommendation(request: Type2ConsiderationReque
     rationale,
     hba1cGap,
     urgentReview,
-    ...ada2026Section9
+    ...sourceFields
   };
 }
 
@@ -331,8 +454,8 @@ export function buildType2MedicationConsiderations(
     }
 
     if (className.includes("SGLT2")) {
-      if (hasDecisionFactor(request, "heart_failure")) considerations.push("در نارسایی قلبی، گزینه‌های دارای شواهد این کلاس در اولویت بررسی قرار می‌گیرند.");
-      if (hasDecisionFactor(request, "ckd")) considerations.push("در CKD، منفعت قلبی-کلیوی و آستانهٔ eGFR هر فرآورده باید با برچسب و پروتکل بررسی شود.");
+      if (hasDecisionFactor(request, "heart_failure")) considerations.push("در نارسایی قلبی، گزینه‌های دارای شواهد این کلاس طبق ADA/ESC در اولویت بررسی قرار می‌گیرند.");
+      if (hasDecisionFactor(request, "ckd")) considerations.push("در CKD، منفعت قلبی-کلیوی و آستانهٔ eGFR هر فرآورده با چارچوب ADA/KDIGO بررسی می‌شود.");
       cautions.push("خطرات حجم/فشارخون، عفونت‌های تناسلی-ادراری و وضعیت بالینی حاد باید توسط پزشک مرور شود.");
       if (eGfr !== undefined && eGfr < 20) cautions.push("eGFR کمتر از ۲۰: برای این ابزار، بررسی تخصصی برچسب و پروتکل لازم است.");
     }
@@ -340,6 +463,7 @@ export function buildType2MedicationConsiderations(
     if (medication.therapyGroup === "glp_1_receptor_agonist" || medication.therapyGroup === "dual_gip_glp_1_receptor_agonist") {
       if (hasDecisionFactor(request, "ascvd")) considerations.push("در ASCVD، فرآوردهٔ دارای شواهد پیامد قلبی-عروقی در اولویت بررسی قرار می‌گیرد.");
       if (hasDecisionFactor(request, "weight_priority")) considerations.push("برای هدف مدیریت وزن، اثربخشی و تحمل‌پذیری فرآورده باید در تصمیم مشترک مرور شود.");
+      if (hasDecisionFactor(request, "masld_mash")) considerations.push("در MASLD/MASH، این کلاس صرفاً بر اساس اندیکاسیون دیابت/چاقی و وضعیت کبدی رتبه‌بندی می‌شود و به‌تنهایی به‌عنوان درمان اختصاصی MASH تلقی نمی‌شود.");
       cautions.push("تحمل گوارشی، سابقهٔ پانکراتیت و هشدارهای اختصاصی برچسب باید مرور شود.");
       cautions.push("هم‌زمانی با DPP-4 inhibitor به‌عنوان ترکیب معمول در این ابزار پیشنهاد نمی‌شود.");
     }
@@ -360,6 +484,17 @@ export function buildType2MedicationConsiderations(
       if (hasDecisionFactor(request, "heart_failure")) blockedBy.push("نارسایی قلبی/خطر احتباس مایع: نیاز به بازبینی پزشک و برچسب؛ پیشنهاد خودکار مسدود است.");
     }
 
+    if (name.includes("resmetirom")) {
+      const liver = request.clinicalContext?.liver;
+      const eligibleFibrosis = liver?.fibrosisStage === "F2" || liver?.fibrosisStage === "F3";
+      const cirrhosis = Boolean(liver?.cirrhosis || liver?.decompensatedCirrhosis || liver?.fibrosisStage === "F4");
+      if (hasDecisionFactor(request, "masld_mash") && eligibleFibrosis && !cirrhosis) {
+        considerations.push("بر اساس مجوز EMA، resmetirom فقط در محدوده MASH غیرسیروتیک با فیبروز F2–F3 قابل بررسی است؛ تطبیق برچسب و ارزیابی تخصصی کبد الزامی است.");
+      } else {
+        blockedBy.push("معیارهای MASH غیرسیروتیک با فیبروز F2–F3 برای resmetirom ثبت نشده یا وجود سیروز مطرح است؛ پیشنهاد خودکار مسدود است.");
+      }
+    }
+
     if (medication.therapyGroup === "human_insulin" || medication.therapyGroup === "basal_insulin_analog" || medication.therapyGroup === "prandial_insulin_analog" || medication.therapyGroup === "premixed_insulin") {
       considerations.push("مسیر انسولین با توجه به HbA1c، علائم هایپرگلیسمی، شواهد کاتابولیسم و وضعیت درمان فعلی بررسی می‌شود.");
       cautions.push("دوز، تیتراسیون و تبدیل واحد انسولین فقط از ماژول اختصاصی دارای قواعد نسخه‌بندی‌شده تولید خواهد شد.");
@@ -375,19 +510,22 @@ export function buildType2MedicationConsiderations(
 
     if (costPreference !== "no_constraint") {
       considerations.push(relativeCost === "low"
-        ? "در گروه گزینه‌های کم‌هزینه‌تر معرفی‌شده در گایدلاین قرار می‌گیرد."
+        ? "در گروه گزینه‌های کم‌هزینه‌تر قرار می‌گیرد."
         : "هزینه و پوشش بیمه‌ای این فرآورده باید پیش از انتخاب بررسی شود.");
     }
+
     const ranking = scoreMedication(medication, request, pathway, relativeCost);
     if (currentMedication) ranking.reasons.unshift("این دارو بخشی از رژیم فعلی بیمار است و باید به‌جای افزودن مجدد، برای ادامه/تیتراسیون/تعویض بازبینی شود");
     const priorityTier: Type2MedicationConsideration["priorityTier"] = ranking.score >= 75 ? "recommended" : ranking.score >= 58 ? "preferred" : "consider";
+    const sourceFields = evidenceFields(ranking.evidenceIds);
+
     return [{
       genericMedicationId: medication.id,
       genericName: medication.canonicalName,
       persianName: medication.persianName,
       therapeuticClass: className || "سایر",
       therapyGroup: medication.therapyGroup ?? "oral_glucose_lowering",
-      ...ada2026Section9,
+      ...sourceFields,
       considerations,
       cautions,
       blockedBy: blockedBy.length ? blockedBy : undefined,
