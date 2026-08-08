@@ -4,7 +4,7 @@ import type { MasterDrugRegistryEntry, MedicationClinicalEffect } from "@glymize
 import { medicationAdministrationRoutes, medicationClinicalDomains, medicationTherapyGroups } from "@glymize/contracts";
 import Link from "next/link";
 import { FormEvent, useCallback, useEffect, useState } from "react";
-import { readSheet } from "read-excel-file/browser";
+import readWorkbook from "read-excel-file/browser";
 import { apiFetch } from "../../../lib/api-client";
 import styles from "./master-registry.module.css";
 
@@ -62,7 +62,10 @@ function effect(domain: MedicationClinicalEffect["domain"], value: unknown, role
 
 async function parseWorldDrug(file: File): Promise<WorldDrugPreview> {
   try {
-    const rows = await readSheet(file, { sheet: "WorldDrug" });
+    const sheets = await readWorkbook(file);
+    const worldDrugSheet = sheets.find((sheet) => sheet.sheet === "WorldDrug");
+    if (!worldDrugSheet) return { fileName: file.name, entries: [], errors: ["شیت WorldDrug در فایل پیدا نشد."] };
+    const rows = worldDrugSheet.data;
     const headers = (rows[0] ?? []).map((value) => text(value));
     const missing = requiredHeaders.filter((header) => !headers.includes(header));
     if (missing.length) return { fileName: file.name, entries: [], errors: [`ستون‌های WorldDrug پیدا نشد: ${missing.join("، ")}`] };
@@ -85,7 +88,7 @@ async function parseWorldDrug(file: File): Promise<WorldDrugPreview> {
         persianName: text(row[col("Persian_Name")]) || undefined,
         searchSynonyms: split(row[col("NFI_Search_Synonyms")]),
         combination: /yes|true|1|بله/i.test(text(row[col("Combination")])),
-        therapeuticAreas: split(row[col("Therapeutic_Area")].toString().replace(/\s*\/\s*/g, ";")),
+        therapeuticAreas: split(text(row[col("Therapeutic_Area")]).replace(/\s*\/\s*/g, ";")),
         drugClass: text(row[col("Drug_Class")]) || undefined,
         primaryIndications: split(row[col("Primary_Indication")]),
         guidelineRole: guidelineRole || undefined,
