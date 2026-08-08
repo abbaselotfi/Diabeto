@@ -138,9 +138,9 @@ export default function MasterRegistryPage() {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ entries: preview.entries, sourceFormat: "WorldDrug.xlsx" })
     });
-    const result = await response.json() as { imported?: number; total?: number; autoPromoted?: number; message?: string };
+    const result = await response.json() as { imported?: number; total?: number; autoPromoted?: number; recognizedGenerics?: number; checklistItems?: number; engineEnabled?: number; message?: string };
     if (!response.ok) { setMessage(result.message ?? "ورود Clinical Catalog ناموفق بود."); return; }
-    setMessage(`${result.imported ?? 0} رکورد WorldDrug ثبت شد؛ ${result.autoPromoted ?? 0} داروی NFI موجود به‌صورت خودکار طبقه‌بندی و وارد فهرست بازار شد. موتور بالینی خودکار فعال نشد.`);
+    setMessage(`${result.imported ?? 0} رکورد WorldDrug ثبت شد؛ اکنون ${result.recognizedGenerics ?? 0} ژنریک شناخته‌شده و ${result.checklistItems ?? 0} ردیف قابل مدیریت در کاتالوگ وجود دارد. ${result.engineEnabled ?? 0} ژنریک Type 2 با طبقه‌بندی علمی معتبر وارد موتور تصمیم‌یار شده‌اند؛ سایر حوزه‌ها فقط در Clinical Catalog/داروی فعلی قابل انتخاب‌اند تا Rule اختصاصی داشته باشند.`);
     setPreview(null);
     await refresh();
   }

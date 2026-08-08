@@ -87,13 +87,11 @@ a,
   color: var(--glymize-ink);
 }
 
-.glymize-internal-shell button:not(.mobile-menu):not(.glymize-mode-toggle):not(.glymize-palette-toggle),
 .glymize-internal-shell .primary-button,
 .glymize-internal-shell .admin-link {
   background: var(--glymize-accent-600);
 }
 
-.glymize-internal-shell button:not(.mobile-menu):not(.glymize-mode-toggle):not(.glymize-palette-toggle):hover,
 .glymize-internal-shell .primary-button:hover,
 .glymize-internal-shell .admin-link:hover {
   background: var(--glymize-accent-700);

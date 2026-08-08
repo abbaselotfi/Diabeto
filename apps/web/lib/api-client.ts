@@ -189,16 +189,111 @@ export function endCatalogPublishBatch() {
   if (publishBatchDepth === 0 && pendingPublishState) schedulePublish(pendingPublishState);
 }
 
+function masterGenericKey(value: string) {
+  const terms = normalizedTerms(value).sort();
+  return terms.length ? terms.join("|") : normalizedName(value);
+}
+
+function inferAdministrationRouteFromMaster(entry: MasterDrugRegistryEntry, therapyGroup: MedicationTherapyGroup): MedicationAdministrationRoute {
+  if (therapyGroup === "oral_glucose_lowering" || therapyGroup === "lipid_lowering" || therapyGroup === "antiplatelet" || therapyGroup === "anticoagulant" || therapyGroup === "antianginal" || therapyGroup === "antiarrhythmic" || therapyGroup === "raas_blocker" || therapyGroup === "mineralocorticoid_receptor_antagonist" || therapyGroup === "antihypertensive" || therapyGroup === "liver_directed_therapy" || therapyGroup === "weight_management" || therapyGroup === "vitamin_or_mineral") return "oral";
+  if (["glp_1_receptor_agonist", "dual_gip_glp_1_receptor_agonist", "human_insulin", "basal_insulin_analog", "prandial_insulin_analog", "premixed_insulin", "fixed_ratio_combination"].includes(therapyGroup)) return "subcutaneous";
+  const text = normalizedName(`${entry.canonicalName} ${entry.drugClass ?? ""} ${(entry.primaryIndications ?? []).join(" ")}`);
+  if (/ophthalm|eye|retina/.test(text)) return "ophthalmic";
+  if (/topical|cream|ointment|wound dressing/.test(text)) return "topical";
+  if (/inhal/.test(text)) return "inhaled";
+  if (/intraven| infusion|epoetin|iron sucrose|ferric/.test(text)) return "intravenous";
+  return "other";
+}
+
+function isType2EngineEligible(entry: MasterDrugRegistryEntry, therapyGroup: MedicationTherapyGroup) {
+  if (entry.reviewState !== "approved" || !entry.sourceCodes.length) return false;
+  const allowedGroups: MedicationTherapyGroup[] = [
+    "oral_glucose_lowering", "glp_1_receptor_agonist", "dual_gip_glp_1_receptor_agonist",
+    "human_insulin", "basal_insulin_analog", "prandial_insulin_analog", "premixed_insulin", "fixed_ratio_combination"
+  ];
+  if (!allowedGroups.includes(therapyGroup)) return false;
+  const text = normalizedName(`${entry.therapeuticAreas.join(" ")} ${entry.diabetesOrPhenotype ?? ""} ${(entry.primaryIndications ?? []).join(" ")} ${entry.guidelineRole ?? ""}`);
+  if (/stage 2 t1d|delay onset.*type 1|type 1 diabetes prevention/.test(text)) return false;
+  return /diabetes|t2d|type 2|hyperglyc|glucose/.test(text);
+}
+
+function masterToGenericMedication(entry: MasterDrugRegistryEntry): GenericMedication {
+  const seeded = ada2026Type2GenericSeed.find((item) => masterGenericKey(item.canonicalName) === masterGenericKey(entry.canonicalName));
+  const therapyGroup = seeded?.therapyGroup ?? inferTherapyGroup(entry);
+  const administrationRoute = seeded?.administrationRoute ?? inferAdministrationRouteFromMaster(entry, therapyGroup);
+  return {
+    id: seeded?.id ?? `master-${entry.id.toLocaleLowerCase()}`,
+    canonicalName: entry.canonicalName,
+    persianName: entry.persianName?.trim() || entry.canonicalName,
+    className: entry.drugClass ?? seeded?.className,
+    therapyGroup,
+    administrationRoute,
+    catalogStatus: seeded?.catalogStatus ?? "admin_added",
+    clinicalEngineEnabled: seeded ? true : isType2EngineEligible(entry, therapyGroup),
+    masterRegistryId: entry.id
+  };
+}
+
 function listGenerics() {
   const state = readState();
-  return [...ada2026Type2GenericSeed, ...state.customGenerics];
+  const merged = new Map<string, GenericMedication>();
+  for (const medication of ada2026Type2GenericSeed) merged.set(masterGenericKey(medication.canonicalName), medication);
+  for (const entry of state.masterRegistry.filter((item) => item.reviewState === "approved")) {
+    merged.set(masterGenericKey(entry.canonicalName), masterToGenericMedication(entry));
+  }
+  for (const medication of state.customGenerics) {
+    const key = masterGenericKey(medication.canonicalName);
+    const current = merged.get(key);
+    merged.set(key, current ? { ...current, ...medication, id: current.id, masterRegistryId: current.masterRegistryId ?? medication.masterRegistryId } : medication);
+  }
+  return [...merged.values()];
+}
+
+function presentationMatchesMaster(presentation: ReferenceMedicationPresentation, entry: MasterDrugRegistryEntry) {
+  return masterGenericKey(presentation.genericName) === masterGenericKey(entry.canonicalName);
+}
+
+function findMasterForPresentation(presentation: ReferenceMedicationPresentation, registry: MasterDrugRegistryEntry[]) {
+  if (presentation.id.startsWith("master-ref-")) {
+    const id = presentation.id.slice("master-ref-".length).toUpperCase();
+    const direct = registry.find((entry) => entry.id.toUpperCase() === id);
+    if (direct) return direct;
+  }
+  return registry.find((entry) => entry.reviewState === "approved" && presentationMatchesMaster(presentation, entry));
+}
+
+function masterReferencePresentations(state: BrowserCatalogState, basePresentations: ReferenceMedicationPresentation[]): ReferenceMedicationPresentation[] {
+  return state.masterRegistry
+    .filter((entry) => entry.reviewState === "approved")
+    .filter((entry) => !basePresentations.some((presentation) => presentationMatchesMaster(presentation, entry)))
+    .map((entry) => {
+      const therapyGroup = inferTherapyGroup(entry);
+      return {
+        id: `master-ref-${entry.id.toLocaleLowerCase()}`,
+        therapeuticClass: entry.drugClass ?? "Clinical catalog",
+        mechanismOrSubclass: entry.guidelineRole ?? "WorldDrug clinical knowledge",
+        genericName: entry.canonicalName,
+        administrationRoute: inferAdministrationRouteFromMaster(entry, therapyGroup),
+        dosageForm: "Clinical catalog · فرم بازار در انتظار NFI",
+        strengthPresentation: "قدرت/فرآورده در انتظار تطبیق NFI",
+        indicationScope: entry.primaryIndications?.join("؛ "),
+        marketStatus: "Clinical catalog — Iran market product pending",
+        sourceUrl: entry.sourceUrls[0] ?? "about:blank",
+        coverageNotes: "هویت و نقش علمی از WorldDrug؛ برند/فرآورده و وضعیت بازار ایران باید با NFI تکمیل شود.",
+        sourceFile: entry.sourceFile ?? "WorldDrug.xlsx",
+        sourceObservedAt: entry.sourceObservedAt ?? new Date().toISOString(),
+        reviewState: "reference_only"
+      } satisfies ReferenceMedicationPresentation;
+    });
 }
 
 function listMedicationChecklist(): MedicationChecklistItem[] {
   const state = readState();
-  const presentations = [...globalReferenceCatalogue, ...state.customPresentations];
+  const basePresentations = [...globalReferenceCatalogue, ...state.customPresentations];
+  const presentations = [...basePresentations, ...masterReferencePresentations(state, basePresentations)];
   return presentations.map((presentation) => {
     const market = state.marketData[presentation.id] ?? {};
+    const master = findMasterForPresentation(presentation, state.masterRegistry);
     return {
       referencePresentationId: presentation.id,
       genericName: presentation.genericName,
@@ -212,11 +307,18 @@ function listMedicationChecklist(): MedicationChecklistItem[] {
       insuranceCoverages: state.insurance[presentation.id] ?? [],
       brands: state.brands[presentation.id] ?? [],
       displayMode: market.displayMode ?? "generic_or_primary_brand",
-      clinicalDomains: market.clinicalDomains ?? ["diabetes"],
+      clinicalDomains: market.clinicalDomains ?? clinicalDomainsFromMaster(master),
+      clinicalEffects: market.clinicalEffects ?? master?.clinicalEffects,
       genericRegistryCode: market.genericRegistryCode,
       price: market.price,
-      marketBadge: market.marketBadge,
-      sourceObservedAt: market.sourceObservedAt
+      marketBadge: market.marketBadge ?? (master && presentation.reviewState === "reference_only" ? {
+        key: "clinical-catalog",
+        labelFa: "Clinical Catalog · وضعیت بازار در انتظار NFI",
+        labelEn: "Clinical Catalog · Iran market pending",
+        tone: "neutral" as const,
+        confirmedByAdmin: false
+      } : undefined),
+      sourceObservedAt: market.sourceObservedAt ?? master?.sourceObservedAt
     } satisfies MedicationChecklistItem;
   });
 }
@@ -230,11 +332,8 @@ function normalizedTerms(value: string): string[] {
 }
 
 function matchingReferences(medication: GenericMedication) {
-  const medicationTerms = normalizedTerms(medication.canonicalName);
-  return listMedicationChecklist().filter((presentation) => {
-    const referenceTerms = normalizedTerms(presentation.genericName);
-    return medicationTerms.some((term) => referenceTerms.includes(term));
-  });
+  const medicationKey = masterGenericKey(medication.canonicalName);
+  return listMedicationChecklist().filter((presentation) => masterGenericKey(presentation.genericName) === medicationKey);
 }
 
 function mergeInsuranceCoverages(coverages: InsuranceCoverage[]): InsuranceCoverage[] {
@@ -475,37 +574,65 @@ function inferAdministrationRoute(candidate: MasterDrugCandidate): MedicationAdm
 }
 
 function inferTherapyGroup(entry: MasterDrugRegistryEntry | undefined): MedicationTherapyGroup {
-  const text = normalizedName(`${entry?.drugClass ?? ""} ${(entry?.therapeuticAreas ?? []).join(" ")} ${entry?.canonicalName ?? ""}`);
-  if (text.includes("insulin")) {
-    if (/premix|mix/.test(text)) return "premixed_insulin";
-    if (/prandial|rapid|short/.test(text)) return "prandial_insulin_analog";
+  const text = normalizedName(`${entry?.drugClass ?? ""} ${(entry?.therapeuticAreas ?? []).join(" ")} ${entry?.canonicalName ?? ""} ${entry?.guidelineRole ?? ""}`);
+  if ((/insulin/.test(text) && /glp 1|glp1/.test(text)) || /fixed ratio|frc/.test(text)) return "fixed_ratio_combination";
+  if (/dual gip.*glp|gip.*glp|tirzepatide/.test(text)) return "dual_gip_glp_1_receptor_agonist";
+  if (/glp 1|glp1/.test(text)) return "glp_1_receptor_agonist";
+  if (/insulin/.test(text)) {
+    if (/premix|pre mix|mix/.test(text)) return "premixed_insulin";
+    if (/prandial|rapid|short|aspart|lispro|glulisine|regular/.test(text)) return "prandial_insulin_analog";
     if (/basal|glargine|degludec|detemir|nph/.test(text)) return "basal_insulin_analog";
     return "human_insulin";
   }
-  if (/glp 1|glp1/.test(text)) return /gip/.test(text) ? "dual_gip_glp_1_receptor_agonist" : "glp_1_receptor_agonist";
-  if (/lipid|statin|pcsk9|ezetimibe/.test(text)) return "lipid_lowering";
-  if (/antiplatelet/.test(text)) return "antiplatelet";
-  if (/anticoag/.test(text)) return "anticoagulant";
+  if (/mineralocorticoid|mra|finerenone|spironolactone|eplerenone/.test(text)) return "mineralocorticoid_receptor_antagonist";
+  if (/raas|ace inhibitor|angiotensin|arb/.test(text)) return "raas_blocker";
   if (/heart failure/.test(text)) return "heart_failure_therapy";
-  if (/raas|ace inhibitor|arb/.test(text)) return "raas_blocker";
-  if (/mineralocorticoid|mra/.test(text)) return "mineralocorticoid_receptor_antagonist";
-  if (/hypertension|antihypertensive/.test(text)) return "antihypertensive";
-  if (/obesity|weight/.test(text)) return "weight_management";
-  if (/liver|mash|masld/.test(text)) return "liver_directed_therapy";
-  if (/vitamin|mineral/.test(text)) return "vitamin_or_mineral";
-  if (/diabetes|glucose|dpp|sglt|sulfonyl|biguanide|glinide|glucosidase|dopamine d2/.test(text)) return "oral_glucose_lowering";
+  if (/antiplatelet|aspirin|clopidogrel|ticagrelor/.test(text)) return "antiplatelet";
+  if (/anticoag|apixaban|rivaroxaban|warfarin/.test(text)) return "anticoagulant";
+  if (/antianginal/.test(text)) return "antianginal";
+  if (/antiarrhythmic/.test(text)) return "antiarrhythmic";
+  if (/hypertension|antihypertensive|calcium channel blocker|beta blocker/.test(text)) return "antihypertensive";
+  if (/statin|pcsk9|ezetimibe|lipid lowering|hyperlipid/.test(text)) return "lipid_lowering";
+  if (/resmetirom|liver directed|mash|masld/.test(text) && !/diabetes/.test(text)) return "liver_directed_therapy";
+  if (/obesity|weight management|anti obesity/.test(text) && !/diabetes/.test(text)) return "weight_management";
+  if (/vitamin|mineral|iron replacement/.test(text)) return "vitamin_or_mineral";
+  if (/biguanide|dpp 4|sglt2|sulfonyl|meglitinide|glinide|thiazolidinedione|alpha glucosidase|dopamine d2|bile acid sequestrant|diabetes|glucose lowering|hyperglyc/.test(text)) return "oral_glucose_lowering";
   return "other";
 }
 
 function clinicalDomainsFromMaster(entry: MasterDrugRegistryEntry | undefined): MedicationClinicalDomain[] {
-  const text = normalizedName((entry?.therapeuticAreas ?? []).join(" "));
-  const domains: MedicationClinicalDomain[] = [];
-  if (/diabetes|glucose/.test(text)) domains.push("diabetes");
-  if (/cardio|ascvd|cvd/.test(text)) domains.push("cardiovascular");
-  if (/kidney|ckd|renal/.test(text)) domains.push("kidney");
-  if (/liver|mash|masld|hepatic/.test(text)) domains.push("liver");
-  if (/obesity|weight/.test(text)) domains.push("obesity");
-  return domains.length ? domains : ["diabetes"];
+  if (!entry) return [];
+  const text = normalizedName(`${entry.therapeuticAreas.join(" ")} ${entry.drugClass ?? ""} ${(entry.primaryIndications ?? []).join(" ")} ${entry.diabetesOrPhenotype ?? ""}`);
+  const domains = new Set<MedicationClinicalDomain>();
+  if (/diabetes|glucose|hyperglyc|t1d|t2d/.test(text)) domains.add("diabetes");
+  if (/cardio|cvd|coronary|stroke|ascvd/.test(text)) domains.add("cardiovascular");
+  if (/kidney|ckd|renal|dialysis/.test(text)) domains.add("kidney");
+  if (/liver|hepatic|mash|masld|cirrhos/.test(text)) domains.add("liver");
+  if (/obesity|weight/.test(text)) domains.add("obesity");
+  if (/hypertension|blood pressure/.test(text)) domains.add("hypertension");
+  if (/lipid|ldl|cholesterol|triglycer/.test(text)) domains.add("lipids");
+  if (/heart failure|hfref|hfpef/.test(text)) domains.add("heart_failure");
+  if (/ascvd|atheroscler/.test(text)) domains.add("ascvd");
+  if (/mash|masld/.test(text)) domains.add("masld_mash");
+  if (/neuropath/.test(text)) domains.add("neuropathy");
+  if (/retinopath|macular/.test(text)) domains.add("retinopathy");
+  if (/diabetic foot|foot ulcer|wound/.test(text)) domains.add("diabetic_foot");
+  if (/nutrition|protein energy|malnutrition/.test(text)) domains.add("nutrition_support");
+  if (/pregnan|gestational/.test(text)) domains.add("pregnancy");
+  for (const effect of entry.clinicalEffects) {
+    if (effect.domain === "glycemic_control") domains.add("diabetes");
+    if (effect.domain === "ascvd") { domains.add("ascvd"); domains.add("cardiovascular"); }
+    if (effect.domain === "heart_failure") { domains.add("heart_failure"); domains.add("cardiovascular"); }
+    if (effect.domain === "ckd") domains.add("kidney");
+    if (effect.domain === "weight") domains.add("obesity");
+    if (effect.domain === "masld_mash") { domains.add("masld_mash"); domains.add("liver"); }
+    if (effect.domain === "hypertension") domains.add("hypertension");
+    if (effect.domain === "lipids") domains.add("lipids");
+    if (effect.domain === "retinopathy") domains.add("retinopathy");
+    if (effect.domain === "neuropathy") domains.add("neuropathy");
+    if (effect.domain === "diabetic_foot") domains.add("diabetic_foot");
+  }
+  return [...domains];
 }
 
 function presentationIdForCandidate(candidate: MasterDrugCandidate) {
@@ -625,7 +752,16 @@ function importMasterRegistry(entries: MasterDrugRegistryEntry[]) {
   state.masterRegistry = [...merged.values()];
   const autoPromoted = promoteMatchingMasterCandidates(state);
   saveState(state);
-  return { imported: entries.length, total: state.masterRegistry.length, autoPromoted };
+  const recognizedGenerics = listGenerics();
+  const checklistItems = listMedicationChecklist();
+  return {
+    imported: entries.length,
+    total: state.masterRegistry.length,
+    autoPromoted,
+    recognizedGenerics: recognizedGenerics.length,
+    checklistItems: checklistItems.length,
+    engineEnabled: recognizedGenerics.filter((item) => item.clinicalEngineEnabled === true || item.catalogStatus === "seeded_from_guideline").length
+  };
 }
 
 function promoteMasterCandidate(candidateKey: string, body: Record<string, unknown>) {

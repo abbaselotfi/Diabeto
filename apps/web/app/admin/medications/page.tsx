@@ -2,10 +2,18 @@
 
 import Link from "next/link";
 import type { InsuranceProvider, MedicationBrand, MedicationChecklistItem, MedicationClinicalDomain, MedicationDisplayMode } from "@glymize/contracts";
+import { medicationClinicalDomains } from "@glymize/contracts";
 import { useEffect, useMemo, useState } from "react";
 import { readSheet } from "read-excel-file/browser";
 import { apiFetch, beginCatalogPublishBatch, endCatalogPublishBatch } from "../../../lib/api-client";
 import { withBasePath } from "../../../lib/base-path";
+const clinicalDomainLabels: Record<MedicationClinicalDomain, string> = {
+  diabetes: "دیابت", cardiovascular: "قلب و عروق", kidney: "کلیه", liver: "کبد", obesity: "چاقی",
+  hypertension: "فشارخون", lipids: "چربی خون", heart_failure: "نارسایی قلبی", ascvd: "ASCVD",
+  masld_mash: "MASLD/MASH", neuropathy: "نوروپاتی", retinopathy: "رتینوپاتی", diabetic_foot: "پای دیابتی",
+  nutrition_support: "حمایت تغذیه‌ای", pregnancy: "بارداری"
+};
+
 const providerLabels: Record<InsuranceProvider, string> = {
   social_security: "بیمه تأمین اجتماعی",
   health_insurance: "بیمه سلامت",
@@ -214,7 +222,6 @@ export default function MedicationSelectionPage() {
   async function setClinicalDomain(item: MedicationChecklistItem, domain: MedicationClinicalDomain, enabled: boolean) {
     const current = new Set(item.clinicalDomains ?? ["diabetes"]);
     if (enabled) current.add(domain); else current.delete(domain);
-    if (!current.size) current.add("diabetes");
     await updateMarketData(item, { clinicalDomains: [...current] });
   }
 
@@ -361,7 +368,7 @@ export default function MedicationSelectionPage() {
       const draft = draftFor(item);
       return <article className={item.showInApp ? "medication-admin-row selected" : "medication-admin-row"} id={item.referencePresentationId} key={item.referencePresentationId}>
         <label className="compact-check"><input checked={item.showInApp} onChange={(event) => void setVisibility(item, event.target.checked)} type="checkbox" /><span>نمایش</span></label>
-        <div className="medication-copy"><strong>{item.genericName}</strong><small>{item.dosageForm} · {item.strengthPresentation}</small></div>
+        <div className="medication-copy"><strong>{item.genericName}</strong><small>{item.dosageForm} · {item.strengthPresentation}</small><small>حوزه‌ها: {(item.clinicalDomains ?? []).map((domain) => clinicalDomainLabels[domain]).join(" · ") || "بدون حوزهٔ تخصیص‌یافته"}</small></div>
         <label className="compact-check"><input checked={draft.enabled} onChange={(event) => void setInsuranceEnabled(item, event.target.checked)} type="checkbox" /><span>بیمه</span></label>
         <select disabled={!draft.enabled} onChange={(event) => setDraft(item, { provider: event.target.value as InsuranceProvider })} value={draft.provider}>{Object.entries(providerLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select>
         <label className="coverage-input"><input disabled={!draft.enabled} max="100" min="0" onChange={(event) => setDraft(item, { percent: event.target.value })} placeholder="مثلاً ۷۰" type="number" value={draft.percent} /><span>٪</span></label>
@@ -377,7 +384,7 @@ export default function MedicationSelectionPage() {
           <label>حالت نمایش<select onChange={(event) => void updateMarketData(item, { displayMode: event.target.value as MedicationDisplayMode })} value={item.displayMode ?? "generic_or_primary_brand"}><option value="generic_or_primary_brand">ژنریک یا یک برند منتخب</option><option value="generic_with_selected_brands">ژنریک با برندهای منتخب</option></select></label>
           <label>کد ژنریک رجیستری<input defaultValue={item.genericRegistryCode ?? ""} onBlur={(event) => void updateMarketData(item, { genericRegistryCode: event.target.value.trim() || undefined })} placeholder="کد مرجع NFI" /></label>
           <label>قیمت مصرف‌کننده<input defaultValue={item.price?.manualOverrideToman ?? ""} min="0" onBlur={(event) => { const amount = Number(event.target.value); if (Number.isFinite(amount) && amount >= 0) void updateMarketData(item, { price: { ...(item.price ?? { amountToman: amount, priceKind: "consumer_retail" }), manualOverrideToman: amount, manualOverrideUpdatedAt: new Date().toISOString(), manualOverrideNeedsReview: false } }); }} placeholder={item.price ? `منبع: ${item.price.amountToman.toLocaleString("fa-IR")}` : "قیمت دستی"} type="number" /><span>تومان</span></label>
-          <fieldset><legend>حوزه‌های نمایش همراه</legend>{(["diabetes", "cardiovascular", "kidney", "liver", "obesity"] as const).map((domain) => <label className="compact-check" key={domain}><input checked={(item.clinicalDomains ?? ["diabetes"]).includes(domain)} onChange={(event) => void setClinicalDomain(item, domain, event.target.checked)} type="checkbox" /><span>{{ diabetes: "دیابت", cardiovascular: "قلب", kidney: "کلیه", liver: "کبد", obesity: "چاقی" }[domain]}</span></label>)}</fieldset>
+          <fieldset><legend>حوزه‌های Clinical Catalog</legend>{medicationClinicalDomains.map((domain) => <label className="compact-check" key={domain}><input checked={(item.clinicalDomains ?? []).includes(domain)} onChange={(event) => void setClinicalDomain(item, domain, event.target.checked)} type="checkbox" /><span>{clinicalDomainLabels[domain]}</span></label>)}</fieldset>
         </div>
         <div className="brand-manager">
           <button className="add-brand-button secondary" onClick={() => void addBrand(item)} type="button">+ برند دارو</button>

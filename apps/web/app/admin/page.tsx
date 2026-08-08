@@ -4,6 +4,7 @@ import type { ClinicalEvidenceSource } from "@glymize/clinical-engine";
 import type {
   ClinicalProtocolBundle,
   GenericMedication,
+  MasterDrugRegistryEntry,
   MedicationChecklistItem,
   MedicationTherapyGroup,
 } from "@glymize/contracts";
@@ -49,24 +50,27 @@ export default function AdminPage() {
   const [protocols, setProtocols] = useState<ClinicalProtocolBundle[]>([]);
   const [guidelines, setGuidelines] = useState<ClinicalEvidenceSource[]>([]);
   const [medicationChecklist, setMedicationChecklist] = useState<MedicationChecklistItem[]>([]);
+  const [masterRegistry, setMasterRegistry] = useState<MasterDrugRegistryEntry[]>([]);
   const [checkingAll, setCheckingAll] = useState(false);
 
   async function refresh() {
     try {
-      const [genericResponse, protocolResponse, guidelineResponse, checklistResponse] = await Promise.all([
+      const [genericResponse, protocolResponse, guidelineResponse, checklistResponse, masterRegistryResponse] = await Promise.all([
         apiFetch("/v1/catalog/generics"),
         apiFetch("/v1/protocols/type-2"),
         apiFetch("/v1/admin/guidelines"),
         apiFetch("/v1/admin/catalog/medication-checklist"),
+        apiFetch("/v1/admin/catalog/master-registry"),
       ]);
-      if (!genericResponse.ok || !protocolResponse.ok || !guidelineResponse.ok || !checklistResponse.ok) {
+      if (!genericResponse.ok || !protocolResponse.ok || !guidelineResponse.ok || !checklistResponse.ok || !masterRegistryResponse.ok) {
         throw new Error("API unavailable");
       }
       setGenerics(await genericResponse.json() as GenericMedication[]);
       setProtocols(await protocolResponse.json() as ClinicalProtocolBundle[]);
       setGuidelines(await guidelineResponse.json() as ClinicalEvidenceSource[]);
       setMedicationChecklist(await checklistResponse.json() as MedicationChecklistItem[]);
-      setMessage("اطلاعات کاتالوگ، پروتکل‌ها و منابع علمی با موفقیت بازخوانی شد.");
+      setMasterRegistry(await masterRegistryResponse.json() as MasterDrugRegistryEntry[]);
+      setMessage("اطلاعات WorldDrug، کاتالوگ، پروتکل‌ها و منابع علمی با موفقیت بازخوانی شد.");
     } catch {
       setMessage("داده‌های مدیریت خوانده نشد؛ اتصال API را بررسی و دوباره بازخوانی کنید.");
     }
@@ -164,12 +168,12 @@ export default function AdminPage() {
         <article className={styles.metric}>
           <span>ژنریک‌های شناخته‌شده</span>
           <strong>{generics.length || "—"}</strong>
-          <small>کاتالوگ راهنما و ورودی‌های بازبینی‌شده</small>
+          <small>WorldDrug: {masterRegistry.length || "—"} · Seed/Market/Manual یکپارچه</small>
         </article>
         <article className={styles.metric}>
-          <span>فرآورده‌های قابل نمایش</span>
+          <span>ردیف‌های دارویی قابل مدیریت</span>
           <strong>{activeMedicationCount || "—"}</strong>
-          <small>فعال‌شده توسط Admin</small>
+          <small>Clinical Catalog + فرآورده‌های بازار، فعال برای نمایش</small>
         </article>
         <article className={styles.metric}>
           <span>پروتکل‌های Type 2</span>
