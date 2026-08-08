@@ -31,8 +31,33 @@ jobs:
           print(f'Published Master Registry: {len(registry)} entries')
           PY
 
-      - name: Apply integration patch
-        run: python tools/worlddrug_v2_migration.py
+      - name: Apply final clinical and UI safeguards
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          api = Path('apps/web/lib/api-client.ts')
+          text = api.read_text(encoding='utf-8')
+          old = '''  if (!allowedGroups.includes(therapyGroup)) return false;\n  const text = normalizedName(`${entry.therapeuticAreas.join(" ")} ${entry.diabetesOrPhenotype ?? ""} ${(entry.primaryIndications ?? []).join(" ")} ${entry.guidelineRole ?? ""}`);'''
+          new = '''  const explicitlyHandledNonGlycemic = normalizedName(entry.canonicalName).includes("resmetirom");\n  if (!allowedGroups.includes(therapyGroup) && !explicitlyHandledNonGlycemic) return false;\n  const text = normalizedName(`${entry.therapeuticAreas.join(" ")} ${entry.diabetesOrPhenotype ?? ""} ${(entry.primaryIndications ?? []).join(" ")} ${entry.guidelineRole ?? ""}`);'''
+          if old in text:
+              text = text.replace(old, new, 1)
+          elif new not in text:
+              raise SystemExit('Type2 eligibility safeguard anchor missing')
+          old2 = '''  if (/stage 2 t1d|delay onset.*type 1|type 1 diabetes prevention/.test(text)) return false;\n  return /diabetes|t2d|type 2|hyperglyc|glucose/.test(text);'''
+          new2 = '''  if (/stage 2 t1d|delay onset.*type 1|type 1 diabetes prevention/.test(text)) return false;\n  if (explicitlyHandledNonGlycemic) return entry.sourceCodes.some((code) => /EASL|EMA|ADA/i.test(code));\n  return /diabetes|t2d|type 2|hyperglyc|glucose/.test(text);'''
+          if old2 in text:
+              text = text.replace(old2, new2, 1)
+          elif new2 not in text:
+              raise SystemExit('Type2 evidence safeguard anchor missing')
+          api.write_text(text, encoding='utf-8')
+
+          theme = Path('apps/web/app/glymize-theme.css')
+          text = theme.read_text(encoding='utf-8')
+          text = text.replace('  --glymize-line: #dfe7e6;\n  --glymize-surface: #ffffff;\n  --glymize-surface-soft: #fafcfc;\n  --glymize-canvas: #f8faf9;', '  --glymize-line: #e1e6e8;\n  --glymize-surface: #ffffff;\n  --glymize-surface-soft: #fafbfc;\n  --glymize-canvas: #f7f8fa;')
+          theme.write_text(text, encoding='utf-8')
+          PY
 
       - uses: pnpm/action-setup@v4
         with:
@@ -54,15 +79,15 @@ jobs:
           NEXT_PUBLIC_ADMIN_API_URL: ${{ vars.NEXT_PUBLIC_ADMIN_API_URL }}
         run: pnpm --filter @glymize/web... build
 
-      - name: Commit validated integration
+      - name: Commit validated safeguards
         shell: bash
         run: |
           if git diff --quiet; then
-            echo "No generated integration changes to commit."
+            echo "No safeguard changes to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add apps/web/lib/api-client.ts apps/web/app/admin/master-registry/page.tsx apps/web/app/admin/page.tsx apps/web/app/admin/medications/page.tsx apps/web/app/theme-overrides.css apps/web/app/glymize-theme.css apps/web/app/type-2/type2-v2.module.css
-          git commit -m "Integrate WorldDrug into live clinical catalog"
+          git add apps/web/lib/api-client.ts apps/web/app/glymize-theme.css
+          git commit -m "Harden WorldDrug clinical eligibility and neutral UI canvas"
           git push origin HEAD:fix/worlddrug-ui-integration
