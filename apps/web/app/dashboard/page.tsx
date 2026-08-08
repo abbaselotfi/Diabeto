@@ -1,5 +1,6 @@
 "use client";
 
+import { engineEvidenceSources } from "@glymize/clinical-engine";
 import Link from "next/link";
 import { useGlymizeLocale } from "../components/use-glymize-locale";
 import styles from "./dashboard.module.css";
@@ -30,6 +31,12 @@ const COPY = {
     planned: "در حال آماده‌سازی",
     safetyTitle: "مرز ایمنی نسخه فعلی",
     safetyBody: "محاسبه دوز/تیتراسیون انسولین و ذخیره اطلاعات هویتی بیمار تا تکمیل Ruleهای تاییدشده، RBAC و لایه امنیتی فعال نمی‌شوند.",
+    evidenceTitle: "پایه علمی فعال در موتور",
+    evidenceHint: "فقط منابعی در این بخش نمایش داده می‌شوند که Rule یا مسیر بالینی مشخصی در موتور GLYMIZE را تغذیه می‌کنند.",
+    guideline: "Guideline",
+    consensus: "Consensus",
+    regulatory: "Regulatory",
+    evidenceNote: "به‌روزرسانی منبع به‌تنهایی Rule بالینی را تغییر نمی‌دهد؛ نسخه جدید ابتدا باید بازبینی و تایید شود.",
   },
   en: {
     eyebrow: "GLYMIZE Clinical Workspace",
@@ -45,6 +52,12 @@ const COPY = {
     planned: "In preparation",
     safetyTitle: "Current safety boundary",
     safetyBody: "Insulin dosing/titration and identifiable patient-data persistence remain disabled until approved rules, RBAC, and the security layer are complete.",
+    evidenceTitle: "Evidence actively used by the engine",
+    evidenceHint: "Only sources that feed a defined GLYMIZE clinical rule or pathway are shown here.",
+    guideline: "Guideline",
+    consensus: "Consensus",
+    regulatory: "Regulatory",
+    evidenceNote: "A source update never changes a clinical rule automatically; new versions require review and approval first.",
   },
 } as const;
 
@@ -160,6 +173,29 @@ export default function DashboardPage() {
       <section className={styles.safety}>
         <span aria-hidden="true">✓</span>
         <div><strong>{copy.safetyTitle}</strong><p>{copy.safetyBody}</p></div>
+      </section>
+
+      <section className={styles.evidenceSection} aria-labelledby="engine-evidence-title">
+        <div className={styles.sectionHeading}>
+          <h2 id="engine-evidence-title">{copy.evidenceTitle}</h2>
+          <p>{copy.evidenceHint}</p>
+        </div>
+        <div className={styles.evidenceGrid}>
+          {engineEvidenceSources.map((source) => (
+            <a
+              className={styles.evidenceChip}
+              href={source.sourceUrl}
+              key={source.id}
+              rel="noreferrer"
+              target="_blank"
+              title={locale === "fa" ? source.engineRoleFa : source.engineRoleEn}
+            >
+              <strong>{source.shortCode}</strong>
+              <span>{copy[source.sourceKind]}</span>
+            </a>
+          ))}
+        </div>
+        <p className={styles.evidenceNote}>{copy.evidenceNote}</p>
       </section>
     </main>
   );
