@@ -1,0 +1,68 @@
+name: WorldDrug v2 integration validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fix/worlddrug-ui-integration
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/worlddrug-ui-integration
+          fetch-depth: 0
+
+      - name: Verify published WorldDrug state
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          state = json.loads(Path('apps/web/public/data/admin-catalog.json').read_text(encoding='utf-8'))
+          registry = state.get('masterRegistry') or []
+          assert len(registry) >= 250, f'WorldDrug registry unexpectedly small: {len(registry)}'
+          assert any(item.get('id') == 'WD-0019' for item in registry), 'Expected WorldDrug entries are missing'
+          print(f'Published Master Registry: {len(registry)} entries')
+          PY
+
+      - name: Apply integration patch
+        run: python tools/worlddrug_v2_migration.py
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.7.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test
+
+      - name: Production web build
+        env:
+          GITHUB_PAGES: "true"
+          NEXT_PUBLIC_ADMIN_API_URL: ${{ vars.NEXT_PUBLIC_ADMIN_API_URL }}
+        run: pnpm --filter @glymize/web... build
+
+      - name: Commit validated integration
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No generated integration changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add apps/web/lib/api-client.ts apps/web/app/admin/master-registry/page.tsx apps/web/app/admin/page.tsx apps/web/app/admin/medications/page.tsx apps/web/app/theme-overrides.css apps/web/app/glymize-theme.css apps/web/app/type-2/type2-v2.module.css
+          git commit -m "Integrate WorldDrug into live clinical catalog"
+          git push origin HEAD:fix/worlddrug-ui-integration
