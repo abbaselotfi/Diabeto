@@ -41,6 +41,12 @@ const NAVIGATION = [
     en: "Insulin tools",
   },
   {
+    href: "/evidence-assistant",
+    icon: "AI",
+    fa: "دستیار علمی AI",
+    en: "Evidence AI",
+  },
+  {
     href: "/care-team",
     icon: "RN",
     fa: "دستیار / پرستار",
