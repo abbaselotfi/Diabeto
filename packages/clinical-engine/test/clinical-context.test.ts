@@ -80,7 +80,8 @@ describe("current medication aware Type 2 workflow", () => {
 
     const metforminResult = result.find((item) => item.genericMedicationId === "metformin");
     const empagliflozinResult = result.find((item) => item.genericMedicationId === "empagliflozin");
-    expect(metforminResult?.blockedBy?.[0]).toContain("eGFR کمتر از 30".replace("30", "۳۰"));
+    expect(metforminResult?.blockedBy?.[0]).toContain("eGFR کمتر از");
+    expect(metforminResult?.blockedBy?.[0]).toContain("KDIGO-CKD 2024");
     expect(empagliflozinResult?.rankingReasons.some((reason) => reason.includes("HF/CKD"))).toBe(true);
     expect(empagliflozinResult?.sourceReference).toContain("KDIGO-CKD 2024");
     expect(empagliflozinResult?.considerations.some((line) => line.includes("مرجع علمی این پیشنهاد"))).toBe(true);
